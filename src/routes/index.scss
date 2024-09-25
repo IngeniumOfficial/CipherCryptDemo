@@ -10,4 +10,15 @@ main{
     justify-content: flex-start;
     min-height: 100vh;
     margin: 0;
+
+    header{
+        width: 100%;
+        height: auto;
+        background-image: url("/lock4.png");
+        background-repeat: repeat;
+        background-size: contain;
+        background-position: center;
+
+
+    }
 }

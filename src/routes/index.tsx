@@ -8,8 +8,10 @@ export default function Home() {
       <main class="main-page">
         <NavBar />
         <header>
-          <h1>Ciphercrypt</h1>
-          <p>Password Manager</p>
+          <section>
+            <h1>Ciphercrypt</h1>
+            <p>Password Manager</p>
+          </section>
         </header>
         <section id="hero">
           <image href="/lock3.png" class="min-w-44" />
