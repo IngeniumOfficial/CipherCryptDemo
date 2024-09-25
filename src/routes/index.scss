@@ -11,14 +11,27 @@ main{
     min-height: 100vh;
     margin: 0;
 
+    // header{
+    //     width: 100%;
+    //     height: 650px;
+    //     background-image: url("/lock4_1.png");
+    //     background-size: 900px;
+    //     background-repeat: repeat;
+    //     background-position: center;
+
+
+    // }
     header{
-        width: 100%;
-        height: auto;
-        background-image: url("/lock4.png");
-        background-repeat: repeat;
-        background-size: contain;
-        background-position: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
 
-
+        img{
+            box-shadow: 50px 50px 100px 100px rgb(0, 0, 0);
+            width: 800px;
+            height: auto;
+        }
+        
     }
 }

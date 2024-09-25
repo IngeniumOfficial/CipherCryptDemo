@@ -2,12 +2,14 @@ import { Title } from "@solidjs/meta";
 import { A } from "@solidjs/router";
 import './index.scss'
 import NavBar from "../components/NavBar";
+import lock4_1 from "/lock4_1.png";
 
 export default function Home() {
   return (
       <main class="main-page">
         <NavBar />
         <header>
+          <img src={lock4_1} />
           <section>
             <h1>Ciphercrypt</h1>
             <p>Password Manager</p>
