@@ -1,0 +1,55 @@
+$primary: #2C363F;
+$secondary: #F3F6F6;
+$tertiary: #9BC0AF;
+
+
+nav{
+    background-color: #2c363f1a;
+    margin: 1em 0 0 0;
+    padding: 0;
+    
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-radius: 1em;
+    
+    #nav-left{
+        :hover{
+            cursor: pointer;
+        }
+        & {
+            margin: 0 0 0 1em;
+        }
+    }
+
+
+    #nav-right{
+        :hover{
+            cursor: pointer;
+            background-color: #9bc0af1a;
+        }
+
+        & {
+            margin: 0 1em 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2em;
+        }
+    }
+
+
+    .nav-el{
+        font-size: 1.5em;
+        text-decoration: none;
+        color: $secondary;
+        padding: 0.5em;
+        margin: 0;
+    }
+}
+
+nav:hover {
+    background-color: #2c363f77;
+  }
