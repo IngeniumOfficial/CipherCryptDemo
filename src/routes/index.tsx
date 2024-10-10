@@ -8,11 +8,11 @@ import lock4_1 from "/lock4_1.png";
 export default function Home() {
   onMount(() => {
     blinker1.innerText = "|";
-    typeWriter("Ciphercrypt", headerRef1, blinker1)
+    typeWriter("CipherCrypt", headerRef1, blinker1)
     setTimeout(() => {
       blinker2.innerText = "|";
       typeWriter("Password Manager", headerRef2, blinker2)
-    }, 5000)
+    }, 2700)
   })
 
   const typeWriter = (text: string, elementRef: any, blinkerRef: any) => {
@@ -25,7 +25,7 @@ export default function Home() {
         blinkerRef.innerText = "";
         clearInterval(timer);
       }
-    }, 400);
+    }, 180);
   }
 
   let headerRef1: any;
