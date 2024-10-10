@@ -46,38 +46,61 @@ export default function Home() {
         <section id="hero">
           <image href="/lock3.png" class="min-w-44" />
         </section>
+        <h2 id="features-title">Key Features</h2>
         <section id="features">
-          <h2>Key Features</h2>
-          <div class="feature">
-            <i class="fa-lock"></i>
-            <h3>Zero-knowledge encryption</h3>
-            <p>Only you have access to your passwords. We can't read them, and neither can anyone else.</p>
+
+          <div class="card">
+            <div class="first-content" id="feature1">
+              <h3>Zero-knowledge encryption</h3>
+            </div>
+            <div class="second-content"></div>
+              <p>Only you have access to your passwords. We can't read them, and neither can anyone else.</p>
           </div>
-          <div class="feature">
-            <i class="fa-server"></i>
-            <h3>Self-hostable, free for anyone</h3>
-            <p>Host Ciphercrypt on your own server, or use our free hosting option. No credit card required.</p>
+
+          <div class="card">
+            <div class="content" id="feature2">
+              <h3>Self-hostable, free for anyone</h3>
+            </div>
+            <div class="second-content">
+              <p>Host Ciphercrypt on your own server, or use our free hosting option. No credit card required.</p>
+            </div>
           </div>
-          <div class="feature">
-            <i class="fa-cog"></i>
-            <h3>Easy setup, no code experience needed</h3>
-            <p>Get started in minutes, without needing to know how to code.</p>
+
+          <div class="card">
+            <div class="content" id="feature3">
+              <h3>Easy setup, no code experience needed</h3>
+              <p>Get started in minutes, without needing to know how to code.</p>
+            </div>
+            <div class="second-content"></div>
           </div>
-          <div class="feature">
-            <i class="fa-database"></i>
-            <h3>MongoDB support (SQL integration planned)</h3>
-            <p>Store your passwords securely in MongoDB, with plans for SQL integration in the future.</p>
+
+          <div class="card">
+            <div class="content" id="feature4">
+              <h3>MongoDB support (SQL integration planned)</h3>
+            </div>
+            <div class="second-content">
+              <p>Store your passwords securely in MongoDB, with plans for SQL integration in the future.</p>
+            </div>
           </div>
-          <div class="feature">
-            <i class="fa-code"></i>
-            <h3>Built with Go, Next.js, Argon2, and AES 256</h3>
-            <p> Ciphercrypt uses modern, secure technologies to keep your passwords safe.</p>
+
+          <div class="card">
+            <div class="content" id="feature5">
+              <h3>Built with Go, Next.js, Argon2, and AES 256</h3>
+            </div>
+            <div class="second-content">
+              <p> Ciphercrypt uses modern, secure technologies to keep your passwords safe.</p>
+            </div>
           </div>
-          <div class="feature">
-            <i class="fa-rocket"></i>
-            <h3>Redis caching for faster performance</h3>
-            <p>Get fast access to your passwords with Redis caching.</p>
+
+          <div class="card">
+            <div class="content" id="feature6">
+              <h3>Redis caching for faster performance</h3>
+            </div>
+            <div class="second-content">
+              <span>Get fast access to your passwords with Redis caching.</span>
+            </div>
           </div>
+
         </section>
         <section>
           <button>
