@@ -8,6 +8,21 @@ export default function Home() {
     <main>
       <Title>CipherCrypt Demo - About</Title>
       <NavBar />
+      <div id="inner-main">
+        <div id="sidebar">
+          <h2>Zero Knowledge Encryption</h2>
+          <h2>Self Hosted</h2>
+          <h2>Easy Setup</h2>
+          <h2>MongoDB Support</h2>
+          <h2>Core Technologies</h2>
+          <h2>Caching</h2>
+        </div>
+        <div id="main-descriptor">
+          <h2>
+            
+          </h2>
+        </div>
+      </div>
       <Footer />
     </main>
   );

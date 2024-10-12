@@ -20,4 +20,24 @@ main{
     justify-content: flex-start;
     min-height: 100vh;
     margin: 0;
+    
+    #inner-main{
+        
+        #sidebar{
+            background-color: $primary;
+            border-radius: 20px;
+            color: $secondary;
+            padding: 10px;
+
+            h2{
+                :hover{
+                    background-color: #485866;
+                    cursor: pointer;
+                }
+                & {
+                    padding: 10px;
+                }
+            }
+        }
+    }
 }
