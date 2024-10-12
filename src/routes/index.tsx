@@ -53,12 +53,13 @@ export default function Home() {
             <div class="first-content" id="feature1">
               <h3>Zero-knowledge encryption</h3>
             </div>
-            <div class="second-content"></div>
+            <div class="second-content">
               <p>Only you have access to your passwords. We can't read them, and neither can anyone else.</p>
+            </div>
           </div>
 
           <div class="card">
-            <div class="content" id="feature2">
+            <div class="first-content" id="feature2">
               <h3>Self-hostable, free for anyone</h3>
             </div>
             <div class="second-content">
@@ -67,15 +68,16 @@ export default function Home() {
           </div>
 
           <div class="card">
-            <div class="content" id="feature3">
+            <div class="first-content" id="feature3">
               <h3>Easy setup, no code experience needed</h3>
+            </div>
+            <div class="second-content">
               <p>Get started in minutes, without needing to know how to code.</p>
             </div>
-            <div class="second-content"></div>
           </div>
 
           <div class="card">
-            <div class="content" id="feature4">
+            <div class="first-content" id="feature4">
               <h3>MongoDB support (SQL integration planned)</h3>
             </div>
             <div class="second-content">
@@ -84,7 +86,7 @@ export default function Home() {
           </div>
 
           <div class="card">
-            <div class="content" id="feature5">
+            <div class="first-content" id="feature5">
               <h3>Built with Go, Next.js, Argon2, and AES 256</h3>
             </div>
             <div class="second-content">
@@ -93,11 +95,11 @@ export default function Home() {
           </div>
 
           <div class="card">
-            <div class="content" id="feature6">
+            <div class="first-content" id="feature6">
               <h3>Redis caching for faster performance</h3>
             </div>
             <div class="second-content">
-              <span>Get fast access to your passwords with Redis caching.</span>
+              <p>Get fast access to your passwords with Redis caching.</p>
             </div>
           </div>
 

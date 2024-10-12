@@ -107,13 +107,22 @@ main{
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 20px;
+        gap: 50px;
+
+        h3{
+            font-size: 30px;
+            padding: 10px 10px 10px 10px;
+        }
+
+        p{
+            font-size: 20px;
+        }
         
         /* From Uiverse.io by suleymanlaarabidev */ 
         .card {
-            width: 190px;
+            width: 200px;
             height: 254px;
-            background: rgb(103, 225, 255);
+            background: rgb(32, 87, 100);
             transition: all 0.4s;
             border-radius: 10px;
             box-shadow: 0px 0px 10px 5px  rgba(0, 0, 0, 0.705);
@@ -126,7 +135,7 @@ main{
             cursor: pointer;
             transform: scale(1.2);
             box-shadow: 0px 0px 10px 5px  rgba(0, 0, 0, 0.705);
-            background: rgb(103, 151, 255);
+            background: rgb(56, 98, 107);
         }
         
         .first-content {
