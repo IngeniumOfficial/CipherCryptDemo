@@ -3,6 +3,7 @@ import { A } from "@solidjs/router";
 import { onMount, Ref } from "solid-js";
 import './index.scss'
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer"
 import lock4_1 from "/lock4_1.png";
 
 export default function Home() {
@@ -109,6 +110,7 @@ export default function Home() {
             <A href="/demo">Check out the demo</A>
           </button>
         </section>
+        <Footer />
       </main>
   );
 }
