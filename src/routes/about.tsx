@@ -18,9 +18,18 @@ export default function Home() {
           <h2>Caching</h2>
         </div>
         <div id="main-descriptor">
-          <h2>
+          <p>
+            <b>CipherCrypt</b> is an attempt to create a simple alternative to storing passwords in plain text on your notepad or using the same password for everything.
+          </p>
+          <p>
+            This project uses technologies in an efficient and effective way. However, although CipherCrypt is free, and uses top of the line algorithms and technologies, it comes with its drawbacks.
+          </p>
+          <p>
+            CipherCrypt is self-hosted, and uses MongoDB as the database. It's that simple. However, this also means that it doesn't require any expensive hardware that could come with its own security.
+          </p>
+          <p>
             
-          </h2>
+          </p>
         </div>
       </div>
       <Footer />

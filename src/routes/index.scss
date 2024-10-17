@@ -176,3 +176,20 @@ main{
   
     }
 }
+
+
+@media screen and (max-width: 1600px) {
+    main{
+        header{
+            img{
+                margin: -70px 0 0 -400px;
+                width: 750px;
+            }
+            section{
+                position: absolute;
+                top: 300px;
+                left: 800px;
+            }
+        }
+    }
+}

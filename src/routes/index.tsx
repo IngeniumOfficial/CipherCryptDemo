@@ -105,11 +105,11 @@ export default function Home() {
           </div>
 
         </section>
-        <section>
+        {/* <section>
           <button>
             <A href="/demo">Check out the demo</A>
           </button>
-        </section>
+        </section> */}
         <Footer />
       </main>
   );
