@@ -29,6 +29,7 @@ main{
         align-items: center;
         justify-content: flex-start;
         gap: 100px;
+        color: $secondary;
 
         #sidebar-section{
 
@@ -75,17 +76,24 @@ main{
                     cursor: pointer;
                 }
                 h1:hover{
-                    background-color: #485866;
                     cursor: pointer;
                 }
             }
     
-            .article{
-                background-color: $primary;
-                color: $secondary
-            }
-
+            
         }
         
+        .article{
+            color: $secondary;
+
+            display: flex;
+            flex-direction: column;
+            width: 75%;
+        }
     }
+}
+
+a{
+    text-decoration: none;
+    color: $secondary;
 }
