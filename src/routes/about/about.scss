@@ -29,30 +29,63 @@ main{
         align-items: center;
         justify-content: flex-start;
         gap: 100px;
-        
-        #sidebar{
-            // margin: 0 0 0 130px;
-            background-color: $primary;
-            border-radius: 20px;
-            color: $secondary;
-            padding: 10px;
 
-            h2{
+        #sidebar-section{
+
+            #sidebar-options{
+                background-color: $primary;
+                margin: 0 0 20px 0;
+                border-radius: 20px;
+                color: $secondary;
                 padding: 10px;
-            }
-            h2:hover{
-                background-color: #485866;
-                cursor: pointer;
-            }
-            h1:hover{
-                background-color: #485866;
-                cursor: pointer;
-            }
-        }
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 10px;
 
-        .article{
-            background-color: $primary;
-            color: $secondary
+                .radio-section{
+
+                    label{
+                        font-size: 20px;
+                        font-weight: 500;
+                    }
+                }
+
+                .radio-section:hover{
+                    background-color: #485866;
+                    cursor: pointer;
+                }
+
+            }
+              
+
+
+            #sidebar{
+                // margin: 0 0 0 130px;
+                background-color: $primary;
+                border-radius: 20px;
+                color: $secondary;
+                padding: 10px;
+    
+                h2{
+                    padding: 10px;
+                }
+                h2:hover{
+                    background-color: #485866;
+                    cursor: pointer;
+                }
+                h1:hover{
+                    background-color: #485866;
+                    cursor: pointer;
+                }
+            }
+    
+            .article{
+                background-color: $primary;
+                color: $secondary
+            }
+
         }
+        
     }
 }

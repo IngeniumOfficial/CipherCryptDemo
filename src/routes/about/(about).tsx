@@ -10,8 +10,15 @@ export default function Home() {
       <NavBar />
       <div id="inner-main">
         <div id="sidebar-section">
-          <div id="sidebar-options">
-
+          <div id="sidebar-options" class="radio-input">
+            <div class="radio-section">
+              <input type="radio" id="coder" value="coder" checked name="explanation" />
+              <label for="coder">I have Coding Experience</label>
+            </div>
+            <div class="radio-section">
+              <input type="radio" id="notcoder" value="notcoder" name="explanation" />
+              <label for="notcoder">I want the Simple Explanation</label>
+            </div>
           </div>
           <div id="sidebar">
             <h1>About</h1>
