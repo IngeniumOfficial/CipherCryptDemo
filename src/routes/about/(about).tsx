@@ -9,15 +9,21 @@ export default function Home() {
       <Title>CipherCrypt Demo - About</Title>
       <NavBar />
       <div id="inner-main">
-        <div id="sidebar">
-          <h2>Zero Knowledge Encryption</h2>
-          <h2>Self Hosted</h2>
-          <h2>Easy Setup</h2>
-          <h2>MongoDB Support</h2>
-          <h2>Core Technologies</h2>
-          <h2>Caching</h2>
+        <div id="sidebar-section">
+          <div id="sidebar-options">
+
+          </div>
+          <div id="sidebar">
+            <h1>About</h1>
+            <h2>Zero Knowledge Encryption</h2>
+            <h2>Self Hosted</h2>
+            <h2>Easy Setup</h2>
+            <h2>MongoDB Support</h2>
+            <h2>Core Technologies</h2>
+            <h2>Caching</h2>
+          </div>
         </div>
-        <div id="main-descriptor">
+        <div class="article" id="main-descriptor">
           <p>
             <b>CipherCrypt</b> is an attempt to create a simple alternative to storing passwords in plain text on your notepad or using the same password for everything.
           </p>
@@ -26,9 +32,6 @@ export default function Home() {
           </p>
           <p>
             CipherCrypt is self-hosted, and uses MongoDB as the database. It's that simple. However, this also means that it doesn't require any expensive hardware that could come with its own security.
-          </p>
-          <p>
-            
           </p>
         </div>
       </div>
