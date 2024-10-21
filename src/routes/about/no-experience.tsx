@@ -21,6 +21,16 @@ const NoExperience: Component = () => {
   let coder: any;
   let notcoder: any;
 
+  const changeExplanation = (explanation: boolean) => {
+    if(explanation) {
+      localStorage.setItem("explanation", "coder");
+      setExplanation(true);
+    } else if (!explanation) {
+      localStorage.setItem("explanation", "notcoder");
+      setExplanation(false);
+    }
+  }
+
     return(
         <main>
             <Title>CipherCrypt Demo - About</Title>
@@ -29,11 +39,11 @@ const NoExperience: Component = () => {
                 <div id="sidebar-section">
                     <div id="sidebar-options" class="radio-input">
                         <div class="radio-section">
-                        <input ref={coder} type="radio" id="coder" value="coder" checked name="explanation" onChange={() => localStorage.setItem("explanation", "coder")} />
+                        <input ref={coder} type="radio" id="coder" value="coder" checked name="explanation" onChange={() => changeExplanation(true)} />
                         <label for="coder">I have Coding Experience</label>
                         </div>
                         <div class="radio-section">
-                        <input ref={notcoder} type="radio" id="notcoder" value="notcoder" name="explanation" onChange={() => localStorage.setItem("explanation", "notcoder")} />
+                        <input ref={notcoder} type="radio" id="notcoder" value="notcoder" name="explanation" onChange={() => changeExplanation(false)} />
                         <label for="notcoder">I want the Simple Explanation</label>
                         </div>
                     </div>
@@ -41,11 +51,11 @@ const NoExperience: Component = () => {
                         <A href="/about"><h1>Core Functionalities</h1></A>
                         <hr />
                         <A href="/about/zero-knowledge"><h2>Zero Knowledge Encryption</h2></A>
-                        <h2>Self Hosted</h2>
-                        <h2>Easy Setup</h2>
-                        <h2>MongoDB Support</h2>
-                        <h2>Core Technologies</h2>
-                        <h2>Caching</h2>
+                        <A href="/about/self-hostable"><h2>Self Hosted</h2></A>
+                        <A href="/about/no-experience"><h2>Easy Setup</h2></A>
+                        <A href="/about/mongodb"><h2>MongoDB Support</h2></A>
+                        <A href="/about/technologies"><h2>Core Technologies</h2></A>
+                        <A href="/caching"><h2>Caching</h2></A>
                     </div>
                 </div>
                 <div class="article">

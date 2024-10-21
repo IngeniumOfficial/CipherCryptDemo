@@ -4,6 +4,7 @@ import { A } from "@solidjs/router";
 import { createSignal, onMount, Ref, Show } from "solid-js";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
+import symmetricEncryption from "/symmetricEncryption.webp";
 import "./about.scss"
 
 const ZeroKnowledge: Component = () => {
@@ -62,9 +63,27 @@ const ZeroKnowledge: Component = () => {
                     fallback={
                     <div class="article">
                         <h2>Zero-Knowledge Encryption</h2>
+                        <h3>Let's Look at Encryption</h3>
                         <p>
-                            Zero-Knowledge encryption is an encryption method that uses a key that cannot be accessed by the program.
-                            In other words, when the data you enter into the program is encrypted, CipherCrypt does not have any backdoor access to the data.
+                            Encryption is the process of converting data into ciphertext, which is unreadable and can only (ideally) be decrypted by the same person who encrypted it.
+                            There are many algorithms that can be used to encrypt/decrypt data, developed by various companies, organizations, and even government agencies.
+                        </p>
+                        <p>
+                            Take a look at the visualization of how (symmetric) encryption works.
+                        </p>
+                        <img src={symmetricEncryption} />
+                        <p>
+                            There are other types of encryption, such as asymetric encryption (where the key to encrypt is different than the key to decrypt), hash-based encryption, and more.
+                            CipherCrypt uses an asymmetric model of encryption, but for simplicity, we will focus on symmetric encryption.
+                        </p>
+                        <p>
+                            When you enter data, such as a password or a note, into the program, it is encrypted. Then, when you change the data or just need to access it to view it, the program decrypts it and shows it to you.
+                        </p>
+                        <h3>
+                            What is Zero-Knowledge Encryption?
+                        </h3>
+                        <p>
+                            Zero-Knowledge encryption takes encryption a step further. The program uses a key that it has no way of knowing. There is literally no way for the program to spy on the user.
                         </p>
                         <h3>
                             How Does it Work?
@@ -74,33 +93,17 @@ const ZeroKnowledge: Component = () => {
                             We simply use the password before hashing it.
                         </p>
                         <p>
-                            Every <b>secure</b> system out there hashes your password when storing it in the database.
-                            Let's say you sign up for an email. And let's say the password you create is 'secret123'.
-                            The email provider/company uses some sort of algorithm for every password in their system. Suppose they use SHA256, which is a well known algorithm developed by the NSA.
-                            When the email provider plugs in 'secret123' into the algorithm, they get the following:
+                            Most <b>secure</b> systems use the following approach to passwords for login and signup: the password is hashed (cannot be reversed) and stored in the database.
+                            Suppose you sign up with the password 'secret123'. The program doesn't know the password. It puts it into a hashing algorithm (which, unlike encryption, cannot be reversed) and stores the hash in the database.
+                            When you attempt to log in, it generates a new hash using the password you entered for login, and compares that hash with the one in the database, and if they match, the login is successful.
                         </p>
                         <p>
-                            <b>fcf730b6d95236ecd3c9fc2d92d7b6b2bb061514961aec041d6c7a7192f592e4</b>
+                            By hashing the password, the program never knows the original password. This is also the reason why your gmail can't tell you your password, why they only let you change it, and why they know if the new password is the same as the old one.
+                            The beauty of this is that even if a hacker gets access to the database, they can't reverse engineer your password, and resort to other means of guessing it.
                         </p>
                         <p>
-                            Looks like a bunch of gibberish, right? But this gibberish is extremely important, since it's virtually impossible to 'decrypt' the hash back into the origin password.
-                            Hackers don't even try to reverse-engineer the phrase, they use other means of trying to guess your password.
-                        </p>
-                        <h3>
-                            So, how do you Log In?
-                        </h3>
-                        <p>
-                            Every time you log in, the attempted log in password is generated into a new hash, and the new hash is compared to the one stored in the database of the email provider.
-                            When you attempt to log in, let's say you misspelled the password and said 'secret124'. A new hash is generated and the result is <b>2f4350974680903805ab7da16a7fbe0bd358b31d7560544b82c5b6870110b2db</b>
-                            Notice how this hash is different from the one mentioned earlier? Your email provider does to, and will tell you that the password entered is incorrect.
-                        </p>
-                        <p>
-                            Also, in case you ever wondered, this is the same reason why your email can't simply tell you what your password was when you forgot it, but they still know if you're entering your old password because they have the old hash.
-                        </p>
-                        <p>
-                            But the trick in Zero-Knowledge encryption lies in what happens before the hashing.
-                            Unlike hashing (only needs an algorithm and something to hash), encryption also needs a key, because it needs to be descrypted to access the data at some point.
-                            So, when CipherCrypt generates a hash for your password 'secret123' to store the hash in the database, the plain-text version of your password (secret123) is used as the key to encrypt your data.
+                            So, since all these professional systems don't know the password, we can use before it gets hashed as the key to encrypt the data. Clever, right?
+                            The password is carried in the request, where it does both, authenticates you as a user, and encrypts the data...all without letting the program know a single thing.
                         </p>
                         <p>
                             Using this method is the simplest way to achieve Zero-Knowledge encryption.
