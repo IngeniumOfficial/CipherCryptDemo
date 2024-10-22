@@ -10,7 +10,7 @@ const Footer: Component = () => {
             </section>
             <section id='footer-right'>
                 <h2 class='footer-el'>Github</h2>
-                <h2 class='footer-el'>Demo</h2>
+                <A href="/Demo"><h2 class='footer-el'>Demo</h2></A>
             </section>
         </div>
     )
