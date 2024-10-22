@@ -19,4 +19,69 @@ main{
     min-height: 100vh;
     margin: 0;
     color: $secondary;
+
+
+    #inner-main{
+
+        .demo-input{
+            color: black;
+            background-color: $tertiary;
+            padding: 20px 40px 20px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 10px;
+
+            .input-section{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+
+                input{
+                    background-color: $secondary;
+                    width: 400px;
+                    height: 30px;
+                    margin: 0;
+                }
+
+                h3{
+                    margin: 0;
+                }
+            }
+        }
+
+        .demo-input-button{
+            color: $secondary;
+            background-color: #3a4652;
+            margin: 0;
+            padding: 7px 15px 7px 15px;
+            border-radius: 10px;
+        }
+        .demo-input-button:hover{
+            cursor: pointer;
+            background-color: #485866;
+        }
+
+        #demo-good{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+
+            .demo-display-block{
+                // background-color: $secondary;
+                border: 1px solid $secondary;
+                color: #2C363F;
+                padding: 10px 20px 10px 20px;
+    
+                h3{
+                    background-color: #afd5f7;
+                }
+            }
+        }
+
+    }
 }

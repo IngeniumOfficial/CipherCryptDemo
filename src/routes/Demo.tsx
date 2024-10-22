@@ -1,12 +1,27 @@
-import { createSignal, onMount, Switch, Match, For } from "solid-js";
+import { createSignal, onMount, Switch, Match, For, Ref } from "solid-js";
+import { createStore } from "solid-js/store";
 import type { Component } from "solid-js";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 import "./Demo.scss"
+import DemoTaskBar from "~/components/Demo/DemoTaskBar";
+
+interface DemoData{
+    id: number;
+    username: string;
+    password: string;
+    notes: string;
+}
+
+interface PasswordData{
+    username: string;
+    password: string;
+    notes: string;
+}
 
 const Demo: Component = () => {
     const [loading, loadingSet] = createSignal('loading');
-    const [data, dataSet] = createSignal<any[]>([]);
+    const [dataStore, dataStoreSet] = createStore<DemoData[]>([]);
 
     onMount(() => {
         checkLocalStorage();
@@ -18,7 +33,7 @@ const Demo: Component = () => {
             const data = JSON.parse(lsData);
             loadingSet('good');
             for(let i = 0; i < data.length; i++) {
-                runDisplay(data[i], i * 1000);
+                runDisplay(data[i], i * 500);
             }
         } else {
             loadingSet('empty');
@@ -27,17 +42,60 @@ const Demo: Component = () => {
 
     const runDisplay = (dataPiece: any, time: number) => {
         setTimeout(() => {
-            if(data().length > 0) {
-                dataSet((prev) => [...prev, dataPiece]);
+            if(dataStore.length > 0) {
+                dataStoreSet((prev) => [...prev, dataPiece]);
             } else {
-                dataSet([dataPiece]);
+                dataStoreSet([dataPiece]);
             }
         }, time)
     }
 
+    const addData = (dataType: string, data: PasswordData) => {
+        if(dataType === 'password') {
+            // Add data to local storage
+            const lsData = localStorage.getItem("demoData");
+            if(lsData) {
+                const localData = JSON.parse(lsData);
+                localData.push(data);
+                localStorage.setItem("demoData", JSON.stringify(localData));
+            } else {
+                localStorage.setItem("demoData", JSON.stringify([data]));
+            }
+
+            // If there is no data in dataStore, create it
+            if(dataStore.length === 0) {
+                dataStoreSet([{
+                    id: 0,
+                    username: data.username,
+                    password: data.password,
+                    notes: data.notes
+                }]);
+
+                // Also, change loading state to good
+                loadingSet('good');
+            } else {
+                // Otherwise, add data to the end of the array
+                dataStoreSet((prev) => [...prev, {
+                    id: prev[prev.length - 1].id + 1,
+                    username: data.username,
+                    password: data.password,
+                    notes: data.notes
+                }]);
+            }
+        }
+    }
+
+    let addPassEmpty: any;
+    let addUsernameEmpty: any;
+    let addNotesEmpty: any;
+    let addUsernameGood: any;
+    let addPassGood: any;
+    let addNotesGood: any;
+
     return(
         <main>
             <NavBar />
+            <DemoTaskBar />
             <div id="inner-main">
                 <Switch>
                     <Match when={loading() === 'loading'}>
@@ -46,23 +104,45 @@ const Demo: Component = () => {
                     <Match when={loading() === 'empty'}>
                         <div>
                             <h2>No Data Found. Add Password or Note Below</h2>
-                            <div id="demo-input">
-                                <input type="text" id="demo-input-text" onChange={(e) => dataSet((prev: any) => [...prev, e.target.value])} />
-                                <button id="demo-input-button" onClick={() => localStorage.setItem("demoData", JSON.stringify(data()))}>Add Note</button>
+                            <div class="demo-input">
+                                <div class='input-section'>
+                                    <h3>Username: </h3>
+                                    <input ref={addUsernameEmpty} type="text" id="demo-input-username-empty" />
+                                </div>
+                                <div class='input-section'>
+                                    <h3>Password: </h3>
+                                    <input ref={addPassEmpty} type="text" id="demo-input-pass-empty" />
+                                </div>
+                                <div class='input-section'>
+                                    <h3>Notes: </h3>
+                                    <input ref={addNotesEmpty} type="text" id="demo-input-notes-empty" />
+                                </div>
+                                <h3 id="demo-input-button" class="demo-input-button" onClick={() => addData('password', {username: addUsernameEmpty.value, password: addPassEmpty.value, notes: addNotesEmpty.value})}>Add Note</h3>
                             </div>
                         </div>
                     </Match>
                     <Match when={loading() === 'good'}>
-                        <button class="debug" onClick={() => localStorage.clear()}>Clear Local Storage</button>
+                        <button class="debug" onClick={() => {localStorage.clear(); window.location.reload();}}>Clear Local Storage and Reload</button>
                         <div id="demo-good">
-                            <For each={data()}>
+                            <For each={dataStore}>
                                 {(dataPiece) => (
-                                    <h3>{dataPiece}</h3>
+                                    <DemoDisplayBlock username={dataPiece.username} password={dataPiece.password} notes={dataPiece.notes} id={dataPiece.id} />
                                 )}
                             </For>
-                            <div id="demo-input">
-                                <input type="text" id="demo-input-text" onChange={(e) => dataSet((prev: any) => [...prev, e.target.value])} />
-                                <button id="demo-input-button" onClick={() => localStorage.setItem("demoData", JSON.stringify(data()))}>Add Note</button>
+                            <div class="demo-input">
+                                <div class='input-section'>
+                                    <h3>Username: </h3>
+                                    <input ref={addUsernameGood} type="text" id="demo-input-username-good" />
+                                </div>
+                                <div class='input-section'>
+                                    <h3>Password: </h3>
+                                    <input ref={addPassGood} type="text" id="demo-input-pass-good" />
+                                </div>
+                                <div class='input-section'>
+                                    <h3>Notes: </h3>
+                                    <input ref={addNotesGood} type="text" id="demo-input-notes-good" />
+                                </div>
+                                <button class="demo-input-button" onClick={() => addData('password', {username: addUsernameGood.value, password: addPassGood.value, notes: addNotesGood.value})}>Add Note</button>
                             </div>
                         </div>
                     </Match>
@@ -70,6 +150,16 @@ const Demo: Component = () => {
             </div>
             <Footer />
         </main>
+    )
+}
+
+const DemoDisplayBlock: Component<DemoData> = (props: DemoData) => {
+    return(
+        <div class="demo-display-block">
+            <h3>Username: {props.username}</h3>
+            <h3>Password: {props.password}</h3>
+            <h3>Notes: {props.notes}</h3>
+        </div>
     )
 }
 
