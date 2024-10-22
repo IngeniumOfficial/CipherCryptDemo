@@ -55,7 +55,7 @@ const SelfHosted: Component = () => {
                         <A href="/about/no-experience"><h2>Easy Setup</h2></A>
                         <A href="/about/mongodb"><h2>MongoDB Support</h2></A>
                         <A href="/about/technologies"><h2>Core Technologies</h2></A>
-                        <A href="/caching"><h2>Caching</h2></A>
+                        <A href="/about/caching"><h2>Caching</h2></A>
                     </div>
                 </div>
                 <Show when={explanation()} fallback={
