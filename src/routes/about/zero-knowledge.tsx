@@ -4,7 +4,7 @@ import { A } from "@solidjs/router";
 import { createSignal, onMount, Ref, Show } from "solid-js";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
-import symmetricEncryption from "/symmetricEncryption.webp";
+// import symmetricEncryption from "/symmetricEncryption.webp";
 import "./about.scss"
 
 const ZeroKnowledge: Component = () => {
@@ -71,7 +71,7 @@ const ZeroKnowledge: Component = () => {
                         <p>
                             Take a look at the visualization of how (symmetric) encryption works.
                         </p>
-                        <img src={symmetricEncryption} />
+                        <img src="/symmetricEncryption.webp" />
                         <p>
                             There are other types of encryption, such as asymetric encryption (where the key to encrypt is different than the key to decrypt), hash-based encryption, and more.
                             CipherCrypt uses an asymmetric model of encryption, but for simplicity, we will focus on symmetric encryption.

@@ -4,7 +4,7 @@ import { onMount, Ref } from "solid-js";
 import './index.scss'
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer"
-import lock4_1 from "/lock4_1.png";
+// import lock4_1 from "/lock4_1.png";
 
 export default function Home() {
   onMount(() => {
@@ -38,7 +38,7 @@ export default function Home() {
       <main class="main-page">
         <NavBar />
         <header>
-          <img src={lock4_1} />
+          <img src="/lock4_1.png" />
           <section>
             <div><h1 ref={headerRef1}></h1><h1 id="blinker1" ref={blinker1}></h1></div>
             <div><h3 ref={headerRef2}></h3><h3 id="blinker2" ref={blinker2}></h3></div>

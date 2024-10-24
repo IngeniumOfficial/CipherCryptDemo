@@ -5,7 +5,7 @@ import { createSignal, onMount, Ref, Show } from "solid-js";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 import "./about.scss"
-import ciphercrypt_tech1 from "/ciphercrypt_tech1.png";
+// import ciphercrypt_tech1 from "/ciphercrypt_tech1.png";
 
 const Technologies: Component = () => {
     const [explanation, setExplanation] = createSignal(true);
@@ -64,7 +64,7 @@ const Technologies: Component = () => {
                     <p>
                       To help better understand the where everything is in the chain of internal technologies, look at the image below:
                     </p>
-                    <img src={ciphercrypt_tech1} alt="The CipherCrypt core technologies consist of a Web/Display Server for serving the data, a Go API server for handling the main workload of the application, 
+                    <img src="/ciphercrypt_tech1.png" alt="The CipherCrypt core technologies consist of a Web/Display Server for serving the data, a Go API server for handling the main workload of the application, 
                     a caching server instance for increasing efficiency in data transfer, and an open database connection."></img>
                     <h3>Web (Display) Server</h3>
                     <p>
@@ -141,7 +141,7 @@ const Technologies: Component = () => {
                       <p>
                           To help better understand the where everything is in the chain of internal technologies, look at the image below:
                       </p>
-                      <img src={ciphercrypt_tech1} alt="The CipherCrypt core technologies consist of a Web/Display Server for serving the data, a Go API server for handling the main workload of the application, 
+                      <img src="/ciphercrypt_tech1.png" alt="The CipherCrypt core technologies consist of a Web/Display Server for serving the data, a Go API server for handling the main workload of the application, 
                       a caching server instance for increasing efficiency in data transfer, and an open database connection."></img>
                       <h3>
                         Web (Display) Server
