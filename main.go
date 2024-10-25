@@ -27,6 +27,8 @@ type PasswordData struct {
 
 func main() {
 	router := gin.Default()
+	// router.Use(cors.Default())
+
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
@@ -34,6 +36,12 @@ func main() {
 	})
 
 	router.POST("/encrypt", func(c *gin.Context) {
+		// Cors
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Credentials", "true")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Header("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+
 		log.Println("Inside Encrypt")
 		var requestData RequestData
 		if err := c.BindJSON(&requestData); err != nil {
@@ -82,11 +90,20 @@ func main() {
 		ciphertext := gcm.Seal(nil, nonce, dataBytes, nil)
 		log.Println("Ciphertext: ", ciphertext)
 
-		c.JSON(http.StatusOK, gin.H{})
+		c.JSON(http.StatusOK, gin.H{
+			"inputKey":        key,
+			"inputData":       data,
+			"salt":            string(saltBytes),
+			"keyhash":         string(keyHash),
+			"cipherBlockSize": block.BlockSize(),
+			"nonce":           string(nonce),
+			"ciphertext":      string(ciphertext),
+		})
 	})
 
 	router.POST("/sidebyside", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{})
 	})
+
 	router.Run()
 }

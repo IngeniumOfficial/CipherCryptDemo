@@ -14,8 +14,17 @@ import type { Component } from 'solid-js'
 const DemoEncrypted: Component<{ plaintext: string, keytext: string }> = (props) => {
     const [encryptedData, encryptedDataSet] = createSignal<string>("")
     
-    onMount(() => {
-        
+    onMount(async () => {
+        let result = await fetch("http://localhost:8080/encrypt", {
+            method: "POST",
+            body: JSON.stringify({
+                key: props.keytext,
+                data: props.plaintext
+            })
+        })
+
+        console.log("Result: ", await result)
+        console.log("Result JSON", await result.text())
     })
 
     return(
