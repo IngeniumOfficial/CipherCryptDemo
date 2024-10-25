@@ -1,8 +1,8 @@
 import type { Component } from 'solid-js'
 
-const DemoTaskBar: Component = () => {
+const DemoNavBar: Component = () => {
     return(
-        <div id="demo-taskbar">
+        <div id="demo-navbar">
             <h2>Plain-Text</h2>
             <h2>Encrypted</h2>
             <h2>Side-By-Side</h2>
@@ -10,4 +10,4 @@ const DemoTaskBar: Component = () => {
     )
 }
 
-export default DemoTaskBar;
+export default DemoNavBar;

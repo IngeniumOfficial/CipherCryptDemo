@@ -1,10 +1,11 @@
-import { createSignal, onMount, Switch, Match, For, Ref } from "solid-js";
+import { createSignal, onMount, Switch, Match, For, Ref, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { Component } from "solid-js";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 import "./Demo.scss"
-import DemoTaskBar from "~/components/Demo/DemoTaskBar";
+import DemoNavBar from "~/components/Demo/DemoNavBar";
+import DemoEncrypted from "~/components/Demo/DemoEncrypted";
 
 interface DemoData{
     id: number;
@@ -21,7 +22,9 @@ interface PasswordData{
 
 const Demo: Component = () => {
     const [loading, loadingSet] = createSignal('loading');
+    const [keytext, keytextSet] = createSignal('');
     const [dataStore, dataStoreSet] = createStore<DemoData[]>([]);
+    const [encrypt, encryptSet] = createSignal(false);
 
     onMount(() => {
         checkLocalStorage();
@@ -85,68 +88,91 @@ const Demo: Component = () => {
         }
     }
 
+    const activateEncryption = () => {
+        // Check if keytext or dataStore is empty
+        if(dataStore.length === 0) {
+            alert("Cannot encrypt without any data");
+        } else if(keytext().length === 0 || keytext() === '') {
+            alert("Cannot encrypt without a key");
+        } else {
+            innerMain.style.alignItems = "flex-start";
+            encryptSet(true);
+        }
+    }
+
     let addPassEmpty: any;
     let addUsernameEmpty: any;
     let addNotesEmpty: any;
     let addUsernameGood: any;
     let addPassGood: any;
     let addNotesGood: any;
+    let innerMain: any;
 
     return(
         <main>
             <NavBar />
-            <DemoTaskBar />
-            <div id="inner-main">
-                <Switch>
-                    <Match when={loading() === 'loading'}>
-                        <h1>Loading...</h1>
-                    </Match>
-                    <Match when={loading() === 'empty'}>
-                        <div>
-                            <h2>No Data Found. Add Password or Note Below</h2>
-                            <div class="demo-input">
-                                <div class='input-section'>
-                                    <h3>Username: </h3>
-                                    <input ref={addUsernameEmpty} type="text" id="demo-input-username-empty" />
+            <DemoNavBar />
+            <div id="inner-main" ref={innerMain}>
+                {/* <div id="inner-main-plain"> */}
+                    <Switch>
+                        <Match when={loading() === 'loading'}>
+                            <h1>Loading...</h1>
+                        </Match>
+                        <Match when={loading() === 'empty'}>
+                            <div>
+                                <h2>No Data Found. Add Password or Note Below</h2>
+                                <div class="demo-input">
+                                    <div class='input-section'>
+                                        <h3>Username: </h3>
+                                        <input ref={addUsernameEmpty} type="text" id="demo-input-username-empty" />
+                                    </div>
+                                    <div class='input-section'>
+                                        <h3>Password: </h3>
+                                        <input ref={addPassEmpty} type="text" id="demo-input-pass-empty" />
+                                    </div>
+                                    <div class='input-section'>
+                                        <h3>Notes: </h3>
+                                        <input ref={addNotesEmpty} type="text" id="demo-input-notes-empty" />
+                                    </div>
+                                    <h3 id="demo-input-button" class="demo-input-button" onClick={() => addData('password', {username: addUsernameEmpty.value, password: addPassEmpty.value, notes: addNotesEmpty.value})}>Add Note</h3>
                                 </div>
-                                <div class='input-section'>
-                                    <h3>Password: </h3>
-                                    <input ref={addPassEmpty} type="text" id="demo-input-pass-empty" />
-                                </div>
-                                <div class='input-section'>
-                                    <h3>Notes: </h3>
-                                    <input ref={addNotesEmpty} type="text" id="demo-input-notes-empty" />
-                                </div>
-                                <h3 id="demo-input-button" class="demo-input-button" onClick={() => addData('password', {username: addUsernameEmpty.value, password: addPassEmpty.value, notes: addNotesEmpty.value})}>Add Note</h3>
                             </div>
-                        </div>
-                    </Match>
-                    <Match when={loading() === 'good'}>
-                        <button class="debug" onClick={() => {localStorage.clear(); window.location.reload();}}>Clear Local Storage and Reload</button>
-                        <div id="demo-good">
-                            <For each={dataStore}>
-                                {(dataPiece) => (
-                                    <DemoDisplayBlock username={dataPiece.username} password={dataPiece.password} notes={dataPiece.notes} id={dataPiece.id} />
-                                )}
-                            </For>
-                            <div class="demo-input">
-                                <div class='input-section'>
-                                    <h3>Username: </h3>
-                                    <input ref={addUsernameGood} type="text" id="demo-input-username-good" />
+                        </Match>
+                        <Match when={loading() === 'good'}>
+                            <button class="debug" onClick={() => {localStorage.clear(); window.location.reload();}}>Clear Local Storage and Reload</button>
+                            <div id="demo-good">
+                                <For each={dataStore}>
+                                    {(dataPiece) => (
+                                        <DemoDisplayBlock username={dataPiece.username} password={dataPiece.password} notes={dataPiece.notes} id={dataPiece.id} />
+                                    )}
+                                </For>
+                                <div class="demo-input">
+                                    <div class='input-section'>
+                                        <h3>Username: </h3>
+                                        <input ref={addUsernameGood} type="text" id="demo-input-username-good" />
+                                    </div>
+                                    <div class='input-section'>
+                                        <h3>Password: </h3>
+                                        <input ref={addPassGood} type="text" id="demo-input-pass-good" />
+                                    </div>
+                                    <div class='input-section'>
+                                        <h3>Notes: </h3>
+                                        <input ref={addNotesGood} type="text" id="demo-input-notes-good" />
+                                    </div>
+                                    <button class="demo-input-button" onClick={() => addData('password', {username: addUsernameGood.value, password: addPassGood.value, notes: addNotesGood.value})}>Add Note</button>
                                 </div>
-                                <div class='input-section'>
-                                    <h3>Password: </h3>
-                                    <input ref={addPassGood} type="text" id="demo-input-pass-good" />
-                                </div>
-                                <div class='input-section'>
-                                    <h3>Notes: </h3>
-                                    <input ref={addNotesGood} type="text" id="demo-input-notes-good" />
-                                </div>
-                                <button class="demo-input-button" onClick={() => addData('password', {username: addUsernameGood.value, password: addPassGood.value, notes: addNotesGood.value})}>Add Note</button>
                             </div>
-                        </div>
-                    </Match>
-                </Switch>
+                        </Match>
+                    </Switch>
+                    <div id="encryption-settings">
+                        <h3>Key: </h3>
+                        <input type="text" id="keytext" placeholder="Use any word or sentence as Key" onChange={(e) => keytextSet(e.currentTarget.value)} />
+                        <button class="demo-input-button" onClick={() => activateEncryption()}>Encrypt the Data</button>
+                    {/* </div> */}
+                    <Show when={encrypt()}>
+                        <DemoEncrypted keytext={keytext()} plaintext={JSON.stringify(dataStore, null, 2)} />
+                    </Show>
+                </div>
             </div>
             <Footer />
         </main>
