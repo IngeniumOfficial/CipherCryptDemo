@@ -15,12 +15,16 @@ const DemoEncrypted: Component<{ plaintext: string, keytext: string }> = (props)
     const [encryptedData, encryptedDataSet] = createSignal<string>("")
     
     onMount(async () => {
+
+        let body = JSON.stringify({
+            key: props.keytext,
+            data: props.plaintext
+        })
+
+        console.log("Result sent: ", body)
         let result = await fetch("http://localhost:8080/encrypt", {
             method: "POST",
-            body: JSON.stringify({
-                key: props.keytext,
-                data: props.plaintext
-            })
+            body: body
         })
 
         console.log("Result: ", await result)
@@ -29,7 +33,7 @@ const DemoEncrypted: Component<{ plaintext: string, keytext: string }> = (props)
 
     return(
         <div id="demo-encrypted">
-            <pre>Plaintext: {props.plaintext}</pre>
+            <pre>Plaintext: {JSON.stringify(props.plaintext, null, 2)}</pre>
         </div>
     )
 }

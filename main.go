@@ -48,6 +48,9 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
 
+		log.Println("Data: ", requestData)
+		log.Println("Data0: ", requestData.Data[0])
+
 		log.Println("Data Length: ", requestData.Key)
 
 		/* Key, Salt, and PlainText */

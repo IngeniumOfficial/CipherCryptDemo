@@ -170,7 +170,7 @@ const Demo: Component = () => {
                         <button class="demo-input-button" onClick={() => activateEncryption()}>Encrypt the Data</button>
                     {/* </div> */}
                     <Show when={encrypt()}>
-                        <DemoEncrypted keytext={keytext()} plaintext={JSON.stringify(dataStore, null, 2)} />
+                        <DemoEncrypted keytext={keytext()} plaintext={dataStore} />
                     </Show>
                 </div>
             </div>
