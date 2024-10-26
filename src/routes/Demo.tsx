@@ -7,13 +7,6 @@ import "./Demo.scss"
 import DemoNavBar from "~/components/Demo/DemoNavBar";
 import DemoEncrypted from "~/components/Demo/DemoEncrypted";
 
-interface DemoData{
-    id: number;
-    username: string;
-    password: string;
-    notes: string;
-}
-
 interface PasswordData{
     username: string;
     password: string;
@@ -23,7 +16,7 @@ interface PasswordData{
 const Demo: Component = () => {
     const [loading, loadingSet] = createSignal('loading');
     const [keytext, keytextSet] = createSignal('');
-    const [dataStore, dataStoreSet] = createStore<DemoData[]>([]);
+    const [dataStore, dataStoreSet] = createStore<PasswordData[]>([]);
     const [encrypt, encryptSet] = createSignal(false);
 
     onMount(() => {
@@ -68,7 +61,6 @@ const Demo: Component = () => {
             // If there is no data in dataStore, create it
             if(dataStore.length === 0) {
                 dataStoreSet([{
-                    id: 0,
                     username: data.username,
                     password: data.password,
                     notes: data.notes
@@ -79,7 +71,6 @@ const Demo: Component = () => {
             } else {
                 // Otherwise, add data to the end of the array
                 dataStoreSet((prev) => [...prev, {
-                    id: prev[prev.length - 1].id + 1,
                     username: data.username,
                     password: data.password,
                     notes: data.notes
@@ -179,7 +170,7 @@ const Demo: Component = () => {
     )
 }
 
-const DemoDisplayBlock: Component<DemoData> = (props: DemoData) => {
+const DemoDisplayBlock: Component<PasswordData> = (props: PasswordData) => {
     return(
         <div class="demo-display-block">
             <h3>Username: {props.username}</h3>
