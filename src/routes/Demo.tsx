@@ -4,7 +4,7 @@ import type { Component } from "solid-js";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 import "./Demo.scss"
-import DemoNavBar from "~/components/Demo/DemoNavBar";
+import DemoToolBar from "~/components/Demo/DemoToolBar";
 import DemoEncrypted from "~/components/Demo/DemoEncrypted";
 
 interface PasswordData{
@@ -13,10 +13,26 @@ interface PasswordData{
     notes: string;
 }
 
+interface locallyStoredData {
+    [key: number]: PasswordData
+}
+
+
+// TODO: Add an ability to move the passwords around and/or delete them
+    // Unfortunately, this means reworking the id system
+// Option 1: Switch data dependence to local storage only:
+    // PROS: Easy to implement
+    // CONS: Lacks re-rendering capability of stores and signals
+// Option 2: Use a signal and local storage
+    // No need for stores, since data will be moved around and readjusted as a whole instead of individual pieces
+    // PROS: Re-rendering capability
+    // CONS: Complexity in: local storage updates, overhead in signals, and...potentially needs an option for incremental first render to be skipped
+// Option 3?: Is there another way to do this?
+
 const Demo: Component = () => {
     const [loading, loadingSet] = createSignal('loading');
     const [keytext, keytextSet] = createSignal('');
-    const [dataStore, dataStoreSet] = createStore<PasswordData[]>([]);
+    const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]);
     const [encrypt, encryptSet] = createSignal(false);
 
     onMount(() => {
@@ -28,8 +44,8 @@ const Demo: Component = () => {
         if(lsData) {
             const data = JSON.parse(lsData);
             loadingSet('good');
-            for(let i = 0; i < data.length; i++) {
-                runDisplay(data[i], i * 500);
+            for(let key in data) {
+                runDisplay(data[key], parseInt(key) * 500);
             }
         } else {
             loadingSet('empty');
@@ -38,10 +54,10 @@ const Demo: Component = () => {
 
     const runDisplay = (dataPiece: any, time: number) => {
         setTimeout(() => {
-            if(dataStore.length > 0) {
-                dataStoreSet((prev) => [...prev, dataPiece]);
+            if(dataSignal().length > 0) {
+                dataSignalSet((prev) => [...prev, dataPiece]);
             } else {
-                dataStoreSet([dataPiece]);
+                dataSignalSet([dataPiece]);
             }
         }, time)
     }
@@ -59,8 +75,8 @@ const Demo: Component = () => {
             }
 
             // If there is no data in dataStore, create it
-            if(dataStore.length === 0) {
-                dataStoreSet([{
+            if(dataSignal.length === 0) {
+                dataSignalSet([{
                     username: data.username,
                     password: data.password,
                     notes: data.notes
@@ -70,7 +86,7 @@ const Demo: Component = () => {
                 loadingSet('good');
             } else {
                 // Otherwise, add data to the end of the array
-                dataStoreSet((prev) => [...prev, {
+                dataSignalSet((prev) => [...prev, {
                     username: data.username,
                     password: data.password,
                     notes: data.notes
@@ -79,16 +95,27 @@ const Demo: Component = () => {
         }
     }
 
+    const updateLocalStorage = () => {
+        console.log("Updating Local Storage with data", dataSignal())
+        const tempData = dataSignal();
+        let tempObject: any = {};
+        tempData.forEach((item, index) => {
+            tempObject[index] = item;
+        })
+
+        localStorage.setItem("demoData", JSON.stringify(tempObject));
+    }
+
     const activateEncryption = () => {
-        // Check if keytext or dataStore is empty
-        if(dataStore.length === 0) {
-            alert("Cannot encrypt without any data");
-        } else if(keytext().length === 0 || keytext() === '') {
-            alert("Cannot encrypt without a key");
-        } else {
-            innerMain.style.alignItems = "flex-start";
-            encryptSet(true);
-        }
+        // // Check if keytext or dataStore is empty
+        // if(dataSignal.length === 0) {
+        //     alert("Cannot encrypt without any data");
+        // } else if(keytext().length === 0 || keytext() === '') {
+        //     alert("Cannot encrypt without a key");
+        // } else {
+        //     innerMain.style.alignItems = "flex-start";
+        // }
+        encryptSet(true);
     }
 
     let addPassEmpty: any;
@@ -102,7 +129,7 @@ const Demo: Component = () => {
     return(
         <main>
             <NavBar />
-            <DemoNavBar />
+            <DemoToolBar dataSignal={dataSignal} dataSignalSet={dataSignalSet} updateLS={updateLocalStorage} loadingSet={loadingSet} />
             <div id="inner-main" ref={innerMain}>
                 {/* <div id="inner-main-plain"> */}
                     <Switch>
@@ -132,7 +159,7 @@ const Demo: Component = () => {
                         <Match when={loading() === 'good'}>
                             <button class="debug" onClick={() => {localStorage.clear(); window.location.reload();}}>Clear Local Storage and Reload</button>
                             <div id="demo-good">
-                                <For each={dataStore}>
+                                <For each={dataSignal()}>
                                     {(dataPiece) => (
                                         <DemoDisplayBlock username={dataPiece.username} password={dataPiece.password} notes={dataPiece.notes} />
                                     )}
@@ -161,7 +188,7 @@ const Demo: Component = () => {
                         <button class="demo-input-button" onClick={() => activateEncryption()}>Encrypt the Data</button>
                     {/* </div> */}
                     <Show when={encrypt()}>
-                        <DemoEncrypted keytext={keytext()} plaintext={dataStore} />
+                        <DemoEncrypted keytext={keytext()} plaintext={dataSignal()} />
                     </Show>
                 </div>
             </div>
@@ -173,8 +200,10 @@ const Demo: Component = () => {
 const DemoDisplayBlock: Component<PasswordData> = (props: PasswordData) => {
     return(
         <div class="demo-display-block">
-            <h3>Username: {props.username}</h3>
-            <h3>Password: {props.password}</h3>
+            <div class="username-password">
+                <h3>Username: {props.username}</h3>
+                <h3>Password: {props.password}</h3>
+            </div>
             <h3>Notes: {props.notes}</h3>
         </div>
     )
