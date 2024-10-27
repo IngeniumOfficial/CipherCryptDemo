@@ -45,7 +45,7 @@ export default function Home() {
           </section>
         </header>
         <section id="hero">
-          <image href="/lock3.png" class="min-w-44" />
+          <img src="/lock3.png" class="min-w-44" />
         </section>
         <h2 id="features-title">Key Features</h2>
         <section id="features">

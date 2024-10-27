@@ -1,4 +1,4 @@
-import { createSignal, onMount, Switch, Match, For, Ref, Show } from "solid-js";
+import { createSignal, onMount, Switch, Match, For, Ref, Show, Index } from "solid-js";
 import { createStore } from "solid-js/store";
 import type { Component } from "solid-js";
 import NavBar from "~/components/NavBar";
@@ -45,7 +45,7 @@ const Demo: Component = () => {
             const data = JSON.parse(lsData);
             loadingSet('good');
             for(let key in data) {
-                runDisplay(data[key], parseInt(key) * 500);
+                runDisplay(data[key], parseInt(key) * 200);
             }
         } else {
             loadingSet('empty');
@@ -63,36 +63,62 @@ const Demo: Component = () => {
     }
 
     const addData = (dataType: string, data: PasswordData) => {
-        if(dataType === 'password') {
-            // Add data to local storage
-            const lsData = localStorage.getItem("demoData");
-            if(lsData) {
-                const localData = JSON.parse(lsData);
-                localData.push(data);
-                localStorage.setItem("demoData", JSON.stringify(localData));
-            } else {
-                localStorage.setItem("demoData", JSON.stringify([data]));
-            }
+        if(data === undefined || data === null || data.username === '' || data.password === '') {
+            alert("Cannot add empty data");
+            return;
+        } else {
+            if(dataType === 'password') {
+                // If there is no data in dataStore, create it
+                if(dataSignal().length === 0) {
+                    console.log("No data in dataStore, creating it")
+                    dataSignalSet([{
+                        username: data.username,
+                        password: data.password,
+                        notes: data.notes
+                    }]);
+    
+                    // Also, change loading state to good
+                    loadingSet('good');
+                } else {
+                    // Otherwise, check for duplicates and add to end of array
+                    let tempArr = dataSignal();
+                    let dupCheck = false;
+                    for(let i = 0; i < tempArr.length; i++) {
+                        if(tempArr[i].username === data.username) {
+                            dupCheck = true;
+                            break;
+                        }
+                    }
 
-            // If there is no data in dataStore, create it
-            if(dataSignal.length === 0) {
-                dataSignalSet([{
-                    username: data.username,
-                    password: data.password,
-                    notes: data.notes
-                }]);
+                    if(dupCheck) {
+                        console.log("Duplicate found")
+                        alert("Cannot add duplicate data");
+                        return;
+                    } else {
+                        dataSignalSet((prev) => [...prev, {
+                            username: data.username,
+                            password: data.password,
+                            notes: data.notes
+                        }]);
+                    }
 
-                // Also, change loading state to good
-                loadingSet('good');
-            } else {
-                // Otherwise, add data to the end of the array
-                dataSignalSet((prev) => [...prev, {
-                    username: data.username,
-                    password: data.password,
-                    notes: data.notes
-                }]);
+                }
             }
         }
+
+        updateLocalStorage();
+    }
+
+    const deleteData = (username: string) => {
+        let tempArr = [...dataSignal()];
+        for(let i = 0; i < tempArr.length; i++) {
+            if(tempArr[i].username === username) {
+                tempArr.splice(i, 1);
+                break;
+            }
+        }
+        dataSignalSet(tempArr);
+        updateLocalStorage();
     }
 
     const updateLocalStorage = () => {
@@ -107,14 +133,14 @@ const Demo: Component = () => {
     }
 
     const activateEncryption = () => {
-        // // Check if keytext or dataStore is empty
-        // if(dataSignal.length === 0) {
-        //     alert("Cannot encrypt without any data");
-        // } else if(keytext().length === 0 || keytext() === '') {
-        //     alert("Cannot encrypt without a key");
-        // } else {
-        //     innerMain.style.alignItems = "flex-start";
-        // }
+        // Check if keytext or dataStore is empty
+        if(dataSignal().length === 0) {
+            alert("Cannot encrypt without any data");
+        } else if(keytext().length === 0 || keytext() === '') {
+            alert("Cannot encrypt without a key");
+        } else {
+            innerMain.style.alignItems = "flex-start";
+        }
         encryptSet(true);
     }
 
@@ -142,42 +168,42 @@ const Demo: Component = () => {
                                 <div class="demo-input">
                                     <div class='input-section'>
                                         <h3>Username: </h3>
-                                        <input ref={addUsernameEmpty} type="text" id="demo-input-username-empty" />
+                                        <input ref={addUsernameEmpty} class="demo-inputs" type="text" id="demo-input-username-empty" />
                                     </div>
                                     <div class='input-section'>
                                         <h3>Password: </h3>
-                                        <input ref={addPassEmpty} type="text" id="demo-input-pass-empty" />
+                                        <input ref={addPassEmpty} class="demo-inputs" type="text" id="demo-input-pass-empty" />
                                     </div>
                                     <div class='input-section'>
                                         <h3>Notes: </h3>
-                                        <input ref={addNotesEmpty} type="text" id="demo-input-notes-empty" />
+                                        <input ref={addNotesEmpty} class="demo-inputs" type="text" id="demo-input-notes-empty" />
                                     </div>
-                                    <h3 id="demo-input-button" class="demo-input-button" onClick={() => addData('password', {username: addUsernameEmpty.value, password: addPassEmpty.value, notes: addNotesEmpty.value})}>Add Note</h3>
+                                    <h3 id="demo-input-button" class="demo-input-button" onClick={() => addData('password', {username: addUsernameEmpty.value, password: addPassEmpty.value, notes: addNotesEmpty.value})}>Add Password</h3>
                                 </div>
                             </div>
                         </Match>
                         <Match when={loading() === 'good'}>
                             <button class="debug" onClick={() => {localStorage.clear(); window.location.reload();}}>Clear Local Storage and Reload</button>
                             <div id="demo-good">
-                                <For each={dataSignal()}>
-                                    {(dataPiece) => (
-                                        <DemoDisplayBlock username={dataPiece.username} password={dataPiece.password} notes={dataPiece.notes} />
+                                <Index each={dataSignal()}>
+                                    {(dataPiece, dataPieceIndex) => (
+                                        <DemoDisplayBlock deleteData={deleteData} username={dataPiece().username} password={dataPiece().password} notes={dataPiece().notes} />
                                     )}
-                                </For>
+                                </Index>
                                 <div class="demo-input">
                                     <div class='input-section'>
                                         <h3>Username: </h3>
-                                        <input ref={addUsernameGood} type="text" id="demo-input-username-good" />
+                                        <input ref={addUsernameGood} class="demo-inputs" type="text" id="demo-input-username-good" />
                                     </div>
                                     <div class='input-section'>
                                         <h3>Password: </h3>
-                                        <input ref={addPassGood} type="text" id="demo-input-pass-good" />
+                                        <input ref={addPassGood} class="demo-inputs" type="text" id="demo-input-pass-good" />
                                     </div>
                                     <div class='input-section'>
                                         <h3>Notes: </h3>
-                                        <input ref={addNotesGood} type="text" id="demo-input-notes-good" />
+                                        <input ref={addNotesGood} class="demo-inputs" type="text" id="demo-input-notes-good" />
                                     </div>
-                                    <button class="demo-input-button" onClick={() => addData('password', {username: addUsernameGood.value, password: addPassGood.value, notes: addNotesGood.value})}>Add Note</button>
+                                    <button class="demo-input-button" onClick={() => addData('password', {username: addUsernameGood.value, password: addPassGood.value, notes: addNotesGood.value})}>Add Password</button>
                                 </div>
                             </div>
                         </Match>
@@ -197,14 +223,20 @@ const Demo: Component = () => {
     )
 }
 
-const DemoDisplayBlock: Component<PasswordData> = (props: PasswordData) => {
+const DemoDisplayBlock: Component<{deleteData: (username: string) => void, username: string, password: string, notes: string}> = (props) => {
     return(
         <div class="demo-display-block">
             <div class="username-password">
-                <h3>Username: {props.username}</h3>
-                <h3>Password: {props.password}</h3>
+                <div class="up-left">
+                    <h3>Username: {props.username}</h3>
+                    <h3>Password: {props.password}</h3>
+                </div>
+                <img src="/trash-solid.svg" onClick={() => props.deleteData(props.username)} />
             </div>
-            <h3>Notes: {props.notes}</h3>
+            <div class="notes-edit">
+                <h3 id="demo-notes">Notes: {props.notes}</h3>
+                <h3 id="demo-edit-button">Edit</h3>
+            </div>
         </div>
     )
 }

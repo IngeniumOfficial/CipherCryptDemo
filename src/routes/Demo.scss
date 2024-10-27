@@ -2,6 +2,7 @@
 $primary: #2C363F;
 $secondary: #F3F6F6;
 $tertiary: #9BC0AF;
+$quaternary: #90a3e0;
 
 main{
     font-family: "Golos Text", sans-serif;
@@ -55,29 +56,33 @@ main{
 
         .demo-input{
             color: black;
-            background-color: $tertiary;
-            padding: 20px 40px 20px 40px;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: center;
             justify-content: center;
+            border: 10px solid $tertiary;
             gap: 10px;
+            padding: 10px 10px 10px 10px;
 
             .input-section{
+                background-color: #d5dcff;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
                 gap: 10px;
+                padding: 5px;
+                border-radius: 10px;
 
                 input{
                     background-color: $secondary;
                     width: 400px;
-                    height: 30px;
+                    height: 20px;
                     margin: 0;
                 }
 
                 h3{
+                    font-size: 15px;
                     margin: 0;
                 }
             }
@@ -104,23 +109,65 @@ main{
             .demo-display-block{
                 display: flex;
                 flex-direction: column;
-                border: 1px solid $secondary;
+                // border: 1px solid $secondary;
+                border-radius: 30px;
                 color: black;
                 padding: 10px 20px 10px 20px;
-                background-color: #9BC0AF;
+                background-color: $tertiary;
+                text-wrap: wrap;
 
                 .username-password{
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    justify-content: center;
+                    justify-content: space-between;
                     gap: 10px;
-                    background-color: #b3c2bb;
+                    width: 100%;
+
+                    .up-left{
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: flex-start;
+                        gap: 10px;
+                        
+                        
+                        h3{
+                            background-color: #d5dcff;
+                            margin: 0;
+                            padding: 10px;
+                            border-radius: 10px;
+                        }
+                    }
+                    
                 }
     
-                // h3{
-                //     background-color: #afd5f7;
-                // }
+                .notes-edit{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 10px;
+
+                    #demo-notes{
+                        overflow-wrap: break-word;
+                        max-width: 400px;
+                    }
+
+                    #demo-edit-button{
+                        text-decoration: none;
+                        color: $secondary;
+                        background-color: $quaternary;
+                        margin: 0;
+                        padding: 10px;
+                        border-radius: 10px;
+                    }
+
+                    #demo-edit-button:hover{
+                        cursor: pointer;
+                        background-color: #485866;
+                    }
+                }
             }
         }
 
