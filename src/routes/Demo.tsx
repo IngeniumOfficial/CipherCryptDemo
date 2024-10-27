@@ -134,7 +134,7 @@ const Demo: Component = () => {
                             <div id="demo-good">
                                 <For each={dataStore}>
                                     {(dataPiece) => (
-                                        <DemoDisplayBlock username={dataPiece.username} password={dataPiece.password} notes={dataPiece.notes} id={dataPiece.id} />
+                                        <DemoDisplayBlock username={dataPiece.username} password={dataPiece.password} notes={dataPiece.notes} />
                                     )}
                                 </For>
                                 <div class="demo-input">
