@@ -17,18 +17,6 @@ interface locallyStoredData {
     [key: number]: PasswordData
 }
 
-
-// TODO: Add an ability to move the passwords around and/or delete them
-    // Unfortunately, this means reworking the id system
-// Option 1: Switch data dependence to local storage only:
-    // PROS: Easy to implement
-    // CONS: Lacks re-rendering capability of stores and signals
-// Option 2: Use a signal and local storage
-    // No need for stores, since data will be moved around and readjusted as a whole instead of individual pieces
-    // PROS: Re-rendering capability
-    // CONS: Complexity in: local storage updates, overhead in signals, and...potentially needs an option for incremental first render to be skipped
-// Option 3?: Is there another way to do this?
-
 const Demo: Component = () => {
     const [loading, loadingSet] = createSignal('loading');
     const [keytext, keytextSet] = createSignal('');
