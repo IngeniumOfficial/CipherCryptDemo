@@ -22,6 +22,11 @@ const Demo: Component = () => {
     const [keytext, keytextSet] = createSignal('');
     const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]);
     const [encrypt, encryptSet] = createSignal(false);
+    const [modalData, modalDataSet] = createSignal<any>({
+        originalUsername: '',
+        originalPassword: '',
+        originalNotes: '',
+    })
 
     onMount(() => {
         checkLocalStorage();
@@ -109,6 +114,29 @@ const Demo: Component = () => {
         updateLocalStorage();
     }
 
+    const editDataTrigger = (oldUsername: string, oldPass: string, oldNotes: string) => {
+        modalDataSet({
+            originalUsername: oldUsername,
+            originalPassword: oldPass,
+            originalNotes: oldNotes
+        })
+
+
+    }
+    const editData = (oldUsername: string, newUsername: string, newPassword: string, newNotes: string) => {
+        let tempArr = [...dataSignal()];
+        for(let i = 0; i < tempArr.length; i++) {
+            if(tempArr[i].username === oldUsername) {
+                tempArr[i].username = newUsername;
+                tempArr[i].password = newPassword;
+                tempArr[i].notes = newNotes;
+                break;
+            }
+        }
+        dataSignalSet(tempArr);
+        updateLocalStorage();
+    }
+
     const updateLocalStorage = () => {
         console.log("Updating Local Storage with data", dataSignal())
         const tempData = dataSignal();
@@ -139,6 +167,8 @@ const Demo: Component = () => {
     let addPassGood: any;
     let addNotesGood: any;
     let innerMain: any;
+    let overlayRef: any;
+    let modalRef: any;
 
     return(
         <main>
@@ -175,7 +205,7 @@ const Demo: Component = () => {
                             <div id="demo-good">
                                 <Index each={dataSignal()}>
                                     {(dataPiece, dataPieceIndex) => (
-                                        <DemoDisplayBlock deleteData={deleteData} username={dataPiece().username} password={dataPiece().password} notes={dataPiece().notes} />
+                                        <DemoDisplayBlock deleteData={deleteData} username={dataPiece().username} password={dataPiece().password} notes={dataPiece().notes} editDataTrigger={editDataTrigger} />
                                     )}
                                 </Index>
                                 <div class="demo-input">
@@ -201,6 +231,23 @@ const Demo: Component = () => {
                         <input type="text" id="keytext" placeholder="Use any word or sentence as Key" onChange={(e) => keytextSet(e.currentTarget.value)} />
                         <button class="demo-input-button" onClick={() => activateEncryption()}>Encrypt the Data</button>
                     {/* </div> */}
+                    <div id="overlay" ref={overlayRef}>
+                        <dialog ref={modalRef} open >
+                            <h3>Modal</h3>
+                            <div class="editable-data">
+                                <h3>Username: </h3>
+                                <h3 contenteditable={true}>{modalData().originalUsername}</h3>
+                            </div>
+                            <div class="editable-data">
+                                <h3>Password: </h3>
+                                <h3 contenteditable={true}>{modalData().originalPassword}</h3>
+                            </div>
+                            <div class="editable-data">
+                                <h3>Notes: </h3>
+                                <h3 contenteditable={true}>{modalData().originalNotes}</h3>
+                            </div>
+                        </dialog>
+                    </div>
                     <Show when={encrypt()}>
                         <DemoEncrypted keytext={keytext()} plaintext={dataSignal()} />
                     </Show>
@@ -211,7 +258,7 @@ const Demo: Component = () => {
     )
 }
 
-const DemoDisplayBlock: Component<{deleteData: (username: string) => void, username: string, password: string, notes: string}> = (props) => {
+const DemoDisplayBlock: Component<{deleteData: (username: string) => void, username: string, password: string, notes: string, editDataTrigger: (oldUsername: string, oldPass: string, oldNotes: string) => void}> = (props) => {
     return(
         <div class="demo-display-block">
             <div class="username-password">
@@ -223,7 +270,7 @@ const DemoDisplayBlock: Component<{deleteData: (username: string) => void, usern
             </div>
             <div class="notes-edit">
                 <h3 id="demo-notes">Notes: {props.notes}</h3>
-                <h3 id="demo-edit-button">Edit</h3>
+                <h3 id="demo-edit-button" onClick={() => props.editDataTrigger(props.username, props.password, props.notes)}>Edit</h3>
             </div>
         </div>
     )
