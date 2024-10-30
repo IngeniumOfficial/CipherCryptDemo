@@ -112,3 +112,146 @@ img{
     color: $tertiary;
     text-decoration: underline;
 }
+
+
+@media screen and (max-width: 1400px) {
+    main{
+        #inner-main{
+            #sidebar-section{
+                width: 300px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    main{
+        #inner-main{
+            gap: 30px;
+
+            #sidebar-section{
+                width: 250px;
+
+                label{
+                    font-size: 15px !important;
+                }
+
+                h1{
+                    font-size: 25px !important;
+                }
+
+                h2{
+                    font-size: 20px !important;
+                }
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 700px) {
+    main{
+        #inner-main{
+            flex-direction: column;
+            gap: 10px;
+
+            #sidebar-section{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+
+                #sidebar-menu{
+                    align-self: flex-start;
+                    background-color: transparent;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: 10px;
+
+                    #menu-icon{
+                        width: 21px;
+                        // background-color: #F3F6F6;
+                        color: #e2e2e2;
+                    }
+                }
+
+                #sidebar-menu:hover{
+                    cursor: pointer;
+                }
+                
+                #mini-sidebar-hr{
+                    align-self: flex-start !important;
+                    width: 50px;
+                }
+
+                #small-sidebar-hr{
+                    width: 100%;
+                    border-top: 1px solid $tertiary;
+                }
+
+                #sidebar-options{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 30px;
+                    background-color: transparent;
+                    outline: 0.25px solid $secondary;
+                    margin: 0;
+                }
+
+                label{
+                    font-size: 15px !important;
+                }
+
+                h1{
+                    font-size: 25px !important;
+                }
+
+                h2{
+                    font-size: 20px !important;
+                }
+                h3{
+                    font-size: 18px !important;
+                }
+            }
+
+            dialog{
+                position: absolute;
+                right: 50%;
+                left: 0;
+                width: 90%;
+                height: 100vh;
+                z-index: 10;
+                background-color: rgba(0, 0, 0, 0.966);
+                border-radius: 0 0 0 20px;
+                display: none;
+                flex-direction: column;
+                padding: 100px 0 0 0;
+
+                h3{
+                    margin-left: 20px;
+                }
+
+                hr{
+                    width: 80%;
+                    margin-top: 25px;
+                    margin-bottom: 35px;
+                }
+
+                h4{
+                    margin: 10px 0 10px 50px;
+                    text-decoration: underline;
+                }
+            }
+
+            .article{
+                align-self: center;
+                width: 80%;
+            }
+        }
+    }
+}
