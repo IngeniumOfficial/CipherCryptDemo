@@ -121,9 +121,15 @@ const Demo: Component = () => {
             originalNotes: oldNotes
         })
 
+        overlayRef.style.display = "block";
+        overlayRef.style.overflow = "hidden";
+        overlayRef.style.zIndex = "2";
+        modalRef.show();
+
 
     }
     const editData = (oldUsername: string, newUsername: string, newPassword: string, newNotes: string) => {
+        console.log("Editing data", oldUsername, newUsername, newPassword, newNotes)
         let tempArr = [...dataSignal()];
         for(let i = 0; i < tempArr.length; i++) {
             if(tempArr[i].username === oldUsername) {
@@ -135,6 +141,7 @@ const Demo: Component = () => {
         }
         dataSignalSet(tempArr);
         updateLocalStorage();
+        window.location.reload();
     }
 
     const updateLocalStorage = () => {
@@ -169,6 +176,9 @@ const Demo: Component = () => {
     let innerMain: any;
     let overlayRef: any;
     let modalRef: any;
+    let modalUsernameRef: any;
+    let modalPasswordRef: any;
+    let modalNotesRef: any;
 
     return(
         <main>
@@ -231,21 +241,25 @@ const Demo: Component = () => {
                         <input type="text" id="keytext" placeholder="Use any word or sentence as Key" onChange={(e) => keytextSet(e.currentTarget.value)} />
                         <button class="demo-input-button" onClick={() => activateEncryption()}>Encrypt the Data</button>
                     {/* </div> */}
-                    <div id="overlay" ref={overlayRef}>
-                        <dialog ref={modalRef} open >
-                            <h3>Modal</h3>
+                    <div id="overlay" ref={overlayRef} onClick={(e) => {console.log(e.target); if(e.target === overlayRef) {modalRef.close(); overlayRef.style.display = "none"; overlayRef.style.zIndex = "-1";}}}>
+                        <dialog ref={modalRef} >
+                            <div id="title-and-close">
+                                <h3 id="modal-title">Edit Password</h3>
+                                <img id="close-modal" src="/xmark-solid.svg" onClick={() => {modalRef.close(); overlayRef.style.display = "none"; overlayRef.style.zIndex = "-1";}} />
+                            </div>
                             <div class="editable-data">
                                 <h3>Username: </h3>
-                                <h3 contenteditable={true}>{modalData().originalUsername}</h3>
+                                <h3 contenteditable={true} spellcheck={false} class="editable" ref={modalUsernameRef} >{modalData().originalUsername}</h3>
                             </div>
                             <div class="editable-data">
                                 <h3>Password: </h3>
-                                <h3 contenteditable={true}>{modalData().originalPassword}</h3>
+                                <h3 contenteditable={true} spellcheck={false} class="editable" ref={modalPasswordRef} >{modalData().originalPassword}</h3>
                             </div>
                             <div class="editable-data">
                                 <h3>Notes: </h3>
-                                <h3 contenteditable={true}>{modalData().originalNotes}</h3>
+                                <h3 contenteditable={true} spellcheck={false} class="editable" ref={modalNotesRef} >{modalData().originalNotes}</h3>
                             </div>
+                            <button class="demo-input-button" onClick={() => editData(modalData().originalUsername, modalUsernameRef.innerText, modalPasswordRef.innerText, modalNotesRef.innerText)}>Save</button>
                         </dialog>
                     </div>
                     <Show when={encrypt()}>

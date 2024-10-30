@@ -44,9 +44,9 @@ export default function Home() {
             <div><h3 ref={headerRef2}></h3><h3 id="blinker2" ref={blinker2}></h3></div>
           </section>
         </header>
-        <section id="hero">
+        {/* <section id="hero">
           <img src="/lock3.png" class="min-w-44" />
-        </section>
+        </section> */}
         <h2 id="features-title">Key Features</h2>
         <section id="features">
 
