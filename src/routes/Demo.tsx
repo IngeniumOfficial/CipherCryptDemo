@@ -121,7 +121,7 @@ const Demo: Component = () => {
             originalNotes: oldNotes
         })
 
-        overlayRef.style.display = "block";
+        overlayRef.style.display = "flex";
         overlayRef.style.overflow = "hidden";
         overlayRef.style.zIndex = "2";
         modalRef.show();

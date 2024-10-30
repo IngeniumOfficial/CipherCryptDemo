@@ -208,8 +208,18 @@ main{
             top: 0;
             left: 0;
             overflow: hidden;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
 
             dialog{
+                overflow: hidden;
+                position: absolute;
+                width: 500px;
+                height: 300px;
+                background-color: $secondary;
+                border-radius: 10px;
 
                 #title-and-close{
                     display: flex;
