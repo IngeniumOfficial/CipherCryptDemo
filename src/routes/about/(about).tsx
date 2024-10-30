@@ -88,7 +88,7 @@ export default function Home() {
         </div>
         </Show>
         <dialog ref={aboutMenuModalRef}>
-          <h3>{'v'} About Menu</h3>
+          <h3 onClick={modalOff} id="about-menu">{'v'} About Menu</h3>
           <A href="/about"><h3>About CipherCrypt</h3></A>
           <hr />
           <A href="/about/zero-knowledge"><h4>- Zero Knowledge Encryption</h4></A>
