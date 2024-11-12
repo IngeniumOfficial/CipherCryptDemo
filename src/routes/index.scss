@@ -3,9 +3,38 @@
 $primary: #2C363F;
 $secondary: #F3F6F6;
 $tertiary: #9BC0AF;
+$quaternary: #FF92C2;
+$quinary: #FFADFE;
+$senary: #0A7EC2;
 
 
 main{
     background-color: $primary !important;
     color: $secondary;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Golos Text", serif;
+    font-weight: 500;
+
+    h1{
+        font-size: 50px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+
+    header{
+        width: 50%;
+        margin: 100px 0 100px 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        #colored{
+            color: $quinary;
+        }
+    }
 }

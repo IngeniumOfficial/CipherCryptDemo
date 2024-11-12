@@ -97,7 +97,11 @@ export default function Home() {
   return (
     <main>
       <NavBar />
-      <h1>The Password Manager You Control</h1>
+      <header>
+        <h1>The Password Manager</h1>
+        <h1 id="colored">You</h1>
+        <h1>Control</h1>
+      </header>
     </main>
   )
 }
