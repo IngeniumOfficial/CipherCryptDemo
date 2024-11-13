@@ -11,7 +11,7 @@ export default createHandler(() => (
           <link rel="icon" href="/padlock2_1.png" />
           {assets}
         </head>
-        <body style={{ margin: 0 }}>
+        <body style={`margin: 0; background-color: #2c363f; color: #F3F6F6`}>
           <div id="app">{children}</div>
           {scripts}
         </body>
