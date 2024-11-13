@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap');
 
-$primary: #2C363F;
-$secondary: #F3F6F6;
+$primary: #091A20;
+$secondary: #FBFEF9;
 $tertiary: #9BC0AF;
 $quaternary: #FF92C2;
 $quinary: #FFADFE;
@@ -26,15 +26,67 @@ main{
     }
 
     header{
-        width: 50%;
-        margin: 100px 0 100px 0;
+        width: 40%;
+        margin: 200px 0 30px 0;
         display: flex;
         flex-direction: row;
+        justify-content: center;
         flex-wrap: wrap;
         gap: 10px;
+        row-gap: 0;
+
+        h1{
+            margin: 0;
+        }
 
         #colored{
             color: $quinary;
+        }
+    }
+
+    #subheader{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 10px 10px 10px;
+        
+        #try-demo{
+            background-color: $tertiary;
+            color: black;
+        }
+
+        #learn-more{
+            background-color: $quinary;
+            color: black;
+        }
+    }
+
+    .divider{
+        margin: 100px 0 130px 0;
+        border-bottom: 2px solid $secondary;
+        width: 80%;
+    }
+
+    #info-section{
+        outline: 1px solid $secondary;
+        width: 80%;
+        min-height: 500px;
+        position: relative;
+        margin: 0 0 100px 0;
+
+        img{
+            height: 500px;
+            z-index: 1;
+            position: absolute;
+            top:0;
+            left: 15%;
+        }
+
+        #info-cards{
+            z-index: 2;
+            position: absolute;
         }
     }
 }

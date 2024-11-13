@@ -102,6 +102,22 @@ export default function Home() {
         <h1 id="colored">You</h1>
         <h1>Control</h1>
       </header>
+      <div id="subheader">
+        <A href="/demo" class="pseudo button" id="try-demo">Try the Demo</A>
+        <A href="/about" class="pseudo button" id="learn-more">Learn More</A>
+      </div>
+      <hr class="divider" />
+      <div id="info-section">
+        <img src="/lock4_2.png" />
+        <div id="info-cards">
+          <h3>Zero-knowledge encryption</h3>
+          <h3>Self-hosted, free for anyone</h3>
+          <h3>Easy setup, no code experience needed</h3>
+          <h3>MongoDB support (SQL integration planned)</h3>
+          <h3>Built with Go, Next.js, Argon2, and AES 256</h3>
+          <h3>Redis caching for faster performance</h3>
+        </div>
+      </div>
     </main>
   )
 }

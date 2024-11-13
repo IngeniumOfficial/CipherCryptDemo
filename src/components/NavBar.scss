@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap');
 
 
-$primary: #2C363F;
-$secondary: #F3F6F6;
+$primary: #091A20;
+$secondary: #FBFEF9;
 $tertiary: #9BC0AF;
 
 
@@ -24,6 +24,7 @@ nav{
         align-items: center;
         justify-content: flex-start;
         gap: 20px;
+        margin: 0 0 0 100px;
 
         color: $secondary;
         font-family: "Golos Text", serif;
@@ -35,6 +36,8 @@ nav{
     }
 
     .menu{
+        margin: 0 100px 0 0;
+
         #demo-button{
             background-color: $tertiary;
             color: black;
