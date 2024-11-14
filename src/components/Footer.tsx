@@ -6,11 +6,11 @@ const Footer: Component = () => {
     return(
         <div id="footer">
             <section id='footer-left'>
-                <h2 class='footer-el'>Copyleft 2024</h2>
+                <h4 class='footer-el'>CopyLeft</h4>
             </section>
             <section id='footer-right'>
-                <h2 class='footer-el'>Github</h2>
-                <A href="/Demo"><h2 class='footer-el'>Demo</h2></A>
+                <A href="https://github.com/NotCoder/CipherCrypt" class='pseudo button'>Github</A>
+                <A class='pseudo button' href="/Demo">Demo</A>
             </section>
         </div>
     )

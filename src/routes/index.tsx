@@ -107,17 +107,19 @@ export default function Home() {
         <A href="/about" class="pseudo button" id="learn-more">Learn More</A>
       </div>
       <hr class="divider" />
+      <h2 id="sub-title" onClick={() => document.getElementById("info-section")?.scrollIntoView({ behavior: "smooth" })}>How Ciphercrypt Works</h2>
       <div id="info-section">
         <img src="/lock4_2.png" />
         <div id="info-cards">
-          <h3>Zero-knowledge encryption</h3>
-          <h3>Self-hosted, free for anyone</h3>
-          <h3>Easy setup, no code experience needed</h3>
-          <h3>MongoDB support (SQL integration planned)</h3>
-          <h3>Built with Go, Next.js, Argon2, and AES 256</h3>
-          <h3>Redis caching for faster performance</h3>
+          <A href="/about/zero-knowledge" class="pseudo button">Zero-knowledge encryption</A>
+          <A href="/about/self-hostable" class="pseudo button">Self-hosted</A>
+          <A href="/about/no-experience" class="pseudo button">Guided Setup: No Experience Required</A>
+          <A href="/about/caching" class="pseudo button">Built-in Caching</A>
+          <A href="/about/technologies" class="pseudo button">Powerful Technologies</A>
+          <A href="/about/mongodb" class="pseudo button">MongoDB support</A>
         </div>
       </div>
+      <Footer />
     </main>
   )
 }
