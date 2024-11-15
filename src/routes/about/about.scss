@@ -1,5 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap');
 
-$primary: #2C363F;
-$secondary: #F3F6F6;
+$primary: #091A20;
+$secondary: #FBFEF9;
 $tertiary: #9BC0AF;
+$quaternary: #FF92C2;
+$quinary: #FFADFE;
+$senary: #0A7EC2;
+
+
+main{
+    background-color: $primary;
+    color: $secondary;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Golos Text", serif;
+    font-weight: 500;
+
+    #inner-main{
+        margin: 100px 0 100px 0;
+        height: 100%;
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+
+
+        #sidebar-section{
+            color: $tertiary;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            outline: 1px solid $tertiary;
+            
+        }
+
+        .article{
+
+
+            outline: 1px solid $tertiary;
+        }
+    }
+
+}
