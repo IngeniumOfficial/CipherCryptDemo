@@ -18,5 +18,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "prettier": "3.3.3"
   }
 }

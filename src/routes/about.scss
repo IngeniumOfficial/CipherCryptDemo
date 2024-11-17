@@ -1,50 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
 
-$primary: #091A20;
-$secondary: #FBFEF9;
-$tertiary: #9BC0AF;
-$quaternary: #FF92C2;
-$quinary: #FFADFE;
-$senary: #0A7EC2;
+$primary: #091a20;
+$primary-paler: #2c363f;
+$secondary: #fbfef9;
+$secondary-dimmer: #bdc0bc;
+$tertiary: #9bc0af;
+$tertiary-paler: #b2dcc9;
+$quaternary: #ff92c2;
+$quinary: #ffadfe;
+$senary: #0a7ec2;
 
+main {
+  background-color: $primary;
+  color: $secondary;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Golos Text", serif;
+  font-weight: 500;
 
-main{
-    background-color: $primary;
-    color: $secondary;
+  #inner-main {
+    margin: 100px 0 100px 0;
+    width: 80%;
+    height: 100%;
+
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: "Golos Text", serif;
-    font-weight: 500;
+    flex-direction: row;
+    align-items: flex-start;
 
-    #inner-main{
-        margin: 100px 0 100px 0;
-        height: 100%;
-        width: 80%;
+    #sidebar-section {
+      color: $tertiary;
+      min-width: 300px;
+      max-width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
 
+      outline: 1px solid $tertiary;
+
+      hr {
+        width: 90%;
+      }
+
+      #sidebar-tabs {
+        width: 100%;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0;
 
-
-        #sidebar-section{
-            color: $tertiary;
-            width: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: flex-start;
-
-            outline: 1px solid $tertiary;
-            
+        a {
+          color: #6e8a7d;
+          text-align: left;
         }
-
-        .article{
-
-
-            outline: 1px solid $tertiary;
-        }
+      }
     }
 
+    #article-tabs {
+      margin-left: 50px;
+
+      label {
+        color: $secondary-dimmer;
+      }
+
+      #tab-1-label {
+        margin-left: 150px;
+      }
+    }
+
+    #no-experience-article {
+      margin-left: 50px;
+    }
+
+    #main-descriptor {
+      margin-left: 50px;
+    }
+  }
 }
