@@ -20,7 +20,7 @@ export default function Home() {
       </header>
       <div id="subheader">
         <A href="/demo" class="pseudo button" id="try-demo">Try the Demo</A>
-        <A href="/about" class="pseudo button" id="learn-more">Learn More</A>
+        <A href="/about/about-general" class="pseudo button" id="learn-more">Learn More</A>
       </div>
       <hr class="divider" />
       <h2 id="sub-title" onClick={() => document.getElementById("info-section")?.scrollIntoView({ behavior: "smooth" })}>How Ciphercrypt Works</h2>

@@ -42,7 +42,7 @@ const NavBar: Component = () => {
             <label for="bmenu" class="burger pseudo button">menu</label>
 
             <div class="menu">
-                <A href="/about" id="about-button" class="pseudo button">About</A>
+                <A href="/about/about-general" id="about-button" class="pseudo button">About</A>
                 <A href="/demo" id="demo-button" class="pseudo button icon-picture">Demo</A>
             </div>
 

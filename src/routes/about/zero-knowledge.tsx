@@ -5,62 +5,10 @@ import { createSignal, onMount, Ref, Show } from "solid-js";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 // import symmetricEncryption from "/symmetricEncryption.webp";
-import "./about.scss"
 
 const ZeroKnowledge: Component = () => {
-    const [explanation, setExplanation] = createSignal(true);
-  onMount(() => {
-    const explanation = localStorage.getItem("explanation");
-    if(explanation === "notcoder") {
-      setExplanation(false)
-      notcoder.checked = true;
-    } else {
-      coder.checked = true;
-    }
-  })
-
-  const changeExplanation = (explanation: boolean) => {
-    if(explanation) {
-      localStorage.setItem("explanation", "coder");
-      setExplanation(true);
-    } else if (!explanation) {
-      localStorage.setItem("explanation", "notcoder");
-      setExplanation(false);
-    }
-  }
-
-  let coder: any;
-  let notcoder: any;
 
     return(
-        <main>
-            <Title>CipherCrypt Demo - About</Title>
-            <NavBar />
-            <div id="inner-main">
-                <div id="sidebar-section">
-                    <div id="sidebar-options" class="radio-input">
-                        <div class="radio-section">
-                        <input ref={coder} type="radio" id="coder" value="coder" checked name="explanation" onChange={() => changeExplanation(true)} />
-                        <label for="coder">I have Coding Experience</label>
-                        </div>
-                        <div class="radio-section">
-                        <input ref={notcoder} type="radio" id="notcoder" value="notcoder" name="explanation" onChange={() => changeExplanation(false)} />
-                        <label for="notcoder">I want the Simple Explanation</label>
-                        </div>
-                    </div>
-                    <div id="sidebar">
-                        <A href="/about"><h1>Core Functionalities</h1></A>
-                        <hr />
-                        <A href="/about/zero-knowledge"><h2>Zero Knowledge Encryption</h2></A>
-                        <A href="/about/self-hostable"><h2>Self Hosted</h2></A>
-                        <A href="/about/no-experience"><h2>Easy Setup</h2></A>
-                        <A href="/about/mongodb"><h2>MongoDB Support</h2></A>
-                        <A href="/about/technologies"><h2>Core Technologies</h2></A>
-                        <A href="/about/caching"><h2>Caching</h2></A>
-                    </div>
-                </div>
-                <Show when={explanation()}
-                    fallback={
                     <div class="article">
                         <h2>Zero-Knowledge Encryption</h2>
                         <h3>Let's Look at Encryption</h3>
@@ -109,29 +57,24 @@ const ZeroKnowledge: Component = () => {
                             Using this method is the simplest way to achieve Zero-Knowledge encryption.
                         </p>
                     </div>
-                    }>
-                    <div class="article">
-                        <h2>Zero Knowledge Encryption</h2>
-                        <p>
-                            CipherCrypt uses the most popular way of implementing Zero-Knowledge Encryption, by using the password as the encryption key before hashing it and storing in the database.
-                        </p>
-                        <p>
-                            This method is simple and effective, and is used by many companies out there (BitWarden, Proton, etc.).
-                        </p>
-                        <p>
-                            Zero-Knowledge encryption is important, even if you are hosting CipherCrypt on your own server.
-                            Aside from the fact that you might entrust your server to other people for use (and future development might even encourage this),
-                            zero-knowledge encryption is useful against many security threats. If no one but the account user can decrypt their own data,
-                            that is a layer of protection against malicious actors.
-                        </p>
-                        <p>
-                            For more information, see: <a href="https://en.wikipedia.org/wiki/Zero-knowledge_protocol">Wikipedia</a>
-                        </p>
-                    </div>
-                </Show>
-            </div>
-            <Footer />
-        </main>
+                    // <div class="article">
+                    //     <h2>Zero Knowledge Encryption</h2>
+                    //     <p>
+                    //         CipherCrypt uses the most popular way of implementing Zero-Knowledge Encryption, by using the password as the encryption key before hashing it and storing in the database.
+                    //     </p>
+                    //     <p>
+                    //         This method is simple and effective, and is used by many companies out there (BitWarden, Proton, etc.).
+                    //     </p>
+                    //     <p>
+                    //         Zero-Knowledge encryption is important, even if you are hosting CipherCrypt on your own server.
+                    //         Aside from the fact that you might entrust your server to other people for use (and future development might even encourage this),
+                    //         zero-knowledge encryption is useful against many security threats. If no one but the account user can decrypt their own data,
+                    //         that is a layer of protection against malicious actors.
+                    //     </p>
+                    //     <p>
+                    //         For more information, see: <a href="https://en.wikipedia.org/wiki/Zero-knowledge_protocol">Wikipedia</a>
+                    //     </p>
+                    // </div>
     )
 }
 

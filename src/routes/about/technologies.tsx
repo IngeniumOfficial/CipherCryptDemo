@@ -2,64 +2,12 @@ import type { Component } from "solid-js";
 import { Title } from "@solidjs/meta";
 import { A } from "@solidjs/router";
 import { createSignal, onMount, Ref, Show } from "solid-js";
-import NavBar from "~/components/NavBar";
-import Footer from "~/components/Footer";
-import "./about.scss"
 // import ciphercrypt_tech1 from "/ciphercrypt_tech1.png";
 
 const Technologies: Component = () => {
-    const [explanation, setExplanation] = createSignal(true);
-  onMount(() => {
-    const explanation = localStorage.getItem("explanation");
-    if(explanation === "notcoder") {
-      setExplanation(false)
-      notcoder.checked = true;
-    } else {
-      coder.checked = true;
-    }
-  })
-
-  let coder: any;
-  let notcoder: any;
-
-  const changeExplanation = (explanation: boolean) => {
-    if(explanation) {
-      localStorage.setItem("explanation", "coder");
-      setExplanation(true);
-    } else if (!explanation) {
-      localStorage.setItem("explanation", "notcoder");
-      setExplanation(false);
-    }
-  }
 
     return(
-        <main>
-            <Title>CipherCrypt Demo - About</Title>
-            <NavBar />
-            <div id="inner-main">
-                <div id="sidebar-section">
-                    <div id="sidebar-options" class="radio-input">
-                        <div class="radio-section">
-                        <input ref={coder} type="radio" id="coder" value="coder" checked name="explanation" onChange={() => changeExplanation(true)} />
-                        <label for="coder">I have Coding Experience</label>
-                        </div>
-                        <div class="radio-section">
-                        <input ref={notcoder} type="radio" id="notcoder" value="notcoder" name="explanation" onChange={() => changeExplanation(false)} />
-                        <label for="notcoder">I want the Simple Explanation</label>
-                        </div>
-                    </div>
-                    <div id="sidebar">
-                        <A href="/about"><h1>Core Functionalities</h1></A>
-                        <hr />
-                        <A href="/about/zero-knowledge"><h2>Zero Knowledge Encryption</h2></A>
-                        <A href="/about/self-hostable"><h2>Self Hosted</h2></A>
-                        <A href="/about/no-experience"><h2>Easy Setup</h2></A>
-                        <A href="/about/mongodb"><h2>MongoDB Support</h2></A>
-                        <A href="/about/technologies"><h2>Core Technologies</h2></A>
-                        <A href="/about/caching"><h2>Caching</h2></A>
-                    </div>
-                </div>
-                <Show when={explanation()} fallback={<div class="article">
+        <div class="article">
                     <h2>Core Technologies</h2>
                     <p>
                       To help better understand the where everything is in the chain of internal technologies, look at the image below:
@@ -135,70 +83,66 @@ const Technologies: Component = () => {
                     <p>
                       Setting up the database may be confusing, but we will have a guide on how to do this.
                     </p>
-                </div>}>
-                  <div class="article">
-                      <h2>Core Technologies</h2>
-                      <p>
-                          To help better understand the where everything is in the chain of internal technologies, look at the image below:
-                      </p>
-                      <img src="/ciphercrypt_tech1.png" alt="The CipherCrypt core technologies consist of a Web/Display Server for serving the data, a Go API server for handling the main workload of the application, 
-                      a caching server instance for increasing efficiency in data transfer, and an open database connection."></img>
-                      <h3>
-                        Web (Display) Server
-                      </h3>
-                      <p>
-                        CipherCrypt runs two separate servers. This is intentional. The Web Server has the primary purpose of being...a web server (as you may have guessed).
-                        Initially, the idea was to have the API server (using Go) handle both display and heavy workloads of encryption, decryption, hashing, etc.
-                        Next.js was still used, but only to generate the website statically and allow the Go server to do everything else.
-                        As the project progressed, it became clear that the tech around Next.js is centered around Node.js, and issues with using it with Go kept coming up.
-                        Alternatives to Next.js were also considered, but even the alternatives typically relied on a javascript runtime as a backend.
-                        The goal of a good frontend technology for this project is efficiency and simplicity, so it became clear that the two should be split into separate servers.
-                      </p>
-                      <p>
-                        This split doesn't decrease the speed of data transfer in any meaningful capacity, but it can cater to different needs a lot more efficiently.
-                        Additionally, the Node.js server is used to handle many less-intense tasks (logging, some authorization, reading cache, etc.).
-                      </p>
-                      <h4>
-                        Why Next.js in the first place?
-                      </h4>
-                      <p>
-                        Many alternatives were considered. However, ultimately Next.js fit the picture best because the open API system (see below) allows for a (currently planned) React-Native App.
-                        Using React by itself and expecting efficiency is not the smart thing to do. Although it's possible to implement SSR without using a framework around React, the alternatives make this task much easier.
-                        In this moment, the two options are Astro.js and Next.js. Although Astro caters itself to content-heavy projects, it's just as good for anything requiring performance.
-                        However, Next.js is quite literally centered around React (and doesn't use another language as its base), and has the same (although not as specific) rendering features as Astro.
-                      </p>
-                      <h3>
-                        Go API Server
-                      </h3>
-                      <p>
-                        The Go API server does the heavy lifting of the program. It handles encryption, authentication, hashing, and more. Using Go for this project allows for a simple approach in concurrently executing multiple tasks.
-                        The API server runs on its own subdomain (api.example.com), and displays a web page with some information, as well as a schema for an API system that developers can use for their own projects.
-                      </p>
-                      <p>
-                        The Go API server uses the Gin-Gonic framework for handling HTTP requests and serving static files.
-                      </p>
-                      <h3>
-                        Caching Server Instance
-                      </h3>
-                      <p>
-                        This project was writted with Redis in mind. During the development, there was a controversy around Redis and its place in the Open Source community.
-                        So, while the development has been over an older version of Redis, the production instance will be catered to an alternative (drop-in replacement) for Redis, such as Valkey, Redict, or one of the multiple other options.
-                        The Caching server instance is there to cache data that is often reused, and in some instances, is minorly changes. Users are given the option to enable increased caching.
-                        This option allows for faster data transfer, but can increase the workload of the application.
-                      </p>
-                      <h3>
-                        Database Connection
-                      </h3>
-                      <p>
-                        The Database Connection is an open connection between the API server and the primary Database. The Database Connection currently only connects to a MongoDB instance, but it doesn't care for the connection itself.
-                        The person setting up the project is in charge of connection the database, whether it be a local or remote instance. This can have security implications, so it's important to be aware of it.
-                        The MongoDB instance stores EVERYTHING in it, so keep in mind when handling populated databases if tinkering with the project.
-                      </p>
-                  </div>
-                </Show>
-            </div>
-            <Footer />
-        </main>
+                </div>
+                  // <div class="article">
+                  //     <h2>Core Technologies</h2>
+                  //     <p>
+                  //         To help better understand the where everything is in the chain of internal technologies, look at the image below:
+                  //     </p>
+                  //     <img src="/ciphercrypt_tech1.png" alt="The CipherCrypt core technologies consist of a Web/Display Server for serving the data, a Go API server for handling the main workload of the application, 
+                  //     a caching server instance for increasing efficiency in data transfer, and an open database connection."></img>
+                  //     <h3>
+                  //       Web (Display) Server
+                  //     </h3>
+                  //     <p>
+                  //       CipherCrypt runs two separate servers. This is intentional. The Web Server has the primary purpose of being...a web server (as you may have guessed).
+                  //       Initially, the idea was to have the API server (using Go) handle both display and heavy workloads of encryption, decryption, hashing, etc.
+                  //       Next.js was still used, but only to generate the website statically and allow the Go server to do everything else.
+                  //       As the project progressed, it became clear that the tech around Next.js is centered around Node.js, and issues with using it with Go kept coming up.
+                  //       Alternatives to Next.js were also considered, but even the alternatives typically relied on a javascript runtime as a backend.
+                  //       The goal of a good frontend technology for this project is efficiency and simplicity, so it became clear that the two should be split into separate servers.
+                  //     </p>
+                  //     <p>
+                  //       This split doesn't decrease the speed of data transfer in any meaningful capacity, but it can cater to different needs a lot more efficiently.
+                  //       Additionally, the Node.js server is used to handle many less-intense tasks (logging, some authorization, reading cache, etc.).
+                  //     </p>
+                  //     <h4>
+                  //       Why Next.js in the first place?
+                  //     </h4>
+                  //     <p>
+                  //       Many alternatives were considered. However, ultimately Next.js fit the picture best because the open API system (see below) allows for a (currently planned) React-Native App.
+                  //       Using React by itself and expecting efficiency is not the smart thing to do. Although it's possible to implement SSR without using a framework around React, the alternatives make this task much easier.
+                  //       In this moment, the two options are Astro.js and Next.js. Although Astro caters itself to content-heavy projects, it's just as good for anything requiring performance.
+                  //       However, Next.js is quite literally centered around React (and doesn't use another language as its base), and has the same (although not as specific) rendering features as Astro.
+                  //     </p>
+                  //     <h3>
+                  //       Go API Server
+                  //     </h3>
+                  //     <p>
+                  //       The Go API server does the heavy lifting of the program. It handles encryption, authentication, hashing, and more. Using Go for this project allows for a simple approach in concurrently executing multiple tasks.
+                  //       The API server runs on its own subdomain (api.example.com), and displays a web page with some information, as well as a schema for an API system that developers can use for their own projects.
+                  //     </p>
+                  //     <p>
+                  //       The Go API server uses the Gin-Gonic framework for handling HTTP requests and serving static files.
+                  //     </p>
+                  //     <h3>
+                  //       Caching Server Instance
+                  //     </h3>
+                  //     <p>
+                  //       This project was writted with Redis in mind. During the development, there was a controversy around Redis and its place in the Open Source community.
+                  //       So, while the development has been over an older version of Redis, the production instance will be catered to an alternative (drop-in replacement) for Redis, such as Valkey, Redict, or one of the multiple other options.
+                  //       The Caching server instance is there to cache data that is often reused, and in some instances, is minorly changes. Users are given the option to enable increased caching.
+                  //       This option allows for faster data transfer, but can increase the workload of the application.
+                  //     </p>
+                  //     <h3>
+                  //       Database Connection
+                  //     </h3>
+                  //     <p>
+                  //       The Database Connection is an open connection between the API server and the primary Database. The Database Connection currently only connects to a MongoDB instance, but it doesn't care for the connection itself.
+                  //       The person setting up the project is in charge of connection the database, whether it be a local or remote instance. This can have security implications, so it's important to be aware of it.
+                  //       The MongoDB instance stores EVERYTHING in it, so keep in mind when handling populated databases if tinkering with the project.
+                  //     </p>
+                  // </div>
     )
 }
 
