@@ -1,257 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap');
-$primary: #2C363F;
-$secondary: #F3F6F6;
-$tertiary: #9BC0AF;
-$quaternary: #90a3e0;
+@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+$primary: #091a20;
+$primary-paler: #2c363f;
+$secondary: #fbfef9;
+$secondary-dimmer: #bdc0bc;
+$tertiary: #9bc0af;
+$tertiary-paler: #b2dcc9;
+$quaternary: #ff92c2;
+$quinary: #ffadfe;
+$senary: #0a7ec2;
 
-// main{
-//     font-family: "Golos Text", sans-serif;
-//     font-optical-sizing: auto;
-//     font-style: normal;
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $primary;
+  color: $secondary;
+  font-family: "Golos Text", serif;
+  font-weight: 500;
 
-//     background-image: url("/background3_2.png");
-//     background-repeat: no-repeat;
-//     background-size: cover;
-//     background-position: center;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     justify-content: flex-start;
-//     min-height: 100vh;
-//     margin: 0;
-//     color: $secondary;
+  #demo-toolbar {
+    margin: 100px 0 0 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
 
-//     #demo-toolbar{
-//         width: 50%;
-//         display: flex;
-//         flex-direction: row;
-//         align-items: center;
-//         justify-content: center;
-//         gap: 30px;
-//         margin: 10px 0 30px 0;
+  #inner-main {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-//         .toolbar-buttons{
-//             margin: 0;
-//             padding: 10px;
-//             background-color: #b086e6;
-//             color: rgb(10, 10, 10);
-//         }
+    .demo-display-block {
+      background-color: $tertiary;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
 
-//         .toolbar-buttons:hover{
-//             background-color: #d5c0f1;
-//         }
-//     }
+      .username-password {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        // padding: 10px;
+      }
 
-//     #demo-toolbar:hover{
-//         cursor: pointer;
-//     }
+      .notes-edit {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        // padding: 10px;
+      }
+    }
 
+    .demo-input {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background-color: $primary-paler;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0px 0px 5px 1px $secondary;
 
-//     #inner-main{
-//         width: 70%;
-//         display: flex;
-//         flex-direction: column;
-//         align-items: center;
-//         justify-content: center;
+      .input-section {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 20px;
 
-//         .demo-input{
-//             color: black;
-//             display: flex;
-//             flex-direction: column;
-//             align-items: center;
-//             justify-content: center;
-//             border: 10px solid $tertiary;
-//             gap: 10px;
-//             padding: 10px 10px 10px 10px;
+        input {
+          color: $primary;
+        }
+      }
+    }
 
-//             .input-section{
-//                 background-color: #d5dcff;
-//                 display: flex;
-//                 flex-direction: row;
-//                 align-items: center;
-//                 justify-content: center;
-//                 gap: 10px;
-//                 padding: 5px;
-//                 border-radius: 10px;
+    #encryption-settings {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
 
-//                 input{
-//                     background-color: $secondary;
-//                     width: 400px;
-//                     height: 20px;
-//                     margin: 0;
-//                 }
-
-//                 h3{
-//                     font-size: 15px;
-//                     margin: 0;
-//                 }
-//             }
-//         }
-
-//         .demo-input-button{
-//             color: $secondary;
-//             background-color: #3a4652;
-//             margin: 0;
-//             padding: 7px 15px 7px 15px;
-//             border-radius: 10px;
-//         }
-//         .demo-input-button:hover{
-//             cursor: pointer;
-//             background-color: #485866;
-//         }
-
-//         #demo-good{
-//             display: flex;
-//             flex-direction: column;
-//             justify-content: center;
-//             gap: 20px;
-
-//             .demo-display-block{
-//                 display: flex;
-//                 flex-direction: column;
-//                 // border: 1px solid $secondary;
-//                 border-radius: 30px;
-//                 color: black;
-//                 padding: 10px 20px 10px 20px;
-//                 background-color: $tertiary;
-//                 text-wrap: wrap;
-
-//                 .username-password{
-//                     display: flex;
-//                     flex-direction: row;
-//                     align-items: center;
-//                     justify-content: space-between;
-//                     gap: 10px;
-//                     width: 100%;
-
-//                     .up-left{
-//                         display: flex;
-//                         flex-direction: row;
-//                         align-items: center;
-//                         justify-content: flex-start;
-//                         gap: 10px;
-                        
-                        
-//                         h3{
-//                             background-color: #d5dcff;
-//                             margin: 0;
-//                             padding: 10px;
-//                             border-radius: 10px;
-//                         }
-//                     }
-
-//                     img:hover{
-//                         cursor: pointer;
-//                     }
-                    
-//                 }
-    
-//                 .notes-edit{
-//                     display: flex;
-//                     flex-direction: row;
-//                     align-items: center;
-//                     justify-content: space-between;
-//                     gap: 10px;
-
-//                     #demo-notes{
-//                         overflow-wrap: break-word;
-//                         max-width: 400px;
-//                     }
-
-//                     #demo-edit-button{
-//                         text-decoration: none;
-//                         color: $secondary;
-//                         background-color: $quaternary;
-//                         margin: 0;
-//                         padding: 10px;
-//                         border-radius: 10px;
-//                     }
-
-//                     #demo-edit-button:hover{
-//                         cursor: pointer;
-//                         background-color: #485866;
-//                     }
-//                 }
-//             }
-//         }
-
-//         #encryption-settings{
-//             display: flex;
-//             flex-direction: row;
-//             justify-content: center;
-//             align-items: center;
-//             gap: 10px;
-
-//             input{
-//                 width: 200px;
-//                 height: 30px;
-//             }
-
-//             button{
-//                 height: 40px;
-//             }
-//         }
-
-//         #demo-encrypted{
-//             position: absolute;
-//             top: 300px;
-//             right: 200px;
-//         }
-
-
-//         #overlay{
-//             background-color: rgba(0, 0, 0, 0.474);
-//             z-index: -1;
-//             height: 100vh;
-//             width: 100vw;
-//             position: absolute;
-//             top: 0;
-//             left: 0;
-//             overflow: hidden;
-//             display: none;
-//             flex-direction: column;
-//             align-items: center;
-//             justify-content: center;
-
-//             dialog{
-//                 overflow: hidden;
-//                 position: absolute;
-//                 width: 500px;
-//                 height: 300px;
-//                 background-color: $secondary;
-//                 border-radius: 10px;
-
-//                 #title-and-close{
-//                     display: flex;
-//                     flex-direction: row;
-//                     align-items: center;
-//                     justify-content: space-between;
-//                     width: 100%;
-
-//                     #close-modal:hover{
-//                         cursor: pointer;
-//                     }
-//                 }
-
-//                 .editable-data{
-//                     display: flex !important;
-//                     flex-direction: row;
-//                     align-items: center;
-//                     justify-content: center;
-//                     gap: 10px;
-
-
-//                     .editable{
-//                         outline: 1px solid $primary;
-//                         padding: 5px 10px 5px 10px;
-//                     }
-//                 }
-
-//                 button{
-//                     align-self: center;
-//                 }
-//             }
-//         }
-
-//     }
-// }
+      input {
+        color: $primary;
+        width: 310px;
+      }
+    }
+  }
+}
