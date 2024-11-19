@@ -429,8 +429,8 @@ const Demo: Component = () => {
           </div>
         </div>
         <DemoEncrypted keytext={keytext()} plaintext={dataSignal()} />
-        <Footer />
       </div>
+      <Footer />
     </main>
   );
 };
@@ -450,8 +450,12 @@ const DemoDisplayBlock: Component<{
     <div class="demo-display-block">
       <div class="username-password">
         <div class="up-left">
-          <h3>Username: {props.username}</h3>
-          <h3>Password: {props.password}</h3>
+          <p>
+            Username: <ins>{props.username}</ins>
+          </p>
+          <p>
+            Password: <ins>{props.password}</ins>
+          </p>
         </div>
         <img
           src="/trash-solid.svg"
@@ -459,7 +463,9 @@ const DemoDisplayBlock: Component<{
         />
       </div>
       <div class="notes-edit">
-        <h3 id="demo-notes">Notes: {props.notes}</h3>
+        <p id="demo-notes">
+          Notes: <ins>{props.notes}</ins>
+        </p>
         <button
           id="demo-edit-button"
           onClick={() =>

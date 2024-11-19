@@ -45,6 +45,7 @@ func main() {
 		log.Println("Inside Encrypt")
 		var requestData RequestData
 		if err := c.BindJSON(&requestData); err != nil {
+			log.Println("Error with BindJSON: ", err.Error())
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
 
@@ -57,7 +58,7 @@ func main() {
 		key := requestData.Key
 		saltBytes := make([]byte, 16)
 		if _, err := rand.Read(saltBytes); err != nil {
-			log.Println(err.Error())
+			log.Println("Error with Salt: ", err.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"Salt error": err.Error()})
 		}
 
@@ -67,6 +68,7 @@ func main() {
 		data := requestData.Data
 		dataJSON, dataJSONErr := json.Marshal(data)
 		if dataJSONErr != nil {
+			log.Println("Error with Input Data (JSON): ", dataJSONErr.Error())
 			c.JSON(http.StatusBadRequest, gin.H{"error": dataJSONErr.Error()})
 		}
 		dataBytes := []byte(dataJSON)
@@ -74,19 +76,19 @@ func main() {
 		// AES Encryption
 		block, blockErr := aes.NewCipher(keyHash)
 		if blockErr != nil {
-			log.Println(blockErr.Error())
+			log.Println("Error with Block: ", blockErr.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"Block error": blockErr.Error()})
 		}
 
 		gcm, gcmErr := cipher.NewGCM(block)
 		if gcmErr != nil {
-			log.Println(gcmErr.Error())
+			log.Println("Error with GCM: ", gcmErr.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"GCM error": gcmErr.Error()})
 		}
 
 		nonce := make([]byte, gcm.NonceSize())
 		if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
-			log.Println(err.Error())
+			log.Println("Error with Nonce: ", err.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"Nonce error": err.Error()})
 		}
 
