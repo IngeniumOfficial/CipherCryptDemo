@@ -8,6 +8,7 @@ $tertiary-paler: #b2dcc9;
 $quaternary: #ff92c2;
 $quinary: #ffadfe;
 $senary: #0a7ec2;
+$senary-paler: #11a8ff;
 
 main {
   display: flex;
@@ -30,50 +31,99 @@ main {
   }
 
   #inner-main {
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    .demo-display-block {
-      background-color: $tertiary;
-      color: black;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      justify-content: center;
-
-      .username-password {
+    #unencrypted {
+      .demo-display-block {
+        background-color: $tertiary;
+        color: black;
         display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: space-between;
-        // padding: 10px;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        // width: 80%;
+        padding: 8px 20px 8px 20px;
+        margin: 5px 0 20px 0;
+        border-radius: 10px;
+        gap: 10px;
+
+        .username-password {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 20px;
+
+          .up-left {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+
+            h3 {
+              margin: 0;
+              padding: 0;
+            }
+          }
+
+          img {
+            margin: 0px 0 0 0;
+            background-color: $quaternary;
+            padding: 3px 6px 3px 6px;
+            border-radius: 10px;
+          }
+
+          img:hover {
+            cursor: pointer;
+          }
+        }
+
+        .notes-edit {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 20px;
+          // padding: 10px;
+
+          h3 {
+            margin: 0;
+          }
+        }
       }
 
-      .notes-edit {
+      .demo-input {
+        width: 40%;
         display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: space-between;
-        // padding: 10px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        background-color: $primary-paler;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0px 0px 5px 1px $secondary;
+
+        .input-section {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 20px;
+
+          input {
+            color: $primary;
+          }
+        }
       }
-    }
 
-    .demo-input {
-      width: 40%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      background-color: $primary-paler;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0px 0px 5px 1px $secondary;
-
-      .input-section {
+      #encryption-settings {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -82,21 +132,12 @@ main {
 
         input {
           color: $primary;
+          width: 310px;
         }
       }
     }
 
-    #encryption-settings {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 20px;
-
-      input {
-        color: $primary;
-        width: 310px;
-      }
+    #demo-encrypted {
     }
   }
 }

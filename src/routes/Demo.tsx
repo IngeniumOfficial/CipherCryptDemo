@@ -229,209 +229,208 @@ const Demo: Component = () => {
         loadingSet={loadingSet}
       />
       <div id="inner-main" ref={innerMain}>
-        <Switch>
-          <Match when={loading() === "loading"}>
-            <h1>Loading...</h1>
-          </Match>
-          <Match when={loading() === "empty"}>
-            <h2>No Data Found. Add Password or Note Below</h2>
-            <div class="demo-input">
-              <div class="input-section">
-                <h3>Username: </h3>
-                <input
-                  ref={addUsernameEmpty}
-                  class="demo-inputs"
-                  type="text"
-                  id="demo-input-username-empty"
-                />
+        <div id="unencrypted">
+          <Switch>
+            <Match when={loading() === "loading"}>
+              <h1>Loading...</h1>
+            </Match>
+            <Match when={loading() === "empty"}>
+              <h2>No Data Found. Add Password or Note Below</h2>
+              <div class="demo-input">
+                <div class="input-section">
+                  <h3>Username: </h3>
+                  <input
+                    ref={addUsernameEmpty}
+                    class="demo-inputs"
+                    type="text"
+                    id="demo-input-username-empty"
+                  />
+                </div>
+                <div class="input-section">
+                  <h3>Password: </h3>
+                  <input
+                    ref={addPassEmpty}
+                    class="demo-inputs"
+                    type="text"
+                    id="demo-input-pass-empty"
+                  />
+                </div>
+                <div class="input-section">
+                  <h3>Notes: </h3>
+                  <input
+                    ref={addNotesEmpty}
+                    class="demo-inputs"
+                    type="text"
+                    id="demo-input-notes-empty"
+                  />
+                </div>
+                <button
+                  id="demo-input-button"
+                  onClick={() =>
+                    addData("password", {
+                      username: addUsernameEmpty.value,
+                      password: addPassEmpty.value,
+                      notes: addNotesEmpty.value,
+                    })
+                  }
+                >
+                  Add Password
+                </button>
               </div>
-              <div class="input-section">
-                <h3>Password: </h3>
-                <input
-                  ref={addPassEmpty}
-                  class="demo-inputs"
-                  type="text"
-                  id="demo-input-pass-empty"
-                />
-              </div>
-              <div class="input-section">
-                <h3>Notes: </h3>
-                <input
-                  ref={addNotesEmpty}
-                  class="demo-inputs"
-                  type="text"
-                  id="demo-input-notes-empty"
-                />
-              </div>
+            </Match>
+            <Match when={loading() === "good"}>
               <button
-                id="demo-input-button"
-                onClick={() =>
-                  addData("password", {
-                    username: addUsernameEmpty.value,
-                    password: addPassEmpty.value,
-                    notes: addNotesEmpty.value,
-                  })
-                }
+                class="warning"
+                onClick={() => {
+                  localStorage.clear();
+                  window.location.reload();
+                }}
               >
-                Add Password
+                Clear Local Storage and Reload
               </button>
-            </div>
-          </Match>
-          <Match when={loading() === "good"}>
-            <button
-              class="warning"
-              onClick={() => {
-                localStorage.clear();
-                window.location.reload();
+              <Index each={dataSignal()}>
+                {(dataPiece, dataPieceIndex) => (
+                  <DemoDisplayBlock
+                    deleteData={deleteData}
+                    username={dataPiece().username}
+                    password={dataPiece().password}
+                    notes={dataPiece().notes}
+                    editDataTrigger={editDataTrigger}
+                  />
+                )}
+              </Index>
+              <div class="demo-input">
+                <div class="input-section">
+                  <h3>Username: </h3>
+                  <input
+                    ref={addUsernameGood}
+                    class="demo-inputs"
+                    type="text"
+                    id="demo-input-username-good"
+                  />
+                </div>
+                <div class="input-section">
+                  <h3>Password: </h3>
+                  <input
+                    ref={addPassGood}
+                    class="demo-inputs"
+                    type="text"
+                    id="demo-input-pass-good"
+                  />
+                </div>
+                <div class="input-section">
+                  <h3>Notes: </h3>
+                  <input
+                    ref={addNotesGood}
+                    class="demo-inputs"
+                    type="text"
+                    id="demo-input-notes-good"
+                  />
+                </div>
+                <button
+                  onClick={() =>
+                    addData("password", {
+                      username: addUsernameGood.value,
+                      password: addPassGood.value,
+                      notes: addNotesGood.value,
+                    })
+                  }
+                >
+                  Add Password
+                </button>
+              </div>
+            </Match>
+          </Switch>
+          <div id="encryption-settings">
+            <h3>Key: </h3>
+            <input
+              type="text"
+              id="keytext"
+              placeholder="Use any word or sentence as Key"
+              onChange={(e) => keytextSet(e.currentTarget.value)}
+            />
+            <button class="error" onClick={() => activateEncryption()}>
+              Encrypt the Data
+            </button>
+            {/* </div> */}
+            <div
+              id="overlay"
+              ref={overlayRef}
+              onClick={(e) => {
+                console.log(e.target);
+                if (e.target === overlayRef) {
+                  modalRef.close();
+                  overlayRef.style.display = "none";
+                  overlayRef.style.zIndex = "-1";
+                }
               }}
             >
-              Clear Local Storage and Reload
-            </button>
-            <Index each={dataSignal()}>
-              {(dataPiece, dataPieceIndex) => (
-                <DemoDisplayBlock
-                  deleteData={deleteData}
-                  username={dataPiece().username}
-                  password={dataPiece().password}
-                  notes={dataPiece().notes}
-                  editDataTrigger={editDataTrigger}
-                />
-              )}
-            </Index>
-            <div class="demo-input">
-              <div class="input-section">
-                <h3>Username: </h3>
-                <input
-                  ref={addUsernameGood}
-                  class="demo-inputs"
-                  type="text"
-                  id="demo-input-username-good"
-                />
-              </div>
-              <div class="input-section">
-                <h3>Password: </h3>
-                <input
-                  ref={addPassGood}
-                  class="demo-inputs"
-                  type="text"
-                  id="demo-input-pass-good"
-                />
-              </div>
-              <div class="input-section">
-                <h3>Notes: </h3>
-                <input
-                  ref={addNotesGood}
-                  class="demo-inputs"
-                  type="text"
-                  id="demo-input-notes-good"
-                />
-              </div>
-              <button
-                class="pseudo button"
-                onClick={() =>
-                  addData("password", {
-                    username: addUsernameGood.value,
-                    password: addPassGood.value,
-                    notes: addNotesGood.value,
-                  })
-                }
-              >
-                Add Password
-              </button>
+              <dialog ref={modalRef}>
+                <div id="title-and-close">
+                  <h3 id="modal-title">Edit Password</h3>
+                  <img
+                    id="close-modal"
+                    src="/xmark-solid.svg"
+                    onClick={() => {
+                      modalRef.close();
+                      overlayRef.style.display = "none";
+                      overlayRef.style.zIndex = "-1";
+                    }}
+                  />
+                </div>
+                <div class="editable-data">
+                  <h3>Username: </h3>
+                  <h3
+                    contenteditable={true}
+                    spellcheck={false}
+                    class="editable"
+                    ref={modalUsernameRef}
+                  >
+                    {modalData().originalUsername}
+                  </h3>
+                </div>
+                <div class="editable-data">
+                  <h3>Password: </h3>
+                  <h3
+                    contenteditable={true}
+                    spellcheck={false}
+                    class="editable"
+                    ref={modalPasswordRef}
+                  >
+                    {modalData().originalPassword}
+                  </h3>
+                </div>
+                <div class="editable-data">
+                  <h3>Notes: </h3>
+                  <h3
+                    contenteditable={true}
+                    spellcheck={false}
+                    class="editable"
+                    ref={modalNotesRef}
+                  >
+                    {modalData().originalNotes}
+                  </h3>
+                </div>
+                <button
+                  class="demo-input-button"
+                  onClick={() =>
+                    editData(
+                      modalData().originalUsername,
+                      modalUsernameRef.innerText,
+                      modalPasswordRef.innerText,
+                      modalNotesRef.innerText
+                    )
+                  }
+                >
+                  Save
+                </button>
+              </dialog>
             </div>
-          </Match>
-        </Switch>
-        <div id="encryption-settings">
-          <h3>Key: </h3>
-          <input
-            type="text"
-            id="keytext"
-            placeholder="Use any word or sentence as Key"
-            onChange={(e) => keytextSet(e.currentTarget.value)}
-          />
-          <button class="error" onClick={() => activateEncryption()}>
-            Encrypt the Data
-          </button>
-          {/* </div> */}
-          <div
-            id="overlay"
-            ref={overlayRef}
-            onClick={(e) => {
-              console.log(e.target);
-              if (e.target === overlayRef) {
-                modalRef.close();
-                overlayRef.style.display = "none";
-                overlayRef.style.zIndex = "-1";
-              }
-            }}
-          >
-            <dialog ref={modalRef}>
-              <div id="title-and-close">
-                <h3 id="modal-title">Edit Password</h3>
-                <img
-                  id="close-modal"
-                  src="/xmark-solid.svg"
-                  onClick={() => {
-                    modalRef.close();
-                    overlayRef.style.display = "none";
-                    overlayRef.style.zIndex = "-1";
-                  }}
-                />
-              </div>
-              <div class="editable-data">
-                <h3>Username: </h3>
-                <h3
-                  contenteditable={true}
-                  spellcheck={false}
-                  class="editable"
-                  ref={modalUsernameRef}
-                >
-                  {modalData().originalUsername}
-                </h3>
-              </div>
-              <div class="editable-data">
-                <h3>Password: </h3>
-                <h3
-                  contenteditable={true}
-                  spellcheck={false}
-                  class="editable"
-                  ref={modalPasswordRef}
-                >
-                  {modalData().originalPassword}
-                </h3>
-              </div>
-              <div class="editable-data">
-                <h3>Notes: </h3>
-                <h3
-                  contenteditable={true}
-                  spellcheck={false}
-                  class="editable"
-                  ref={modalNotesRef}
-                >
-                  {modalData().originalNotes}
-                </h3>
-              </div>
-              <button
-                class="demo-input-button"
-                onClick={() =>
-                  editData(
-                    modalData().originalUsername,
-                    modalUsernameRef.innerText,
-                    modalPasswordRef.innerText,
-                    modalNotesRef.innerText
-                  )
-                }
-              >
-                Save
-              </button>
-            </dialog>
           </div>
-          <Show when={encrypt()}>
-            <DemoEncrypted keytext={keytext()} plaintext={dataSignal()} />
-          </Show>
         </div>
+        <DemoEncrypted keytext={keytext()} plaintext={dataSignal()} />
+        <Footer />
       </div>
-      <Footer />
     </main>
   );
 };
