@@ -15,6 +15,7 @@ import Footer from "~/components/Footer";
 import "./Demo.scss";
 import DemoToolBar from "~/components/Demo/DemoToolBar";
 import DemoEncrypted from "~/components/Demo/DemoEncrypted";
+import anime from "animejs";
 
 interface PasswordData {
   username: string;
@@ -30,7 +31,7 @@ const Demo: Component = () => {
   const [loading, loadingSet] = createSignal("loading");
   const [keytext, keytextSet] = createSignal("");
   const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]); // This is the main data store. Nested reactivity (createStore) was unnecessary. It bases its order on the array system, and stores the order in localstorage the same way
-  const [encrypt, encryptSet] = createSignal(false); // Whether to show or not the encrypted data
+  const [runEncryptionFetch, runEncryptionFetchSet] = createSignal(false);
   const [modalData, modalDataSet] = createSignal<any>({
     originalUsername: "",
     originalPassword: "",
@@ -201,9 +202,36 @@ const Demo: Component = () => {
     } else if (keytext().length === 0 || keytext() === "") {
       alert("Cannot encrypt without a key");
     } else {
-      innerMain.style.alignItems = "flex-start";
+      moveENCLeft();
     }
-    encryptSet(true);
+  };
+
+  let unencryptedRef: any;
+  let encryptedRef: any;
+
+  const moveENCLeft = () => {
+    let duration = 600;
+    anime({
+      targets: unencryptedRef,
+      translateX: "-500px",
+      opacity: 0,
+      duration: duration,
+      easing: "cubicBezier(.5, .05, .1, .3)",
+    });
+    setTimeout(() => {
+      unencryptedRef.style.display = "none";
+
+      let encryptedEl = document.getElementById("encrypted");
+      encryptedEl!.style.display = "none";
+      encryptedEl!.style.display = "flex";
+      anime({
+        targets: document.getElementById("encrypted"),
+        translateX: "-500px",
+        opacity: 1,
+        duration: duration,
+        easing: "cubicBezier(.5, .05, .1, .3)",
+      });
+    }, duration + 50);
   };
 
   let addPassEmpty: any;
@@ -229,7 +257,7 @@ const Demo: Component = () => {
         loadingSet={loadingSet}
       />
       <div id="inner-main" ref={innerMain}>
-        <div id="unencrypted">
+        <div id="unencrypted" ref={unencryptedRef}>
           <Switch>
             <Match when={loading() === "loading"}>
               <h1>Loading...</h1>
@@ -428,7 +456,12 @@ const Demo: Component = () => {
             </div>
           </div>
         </div>
-        <DemoEncrypted keytext={keytext()} plaintext={dataSignal()} />
+        <DemoEncrypted
+          keytext={keytext()}
+          plaintext={dataSignal()}
+          encryptedRef={encryptedRef}
+          runEncryptionFetch={runEncryptionFetch}
+        />
       </div>
       <Footer />
     </main>

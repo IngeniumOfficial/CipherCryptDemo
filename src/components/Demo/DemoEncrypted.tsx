@@ -1,4 +1,4 @@
-import { createSignal, onMount, Ref } from "solid-js";
+import { createSignal, onMount, Ref, createEffect } from "solid-js";
 import type { Component } from "solid-js";
 import anime from "animejs";
 
@@ -20,6 +20,8 @@ interface PasswordData {
 const DemoEncrypted: Component<{
   plaintext: PasswordData[];
   keytext: string;
+  encryptedRef: any;
+  runEncryptionFetch: () => boolean;
 }> = (props) => {
   const [encryptedData, encryptedDataSet] = createSignal<any>({
     description: "Converting Data to JSON...",
@@ -34,8 +36,7 @@ const DemoEncrypted: Component<{
     // }, 3000);
 
     let body = JSON.stringify({
-      //   key: props.keytext,
-      key: "test",
+      key: props.keytext,
       data: props.plaintext,
     });
 
@@ -61,6 +62,10 @@ const DemoEncrypted: Component<{
       ["Encrypting Data with Cipher Block and Nonce...", jsonResult.ciphertext],
       ["Below is the Encrypted Data", jsonResult.ciphertext]
     );
+  });
+
+  createEffect(() => {
+    console.log("Run encryption fetch: ", props.runEncryptionFetch());
   });
 
   const triggerDisplayChain = (...params: any) => {
@@ -92,7 +97,7 @@ const DemoEncrypted: Component<{
   };
 
   return (
-    <div id="demo-encrypted">
+    <div id="encrypted" ref={props.encryptedRef}>
       <div class="banter-loader">
         <div class="banter-loader__box"></div>
         <div class="banter-loader__box"></div>
