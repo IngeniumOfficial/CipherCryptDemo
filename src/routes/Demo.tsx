@@ -31,11 +31,14 @@ const Demo: Component = () => {
   const [loading, loadingSet] = createSignal("loading");
   const [keytext, keytextSet] = createSignal("");
   const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]); // This is the main data store. Nested reactivity (createStore) was unnecessary. It bases its order on the array system, and stores the order in localstorage the same way
-  const [runEncryptionFetch, runEncryptionFetchSet] = createSignal(false);
   const [modalData, modalDataSet] = createSignal<any>({
     originalUsername: "",
     originalPassword: "",
     originalNotes: "",
+  });
+  const [encryptedData, encryptedDataSet] = createSignal<any>({
+    description: "Converting Data to JSON...",
+    data: `Plaintext: ${JSON.stringify(dataSignal(), null, 2)}`,
   });
 
   onMount(() => {
@@ -231,7 +234,71 @@ const Demo: Component = () => {
         duration: duration,
         easing: "cubicBezier(.5, .05, .1, .3)",
       });
+
+      runEncryptFetch();
     }, duration + 50);
+  };
+
+  const runEncryptFetch = async () => {
+    console.log("Run encryption fetch");
+
+    let body = JSON.stringify({
+      key: keytext(),
+      data: dataSignal(),
+    });
+
+    console.log("Result sent: ", body);
+    let result = await fetch("http://localhost:8080/encrypt", {
+      method: "POST",
+      body: body,
+    });
+
+    console.log("Result: ", await result);
+    let jsonResult = await result.json();
+
+    console.log("JSON Result: ", jsonResult);
+
+    triggerDisplayChain(
+      ["Creating a Salt...", jsonResult.salt],
+      [`Creating a Key Hash from key ${keytext()}...`, jsonResult.keyhash],
+      [
+        `Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...`,
+        jsonResult.keyhash,
+      ],
+      ["Creating a Nonce...", jsonResult.nonce],
+      ["Encrypting Data with Cipher Block and Nonce...", jsonResult.ciphertext],
+      ["Below is the Encrypted Data", jsonResult.ciphertext]
+    );
+  };
+
+  const triggerDisplayChain = (...params: any) => {
+    let tempArr = [...params];
+    let banter = document.getElementById("banter-loader");
+    banter!.scrollIntoView({ behavior: "smooth" });
+    let appearDuration = 2000;
+
+    for (let i = 0; i < tempArr.length; i++) {
+      setTimeout(() => {
+        encryptedDataSet({
+          description: tempArr[i][0],
+          data: tempArr[i][1],
+        });
+
+        // If this is the last element, make the banter loader disappear
+        if (i === tempArr.length - 1) {
+          anime({
+            targets: banter,
+            translateY: "-500px",
+            opacity: 0,
+            duration: 1000,
+            easing: "cubicBezier(.5, .05, .1, .3)",
+          });
+          setTimeout(() => {
+            banter!.style.display = "none";
+          }, 500);
+        }
+      }, i * appearDuration);
+    }
   };
 
   let addPassEmpty: any;
@@ -457,10 +524,9 @@ const Demo: Component = () => {
           </div>
         </div>
         <DemoEncrypted
-          keytext={keytext()}
-          plaintext={dataSignal()}
           encryptedRef={encryptedRef}
-          runEncryptionFetch={runEncryptionFetch}
+          encryptedData={encryptedData}
+          encryptedDataSet={encryptedDataSet}
         />
       </div>
       <Footer />
