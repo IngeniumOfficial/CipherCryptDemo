@@ -11,6 +11,7 @@ const DemoEncrypted: Component<{
   encryptedRef: any;
   encryptedData: () => any;
   encryptedDataSet: (data: any) => void;
+  triggerDecrypt: () => void;
 }> = (props) => {
   return (
     <div id="encrypted" ref={props.encryptedRef}>
@@ -33,7 +34,11 @@ const DemoEncrypted: Component<{
       </div>
       <div id="postencrypt-buttons">
         <button id="return">Return</button>
-        <button class="success" id="decrypt-question">
+        <button
+          class="success"
+          id="decrypt-question"
+          onClick={() => props.triggerDecrypt()}
+        >
           Decrypt?
         </button>
       </div>

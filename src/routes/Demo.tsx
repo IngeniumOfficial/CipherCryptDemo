@@ -31,6 +31,7 @@ const Demo: Component = () => {
   const [loading, loadingSet] = createSignal("loading");
   const [keytext, keytextSet] = createSignal("");
   const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]); // This is the main data store. Nested reactivity (createStore) was unnecessary. It bases its order on the array system, and stores the order in localstorage the same way
+  const [decryptKeyText, decryptKeySetText] = createSignal("");
   const [modalData, modalDataSet] = createSignal<any>({
     originalUsername: "",
     originalPassword: "",
@@ -297,6 +298,9 @@ const Demo: Component = () => {
     console.log("Result: ", await result);
     let jsonResult = await result.json();
 
+    // Set the encrypted data to localstorage
+    localStorage.setItem("encData", JSON.stringify(jsonResult));
+
     console.log("JSON Result: ", jsonResult);
 
     triggerDisplayChain(
@@ -342,6 +346,39 @@ const Demo: Component = () => {
         }
       }, i * appearDuration);
     }
+  };
+
+  const triggerDecrypt = () => {
+    fetchDecrypt();
+  };
+
+  const fetchDecrypt = async () => {
+    // Fetch using salt, previous key, and ciphertext
+    let ENCData = localStorage.getItem("encData");
+    let ed = JSON.parse(ENCData!);
+    if (!ENCData) {
+      alert(
+        "Not data to decrypt. Data might have been corrupted. Please enter new data."
+      );
+    }
+
+    console.log("Key: ", ed.inputKey);
+
+    let body = JSON.stringify({
+      salt: ed.salt,
+      key: ed.inputKey,
+      ciphertext: ed.ciphertext,
+    });
+
+    console.log("Sending the following: ", body);
+
+    let result = await fetch("http://localhost:8080/decrypt", {
+      method: "POST",
+      body: body,
+    });
+
+    let jsonResult = await result.json();
+    console.log("JSON Decrypt Result: ", jsonResult);
   };
 
   let addPassEmpty: any;
@@ -623,6 +660,7 @@ const Demo: Component = () => {
           encryptedRef={encryptedRef}
           encryptedData={encryptedData}
           encryptedDataSet={encryptedDataSet}
+          triggerDecrypt={triggerDecrypt}
         />
       </div>
       <Footer />

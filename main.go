@@ -126,13 +126,63 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
 
+		// If either components is missing or empty, return error
+		if requestData.Key == "" || requestData.Salt == "" || requestData.Ciphertext == "" {
+			log.Println("Missing Key, Salt, or Ciphertext")
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Missing Key, Salt, or Ciphertext"})
+		}
+
 		// Convert the ciphertext string to byte
 		ciphertextBytes := []byte(requestData.Ciphertext)
 		keyBytes := []byte(requestData.Key)
-		saltBytes := []byte(requestData.Salt)
+		saltBytes := []byte(requestData.Salt)		
 
-		
-		
+		// Reproduce Key Hash
+		keyHash := pbkdf2.Key(keyBytes, saltBytes, 2048, 32, sha256.New)
+		if keyHash == nil {
+			log.Println("Error with Key Hashing")
+			c.JSON(http.StatusInternalServerError, gin.H{"errpr": "Key Hash error"})
+		}
+
+		// Create AES Cipher Block from Key Hash
+		block, blockErr := aes.NewCipher(keyHash)
+		if blockErr != nil {
+			log.Println("Error with Block: ", blockErr.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"Block error": blockErr.Error()})
+		}
+
+		// Create GCM Cipher
+		gcm, gcmErr := cipher.NewGCM(block)
+		if gcmErr != nil {
+			log.Println("Error with GCM: ", gcmErr.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"GCM error": gcmErr.Error()})
+		}
+
+		// Extract nonce from ciphertext
+		nonceSize := gcm.NonceSize()
+		if(len(ciphertextBytes) < nonceSize) {
+			log.Println("Error with Nonce Size")
+			c.JSON(http.StatusInternalServerError, gin.H{"Nonce error": "Error with Nonce Size"})
+		}
+		nonce, ciphertext := ciphertextBytes[:nonceSize], ciphertextBytes[nonceSize:]
+
+		// Decrypt
+		plaintext, err := gcm.Open(nil, nonce, ciphertext, nil)
+		if err != nil {
+			log.Println("Error with Decryption: ", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"Decryption error": err.Error()})
+		}
+
+		// Convert to JSON and return
+		c.JSON(http.StatusOK, gin.H{
+			"inputKey":        requestData.Key,
+			"inputSalt":       requestData.Salt,
+			"inputCiphertext": requestData.Ciphertext,
+			"keyhash":         string(keyHash),
+			"nonce":           string(nonce),
+			"plaintext":       string(plaintext),
+		})
+
 
 	})
 
