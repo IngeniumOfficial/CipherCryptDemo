@@ -46,6 +46,8 @@ const Demo: Component = () => {
     localStorageAndDisplay(); // On mount, check localstorage for saved data and display it
   });
 
+  const URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
   const localStorageAndDisplay = () => {
     function checkLocalStorage() {
       // Check localstorage for data that was in progress
@@ -290,7 +292,7 @@ const Demo: Component = () => {
     });
 
     console.log("Result sent: ", body);
-    let result = await fetch("http://localhost:8080/encrypt", {
+    let result = await fetch(`${URL}/encrypt`, {
       method: "POST",
       body: body,
     });
@@ -372,7 +374,7 @@ const Demo: Component = () => {
 
     console.log("Sending the following: ", body);
 
-    let result = await fetch("http://localhost:8080/decrypt", {
+    let result = await fetch(`${URL}/decrypt`, {
       method: "POST",
       body: body,
     });
