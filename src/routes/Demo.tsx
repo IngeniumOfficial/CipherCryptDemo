@@ -47,6 +47,11 @@ const Demo: Component = () => {
 
   const localStorageAndDisplay = () => {
     function checkLocalStorage() {
+      // Check localstorage for data that was in progress
+      if (localStorage.getItem("tempData")) {
+        loadingSet("progress");
+        return;
+      }
       // If there is data in localstorage, display it by calling run display incrementally for effect
       const lsData = localStorage.getItem("demoData");
       if (lsData) {
@@ -74,7 +79,41 @@ const Demo: Component = () => {
     checkLocalStorage();
   };
 
-  const updateLocalStorage = () => {
+  const updateLocalStorage = (
+    replace: boolean = false,
+    reload: boolean = false
+  ) => {
+    if (replace) {
+      // Transfer data to a different object, and empty demoData in localstorage
+      const tempData = dataSignal();
+      let tempObject: any = {};
+      tempData.forEach((item, index) => {
+        tempObject[index] = item;
+      });
+      localStorage.setItem("tempData", JSON.stringify(tempObject));
+      localStorage.removeItem("demoData");
+      return;
+    }
+
+    if (reload) {
+      // Transfer data from secondary (tempData) to primary (demoData) and empty tempData
+      const tempData = localStorage.getItem("tempData");
+      if (tempData) {
+        const data = JSON.parse(tempData);
+        localStorage.setItem("demoData", JSON.stringify(data));
+        localStorage.removeItem("tempData");
+        loadingSet("good");
+        window.location.reload();
+        return;
+      } else {
+        window.alert(
+          "The data might have been corrupted or lost. Please enter new data."
+        );
+        loadingSet("empty");
+        return;
+      }
+    }
+
     console.log("Updating Local Storage with data", dataSignal());
     const tempData = dataSignal();
     let tempObject: any = {};
@@ -205,6 +244,8 @@ const Demo: Component = () => {
     } else if (keytext().length === 0 || keytext() === "") {
       alert("Cannot encrypt without a key");
     } else {
+      loadingSet("progress");
+      updateLocalStorage(true, false);
       moveENCLeft();
     }
   };
@@ -284,7 +325,7 @@ const Demo: Component = () => {
           data: tempArr[i][1],
         });
 
-        // If this is the last element, make the banter loader disappear
+        // If this is the last element, make the banter loader disappear, and display decrypt button
         if (i === tempArr.length - 1) {
           anime({
             targets: banter,
@@ -295,6 +336,8 @@ const Demo: Component = () => {
           });
           setTimeout(() => {
             banter!.style.display = "none";
+            document.getElementById("postencrypt-buttons")!.style.display =
+              "flex";
           }, 500);
         }
       }, i * appearDuration);
@@ -331,6 +374,59 @@ const Demo: Component = () => {
             </Match>
             <Match when={loading() === "empty"}>
               <h2>No Data Found. Add Password or Note Below</h2>
+              <div class="demo-input">
+                <div class="input-section">
+                  <h3>Username: </h3>
+                  <input
+                    ref={addUsernameEmpty}
+                    class="demo-inputs"
+                    type="text"
+                    id="demo-input-username-empty"
+                  />
+                </div>
+                <div class="input-section">
+                  <h3>Password: </h3>
+                  <input
+                    ref={addPassEmpty}
+                    class="demo-inputs"
+                    type="text"
+                    id="demo-input-pass-empty"
+                  />
+                </div>
+                <div class="input-section">
+                  <h3>Notes: </h3>
+                  <input
+                    ref={addNotesEmpty}
+                    class="demo-inputs"
+                    type="text"
+                    id="demo-input-notes-empty"
+                  />
+                </div>
+                <button
+                  id="demo-input-button"
+                  onClick={() =>
+                    addData("password", {
+                      username: addUsernameEmpty.value,
+                      password: addPassEmpty.value,
+                      notes: addNotesEmpty.value,
+                    })
+                  }
+                >
+                  Add Password
+                </button>
+              </div>
+            </Match>
+            <Match when={loading() === "progress"}>
+              <h2>
+                Previous Data wasn't decrypted. Add new Data or press the Button
+                Below to load previous Data
+              </h2>
+              <button
+                class="warning"
+                onClick={() => updateLocalStorage(false, true)}
+              >
+                Load Previous Data
+              </button>
               <div class="demo-input">
                 <div class="input-section">
                   <h3>Username: </h3>

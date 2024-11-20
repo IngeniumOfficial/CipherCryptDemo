@@ -14,6 +14,12 @@ import (
 	"golang.org/x/crypto/pbkdf2"
 )
 
+type DecryptData struct {
+	Key string `json:"key"`
+	Salt string `json:"salt"`
+	Ciphertext string `json:"ciphertext"`
+}
+
 type RequestData struct {
 	Key  string         `json:"key"`
 	Data []PasswordData `json:"data"`
@@ -106,8 +112,28 @@ func main() {
 		})
 	})
 
-	router.POST("/sidebyside", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{})
+	router.POST("/decrypt", func(c *gin.Context) {
+		// Cors
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Credentials", "true")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Header("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+
+		log.Println("Inside Decrypt")
+		var requestData DecryptData
+		if err := c.BindJSON(&requestData); err != nil {
+			log.Println("Error with BindJSON: ", err.Error())
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
+
+		// Convert the ciphertext string to byte
+		ciphertextBytes := []byte(requestData.Ciphertext)
+		keyBytes := []byte(requestData.Key)
+		saltBytes := []byte(requestData.Salt)
+
+		
+		
+
 	})
 
 	router.Run()

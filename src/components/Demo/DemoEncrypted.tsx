@@ -31,7 +31,12 @@ const DemoEncrypted: Component<{
           {props.encryptedData().data}
         </div>
       </div>
-      <button id="decrypt-question">Decrypt?</button>
+      <div id="postencrypt-buttons">
+        <button id="return">Return</button>
+        <button class="success" id="decrypt-question">
+          Decrypt?
+        </button>
+      </div>
     </div>
   );
 };
