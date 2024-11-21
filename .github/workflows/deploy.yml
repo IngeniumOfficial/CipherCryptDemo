@@ -31,7 +31,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > /tmp/ssh_private_key
           chmod 600 /tmp/ssh_private_key
           ssh -o "StrictHostKeyChecking=no" -i /tmp/ssh_private_key ${SSH_USERNAME}@${SSH_HOSTNAME} "
-            cd /path/to/your/project;
+            cd CipherCryptDemo;
             git pull;
             sudo docker-compose pull;
             sudo docker-compose stop;
