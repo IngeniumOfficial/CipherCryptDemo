@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API - CipherCrypt</title>
+    <style>
+        body{
+            background-color: #091A20;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: "Golos Text", serif;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        h3{
+            font-weight: 300;
+        }
+
+        h4{
+            font-weight: 200;
+        }
+
+        #header{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0px;
+            margin: 100px 0 0 0;
+            background-color: #9BC0AF;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        #api-description{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0px;
+            margin: 100px 0 100px 0;
+            background-color: #9BC0AF;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        #encrypt-endpoint{
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        hr{
+            width: 80%;
+            border-bottom: 5px solid black;
+        }
+
+        #decrypt-endpoint{
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>API Index</h1>
+        <h3>This is the API webpage for testing development.</h3>
+        <h4>If you somehow stumbled onto this page, kudos to you, but there really isn't anything special here</h4>
+    </div>
+    <div id="api-description">
+        <h2 id="api-description-title">There are two functioning api endpoints:</h2>
+        <pre id="encrypt-endpoint"><code>api.ciphercrypt.network/encrypt</code></pre>
+        <h3>Encrypt accepts the following body: </h3>
+        <pre><code>
+        type RequestData struct {
+            Key  string         `json:"key"`
+            Data []PasswordData `json:"data"`
+        }
+        
+        type PasswordData struct {
+            Password string `json:"password"`
+            Username string `json:"username"`
+            Notes    string `json:"notes"`
+        }
+        </code></pre>
+        <hr />
+        <pre id="decrypt-endpoint"><code>api.ciphercrypt.network/decrypt</code></pre>
+        <h3>Decrypt accepts the following body: </h3>
+        <pre><code>
+        type DecryptData struct {
+            Key string `json:"key"`
+            Salt string `json:"salt"`
+            Ciphertext string `json:"ciphertext"`
+        }
+        </code></pre>
+    </div>
+</html>
