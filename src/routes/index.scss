@@ -1,117 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+@import url("../../node_modules/picnic/picnic.min.css");
 
-$primary: #091A20;
-$secondary: #FBFEF9;
-$tertiary: #9BC0AF;
-$quaternary: #FF92C2;
-$quinary: #FFADFE;
-$senary: #0A7EC2;
+$primary: #091a20;
+$secondary: #fbfef9;
+$tertiary: #9bc0af;
+$quaternary: #ff92c2;
+$quinary: #ffadfe;
+$senary: #0a7ec2;
 
+main {
+  background-color: $primary !important;
+  color: $secondary;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center;
+  font-family: "Golos Text", serif;
+  font-weight: 500;
 
-main{
-    background-color: $primary !important;
-    color: $secondary;
+  h1 {
+    font-size: 50px;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    width: 40%;
+    margin: 200px 0 30px 0;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
-    font-family: "Golos Text", serif;
-    font-weight: 500;
+    flex-wrap: wrap;
+    gap: 10px;
+    row-gap: 0;
 
-    h1{
-        font-size: 50px;
-        font-weight: 700;
-        margin: 0;
-        padding: 0;
+    h1 {
+      margin: 0;
     }
 
-    header{
-        width: 40%;
-        margin: 200px 0 30px 0;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 10px;
-        row-gap: 0;
+    #colored {
+      color: $quinary;
+    }
+  }
 
-        h1{
-            margin: 0;
-        }
+  #subheader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 10px 10px 10px;
 
-        #colored{
-            color: $quinary;
-        }
+    #try-demo {
+      background-color: $tertiary;
+      color: black;
     }
 
-    #subheader{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 10px 10px 10px 10px;
-        
-        #try-demo{
-            background-color: $tertiary;
-            color: black;
-        }
+    #learn-more {
+      background-color: $quinary;
+      color: black;
+    }
+  }
 
-        #learn-more{
-            background-color: $quinary;
-            color: black;
-        }
+  .divider {
+    margin: 100px 0 80px 0;
+    border-bottom: 2px solid $secondary;
+    width: 80%;
+  }
+
+  #sub-title {
+    text-decoration: underline;
+    margin: 0 0 50px 0;
+  }
+
+  #sub-title:hover {
+    cursor: pointer;
+  }
+
+  #info-section {
+    width: 80%;
+    min-height: 400px;
+    position: relative;
+    margin: 0 0 100px 0;
+
+    img {
+      height: 400px;
+      z-index: 1;
+      position: absolute;
+      top: 0;
+      left: 15%;
     }
 
-    .divider{
-        margin: 100px 0 80px 0;
-        border-bottom: 2px solid $secondary;
-        width: 80%;
+    #info-cards {
+      z-index: 2;
+      position: absolute;
+      top: 30px;
+      right: 20%;
+      background-image: linear-gradient(to right, rgba(255, 0, 0, 0), $senary);
+      padding: 10px 20px 10px 10px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 15px;
+
+      a {
+        background-color: $secondary;
+        color: $primary;
+        padding: 3px 10px 3px 10px;
+        border-radius: 20px;
+      }
     }
-
-    #sub-title{
-        text-decoration: underline;
-        margin: 0 0 50px 0;
-    }
-
-    #sub-title:hover{
-        cursor: pointer;
-    }
-
-    #info-section{
-        width: 80%;
-        min-height: 400px;
-        position: relative;
-        margin: 0 0 100px 0;
-
-        img{
-            height: 400px;
-            z-index: 1;
-            position: absolute;
-            top:0;
-            left: 15%;
-        }
-
-        #info-cards{
-            z-index: 2;
-            position: absolute;
-            top: 30px;
-            right: 20%;
-            background-image: linear-gradient(to right, rgba(255, 0, 0, 0), $senary);
-            padding: 10px 20px 10px 10px;
-
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 15px;
-
-            a{
-                background-color: $secondary;
-                color: $primary;
-                padding: 3px 10px 3px 10px;
-                border-radius: 20px;
-            }
-        }
-    }
+  }
 }

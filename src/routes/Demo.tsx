@@ -12,10 +12,10 @@ import { createStore } from "solid-js/store";
 import type { Component } from "solid-js";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
-import "./Demo.scss";
 import DemoToolBar from "~/components/Demo/DemoToolBar";
 import DemoEncrypted from "~/components/Demo/DemoEncrypted";
 import anime from "animejs";
+import "./Demo.scss";
 
 interface PasswordData {
   username: string;

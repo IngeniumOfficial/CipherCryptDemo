@@ -3,7 +3,6 @@ import { A } from "@solidjs/router";
 import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 import { createSignal, onMount, Ref, Show } from "solid-js";
-// import "picnic/picnic.min.css";
 
 export default function AboutGeneral() {
   return (
