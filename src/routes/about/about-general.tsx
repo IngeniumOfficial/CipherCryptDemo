@@ -50,8 +50,10 @@ export default function AboutGeneral() {
           expensive hardware that could come with its own security.
         </p>
         <p>
-          On the top left, feel free to select between the two options for
-          better understanding some of the other topics here.
+          As you navigate through the other articles, notice that many will have
+          an option to select whether you have an experience with coding or not.
+          This is done in hopes that anyone can understand how CipherCrypt works
+          and the issue it's trying to solve.
         </p>
       </div>
     </div>
