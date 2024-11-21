@@ -34,7 +34,8 @@ type PasswordData struct {
 
 func main() {
 	router := gin.Default()
-	// router.Use(cors.Default())
+
+	router.StaticFile("/", "apiIndex.html")
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
