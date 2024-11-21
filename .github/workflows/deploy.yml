@@ -19,8 +19,14 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy to VPS
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_HOSTNAME: ${{ secrets.SSH_HOSTNAME }}
         run: |
-          ssh -o "StrictHostKeyChecking=no" -i ${{ secrets.SSH_PRIVATE_KEY }} ${SSH_USERNAME}@${SSH_HOSTNAME} "
+          echo "$SSH_PRIVATE_KEY" > /tmp/ssh_private_key
+          chmod 600 /tmp/ssh_private_key
+          ssh -o "StrictHostKeyChecking=no" -i /tmp/ssh_private_key ${SSH_USERNAME}@${SSH_HOSTNAME} "
             docker-compose pull;
             docker-compose stop;
             docker-compose rm -f;
