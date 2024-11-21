@@ -1,0 +1,28 @@
+version: 1
+
+jobs:
+  build-and-deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      # Deploy over SSH
+      - deploy:
+          command: |
+            ssh -o "StrictHostKeyChecking=no" @SSH_USER@@SSH_HOST "
+              docker-compose pull;
+              docker-compose stop;
+              docker-compose rm -f;
+              docker-compose up -d;
+              docker system prune -f;
+            "
+          name: Deploy to Production
+
+workflows:
+  version: 1
+  build-and-deploy:
+    jobs:
+      - build-and-deploy
