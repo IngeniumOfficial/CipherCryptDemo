@@ -33,9 +33,9 @@ jobs:
           ssh -o "StrictHostKeyChecking=no" -i /tmp/ssh_private_key ${SSH_USERNAME}@${SSH_HOSTNAME} "
             cd /path/to/your/project;
             git pull;
-            docker-compose pull;
-            docker-compose stop;
-            docker-compose rm -f;
-            docker-compose up -d;
-            docker system prune -f;
+            sudo docker-compose pull;
+            sudo docker-compose stop;
+            sudo docker-compose rm -f;
+            sudo docker-compose up -d;
+            sudo docker system prune -f;
           "
