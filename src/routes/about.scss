@@ -14,7 +14,7 @@ $senary: #0a7ec2;
 main {
   background-color: $primary;
   color: $secondary;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: center;
   justify-content: center;
