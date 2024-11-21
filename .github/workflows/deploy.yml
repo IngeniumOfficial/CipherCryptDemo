@@ -1,0 +1,29 @@
+name: Docker Compose CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to VPS
+        run: |
+          ssh -o "StrictHostKeyChecking=no" ${SSH_USERNAME}@${SSH_HOSTNAME} "
+            docker-compose pull;
+            docker-compose stop;
+            docker-compose rm -f;
+            docker-compose up -d;
+            docker system prune -f;
+          "
