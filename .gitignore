@@ -12,6 +12,7 @@ dist
 
 # dependencies
 /node_modules
+/letsencrypt
 
 # IDEs and editors
 /.idea
