@@ -110,10 +110,14 @@ func main() {
 			"inputKey":        key,
 			"inputData":       data,
 			"salt":            hex.EncodeToString(saltBytes),
-			"keyhash":         string(keyHash),
+			"salt_unreliable": string(saltBytes),
+			"keyhash":         hex.EncodeToString(keyHash),
+			"keyhash_unreliable":         string(keyHash),
 			"cipherBlockSize": block.BlockSize(),
 			"nonce":           hex.EncodeToString(nonce),
+			"none_unreliable": string(nonce),
 			"ciphertext":      hex.EncodeToString(ciphertext),
+			"ciphertext_unreliable": string(ciphertext),
 		})
 	})
 
