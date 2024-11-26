@@ -1,7 +1,6 @@
 import { A } from "@solidjs/router";
 import type { Component } from "solid-js";
 import { Show, createSignal, onMount, Ref } from "solid-js";
-import "./NavBar.scss";
 
 const NavBar: Component = () => {
   // const [windowWidth, setWindowWidth] = createSignal(0);
