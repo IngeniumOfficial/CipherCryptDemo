@@ -28,11 +28,15 @@ $senary-paler: #11a8ff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: $primary-paler;
+    overflow-y: auto;
+    display: flex;
+    align-items: flex-end;
 
     #encrypted-data {
-      padding: 20px;
       word-break: break-all;
       white-space: pre-line;
+      margin: 0;
+      padding: 0;
       // transform-origin: top center;
       // animation: fold 0.5s ease-in-out;
     }
