@@ -14,6 +14,7 @@ import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 import DemoToolBar from "~/components/Demo/DemoToolBar";
 import DemoEncrypted from "~/components/Demo/DemoEncrypted";
+// @ts-ignore
 import anime from "animejs";
 import "./Demo.scss";
 
@@ -30,6 +31,7 @@ interface locallyStoredData {
 const Demo: Component = () => {
   const [loading, loadingSet] = createSignal("loading");
   const [keytext, keytextSet] = createSignal("");
+  const [encrypt, encryptSet] = createSignal<boolean>(false);
   const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]); // This is the main data store. Nested reactivity (createStore) was unnecessary. It bases its order on the array system, and stores the order in localstorage the same way
   const [decryptKeyText, decryptKeySetText] = createSignal("");
   const [modalData, modalDataSet] = createSignal<any>({
@@ -37,10 +39,10 @@ const Demo: Component = () => {
     originalPassword: "",
     originalNotes: "",
   });
-  const [encryptedData, encryptedDataSet] = createSignal<any>({
-    description: "Converting Data to JSON...",
-    data: `Plaintext: ${JSON.stringify(dataSignal(), null, 2)}`,
-  });
+  const [encryptedData, encryptedDataSet] = createSignal<any>([
+    "Converting Data to JSON...",
+    `Plaintext: ${JSON.stringify(dataSignal(), null, 2)}`,
+  ]);
 
   onMount(() => {
     localStorageAndDisplay(); // On mount, check localstorage for saved data and display it
@@ -249,6 +251,7 @@ const Demo: Component = () => {
     } else {
       loadingSet("progress");
       updateLocalStorage(true, false);
+      encryptSet(true);
       moveENCLeft();
     }
   };
@@ -295,59 +298,23 @@ const Demo: Component = () => {
     let result = await fetch(`${URL}/encrypt`, {
       method: "POST",
       body: body,
-    });
+    })
+      .then((res) => res.json())
+      .then((jsonResult) => {
+        encryptedDataSet([
+          `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n
+          Creating a Key Hash from key ${keytext()}...^500\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n
+          Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...^500\n
+          Creating a Nonce...^500\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n
+          Encrypting Data with Cipher Block and Nonce...^500\n ${jsonResult.ciphertext} \n ${jsonResult.ciphertext_unreliable} \n^1000\n Ciphertext Complete!`,
+        ]);
+        console.log("Encrypted Data: ", encryptedData());
+        // Set the encrypted data to localstorage
+        localStorage.setItem("encData", JSON.stringify(jsonResult));
 
-    console.log("Result: ", await result);
-    let jsonResult = await result.json();
-
-    // Set the encrypted data to localstorage
-    localStorage.setItem("encData", JSON.stringify(jsonResult));
-
-    console.log("JSON Result: ", jsonResult);
-
-    triggerDisplayChain(
-      ["Creating a Salt...", jsonResult.salt],
-      [`Creating a Key Hash from key ${keytext()}...`, jsonResult.keyhash],
-      [
-        `Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...`,
-        jsonResult.keyhash,
-      ],
-      ["Creating a Nonce...", jsonResult.nonce],
-      ["Encrypting Data with Cipher Block and Nonce...", jsonResult.ciphertext],
-      ["Below is the Encrypted Data", jsonResult.ciphertext]
-    );
-  };
-
-  const triggerDisplayChain = (...params: any) => {
-    let tempArr = [...params];
-    let banter = document.getElementById("banter-loader");
-    banter!.scrollIntoView({ behavior: "smooth" });
-    let appearDuration = 2000;
-
-    for (let i = 0; i < tempArr.length; i++) {
-      setTimeout(() => {
-        encryptedDataSet({
-          description: tempArr[i][0],
-          data: tempArr[i][1],
-        });
-
-        // If this is the last element, make the banter loader disappear, and display decrypt button
-        if (i === tempArr.length - 1) {
-          anime({
-            targets: banter,
-            translateY: "-500px",
-            opacity: 0,
-            duration: 1000,
-            easing: "cubicBezier(.5, .05, .1, .3)",
-          });
-          setTimeout(() => {
-            banter!.style.display = "none";
-            document.getElementById("postencrypt-buttons")!.style.display =
-              "flex";
-          }, 500);
-        }
-      }, i * appearDuration);
-    }
+        let banter = document.getElementById("banter-loader");
+        banter!.scrollIntoView({ behavior: "smooth" });
+      });
   };
 
   const triggerDecrypt = () => {
@@ -663,6 +630,7 @@ const Demo: Component = () => {
           encryptedData={encryptedData}
           encryptedDataSet={encryptedDataSet}
           triggerDecrypt={triggerDecrypt}
+          encrypt={encrypt}
         />
       </div>
       <Footer />

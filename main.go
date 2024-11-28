@@ -104,16 +104,19 @@ func main() {
 		ciphertext := append(nonce, ciphertextwithoutnonce...)
 		// log.Println("Original Ciphertext: ", ciphertextwithoutnonce)
 		// log.Println("Original Nonce: ", nonce)
-		log.Println("Ciphertext with Nonce: ", ciphertext)
 
 		c.JSON(http.StatusOK, gin.H{
 			"inputKey":        key,
 			"inputData":       data,
 			"salt":            hex.EncodeToString(saltBytes),
-			"keyhash":         string(keyHash),
+			"salt_unreliable": string(saltBytes),
+			"keyhash":         hex.EncodeToString(keyHash),
+			"keyhash_unreliable":         string(keyHash),
 			"cipherBlockSize": block.BlockSize(),
 			"nonce":           hex.EncodeToString(nonce),
+			"nonce_unreliable": string(nonce),
 			"ciphertext":      hex.EncodeToString(ciphertext),
+			"ciphertext_unreliable": string(ciphertext),
 		})
 	})
 
