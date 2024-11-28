@@ -17,6 +17,7 @@ import DemoEncrypted from "~/components/Demo/DemoEncrypted";
 // @ts-ignore
 import anime from "animejs";
 import "./Demo.scss";
+import { moveLeftAddRight, mLARResult } from "~/components/Demo/utils_anime";
 
 interface PasswordData {
   username: string;
@@ -39,16 +40,17 @@ const Demo: Component = () => {
     originalPassword: "",
     originalNotes: "",
   });
-  const [encryptedData, encryptedDataSet] = createSignal<any>([
-    "Converting Data to JSON...",
-    `Plaintext: ${JSON.stringify(dataSignal(), null, 2)}`,
-  ]);
+  // const [encryptedData, encryptedDataSet] = createSignal<any>([
+  //   "Converting Data to JSON...",
+  //   `Plaintext: ${JSON.stringify(dataSignal(), null, 2)}`,
+  // ]);
 
   onMount(() => {
     localStorageAndDisplay(); // On mount, check localstorage for saved data and display it
   });
 
   const URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+  let localEncrypted: string[] = [];
 
   const localStorageAndDisplay = () => {
     function checkLocalStorage() {
@@ -252,39 +254,15 @@ const Demo: Component = () => {
       loadingSet("progress");
       updateLocalStorage(true, false);
       encryptSet(true);
-      moveENCLeft();
+
+      moveLeftAddRight("unencrypted", "encrypted").then((res: mLARResult) => {
+        if (res.complete) runEncryptFetch();
+      });
     }
   };
 
   let unencryptedRef: any;
   let encryptedRef: any;
-
-  const moveENCLeft = () => {
-    let duration = 600;
-    anime({
-      targets: unencryptedRef,
-      translateX: "-500px",
-      opacity: 0,
-      duration: duration,
-      easing: "cubicBezier(.5, .05, .1, .3)",
-    });
-    setTimeout(() => {
-      unencryptedRef.style.display = "none";
-
-      let encryptedEl = document.getElementById("encrypted");
-      encryptedEl!.style.display = "none";
-      encryptedEl!.style.display = "flex";
-      anime({
-        targets: document.getElementById("encrypted"),
-        translateX: "-500px",
-        opacity: 1,
-        duration: duration,
-        easing: "cubicBezier(.5, .05, .1, .3)",
-      });
-
-      runEncryptFetch();
-    }, duration + 50);
-  };
 
   const runEncryptFetch = async () => {
     console.log("Run encryption fetch");
@@ -301,14 +279,24 @@ const Demo: Component = () => {
     })
       .then((res) => res.json())
       .then((jsonResult) => {
-        encryptedDataSet([
-          `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n
-          Creating a Key Hash from key ${keytext()}...^500\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n
-          Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...^500\n
-          Creating a Nonce...^500\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n
-          Encrypting Data with Cipher Block and Nonce...^500\n ${jsonResult.ciphertext} \n ${jsonResult.ciphertext_unreliable} \n^1000\n Ciphertext Complete!`,
-        ]);
-        console.log("Encrypted Data: ", encryptedData());
+        // localEncrypted = [
+        //   `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n
+        //   Creating a Key Hash from key ${keytext()}...^500\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n
+        //   Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...^500\n
+        //   Creating a Nonce...^500\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n
+        //   Encrypting Data with Cipher Block and Nonce...^500\n ${jsonResult.ciphertext} \n ${jsonResult.ciphertext_unreliable} \n^1000\n Ciphertext Complete!`,
+        // ];
+        localEncrypted = [
+          `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
+        ];
+        // encryptedDataSet([
+        //   `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n
+        //   Creating a Key Hash from key ${keytext()}...^500\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n
+        //   Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...^500\n
+        //   Creating a Nonce...^500\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n
+        //   Encrypting Data with Cipher Block and Nonce...^500\n ${jsonResult.ciphertext} \n ${jsonResult.ciphertext_unreliable} \n^1000\n Ciphertext Complete!`,
+        // ]);
+        console.log("Encrypted Data: ", localEncrypted);
         // Set the encrypted data to localstorage
         localStorage.setItem("encData", JSON.stringify(jsonResult));
 
@@ -627,8 +615,8 @@ const Demo: Component = () => {
         </div>
         <DemoEncrypted
           encryptedRef={encryptedRef}
-          encryptedData={encryptedData}
-          encryptedDataSet={encryptedDataSet}
+          encryptedData={localEncrypted}
+          // encryptedDataSet={encryptedDataSet}
           triggerDecrypt={triggerDecrypt}
           encrypt={encrypt}
         />
