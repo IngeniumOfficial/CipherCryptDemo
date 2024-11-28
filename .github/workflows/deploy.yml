@@ -33,7 +33,6 @@ jobs:
           ssh -o "StrictHostKeyChecking=no" -i /tmp/ssh_private_key ${SSH_USERNAME}@${SSH_HOSTNAME} "
             cd CipherCryptDemo;
             git pull origin main;
-            npm install;
             sudo docker-compose stop;
             sudo docker-compose rm -f;
             sudo docker image rm -f ciphercryptdemo-api:latest;
