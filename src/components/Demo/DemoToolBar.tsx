@@ -1,10 +1,10 @@
 import type { Component, Setter, Accessor } from "solid-js";
 import { animals, animals2, exoticAnimals } from "./data";
+import { updateLS } from "./utils_ls";
 
 const DemoToolBar: Component<{
   dataSignal: Accessor<any>;
   dataSignalSet: Setter<any>;
-  updateLS: () => void;
   loadingSet: Setter<any>;
 }> = (props) => {
   const generateRandom = (quantity: number = 1) => {
@@ -71,7 +71,7 @@ const DemoToolBar: Component<{
       }
     }
 
-    props.updateLS();
+    updateLS(props.dataSignal());
   };
 
   return (

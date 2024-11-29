@@ -1,3 +1,4 @@
+/* Update data to tempData, delete demoData */
 const replaceLS = (newData: any) => {
   let tempObject: any = {};
   newData.forEach((item: any, index: any) => {
@@ -9,6 +10,7 @@ const replaceLS = (newData: any) => {
   return;
 };
 
+/* Move data from tempData to demoData, delete tempData. If tempData doesn't exist, alert */
 const reloadLS = () => {
   const tempData = localStorage.getItem("tempData");
   if (tempData) {
@@ -24,6 +26,7 @@ const reloadLS = () => {
   }
 };
 
+/* Update data to demoData */
 const updateLS = (newData: any) => {
   let tempObject: any = {};
   newData.forEach((item: any, index: any) => {

@@ -84,51 +84,6 @@ const Demo: Component = () => {
     checkLocalStorage();
   };
 
-  const updateLocalStorage = (
-    replace: boolean = false,
-    reload: boolean = false
-  ) => {
-    if (replace) {
-      // Transfer data to a different object, and empty demoData in localstorage
-      const tempData = dataSignal();
-      let tempObject: any = {};
-      tempData.forEach((item, index) => {
-        tempObject[index] = item;
-      });
-      localStorage.setItem("tempData", JSON.stringify(tempObject));
-      localStorage.removeItem("demoData");
-      return;
-    }
-
-    if (reload) {
-      // Transfer data from secondary (tempData) to primary (demoData) and empty tempData
-      const tempData = localStorage.getItem("tempData");
-      if (tempData) {
-        const data = JSON.parse(tempData);
-        localStorage.setItem("demoData", JSON.stringify(data));
-        localStorage.removeItem("tempData");
-        loadingSet("good");
-        window.location.reload();
-        return;
-      } else {
-        window.alert(
-          "The data might have been corrupted or lost. Please enter new data."
-        );
-        loadingSet("empty");
-        return;
-      }
-    }
-
-    console.log("Updating Local Storage with data", dataSignal());
-    const tempData = dataSignal();
-    let tempObject: any = {};
-    tempData.forEach((item, index) => {
-      tempObject[index] = item;
-    });
-
-    localStorage.setItem("demoData", JSON.stringify(tempObject));
-  };
-
   const addData = (dataType: string, data: PasswordData) => {
     if (
       data === undefined ||
@@ -182,7 +137,7 @@ const Demo: Component = () => {
       }
     }
 
-    updateLocalStorage();
+    updateLS(dataSignal());
   };
 
   const deleteData = (username: string) => {
@@ -196,7 +151,8 @@ const Demo: Component = () => {
       }
     }
     dataSignalSet(tempArr);
-    updateLocalStorage();
+
+    updateLS(dataSignal());
   };
 
   const editDataTrigger = (
@@ -238,7 +194,8 @@ const Demo: Component = () => {
       }
     }
     dataSignalSet(tempArr);
-    updateLocalStorage();
+
+    updateLS(dataSignal());
     window.location.reload();
   };
 
@@ -250,7 +207,7 @@ const Demo: Component = () => {
       alert("Cannot encrypt without a key");
     } else {
       loadingSet("progress");
-      updateLocalStorage(true, false);
+      replaceLS(dataSignal());
       encryptSet(true);
 
       moveLeftAddRight("unencrypted", "encrypted").then((res: mLARResult) => {
@@ -348,7 +305,6 @@ const Demo: Component = () => {
       <DemoToolBar
         dataSignal={dataSignal}
         dataSignalSet={dataSignalSet}
-        updateLS={updateLocalStorage}
         loadingSet={loadingSet}
       />
       <div id="inner-main" ref={innerMain}>
@@ -406,10 +362,7 @@ const Demo: Component = () => {
                 Previous Data wasn't decrypted. Add new Data or press the Button
                 Below to load previous Data
               </h2>
-              <button
-                class="warning"
-                onClick={() => updateLocalStorage(false, true)}
-              >
+              <button class="warning" onClick={() => reloadLS()}>
                 Load Previous Data
               </button>
               <div class="demo-input">
