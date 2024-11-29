@@ -270,12 +270,14 @@ const Demo: Component = () => {
     });
 
     console.log("Result sent: ", body);
+    console.log(`Fetching from: ${URL}`)
     let result = await fetch(`${URL}/encrypt`, {
       method: "POST",
       body: body,
     })
       .then((res) => res.json())
       .then((jsonResult) => {
+        console.log("JSON Result is: ", jsonResult)
         // localEncrypted = [
         //   `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n
         //   Creating a Key Hash from key ${keytext()}...^500\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n

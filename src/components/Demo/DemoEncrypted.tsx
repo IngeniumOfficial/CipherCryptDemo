@@ -58,7 +58,21 @@ const DemoEncrypted: Component<{
           skipChunkMin: 1,
           skipChunkMax: 4,
           onComplete: () => {
-            console.log("Animation complete");
+                        console.log("Animation complete");
+            let banter = document.getElementById("banter-loader");
+            anime({
+              targets: banter,
+              translateY: "-500px",
+              opacity: 0,
+              duration: 1000,
+              easing: "cubicBezier(.5, .05, .1, .3)",
+            });
+            setTimeout(() => {
+              let banter = document.getElementById("banter-loader");
+              banter!.style.display = "none";
+              document.getElementById("postencrypt-buttons")!.style.display =
+                "flex";
+            }, 500);
           },
         });
         tw.run();
