@@ -25,18 +25,24 @@ export default class Typewriter {
     let minChunk = this.options.skipChunkMin;
     let maxChunk = this.options.skipChunkMax;
     let i = 0;
-    while (i < this.options.strings.length) {
+    let index = 0;
+    let subdivided: string[] = [];
+
+    function displayNextString(this: Typewriter) {
+      if (i >= this.options.strings.length) {
+        this.onComplete();
+        return;
+      }
+
       console.log("String: ", this.options.strings[i]);
-      let subdivided: string[] = [];
-      /* Subdivide Section */
       // Find out if string needs to be subdivided
       if (typeof this.options.skipChunkMin !== "undefined") {
         console.log("Subdividing string preset");
         if (typeof this.options.skipChunkMax === "undefined") {
           console.log("Setting skipChunkMax to skipChunkMin");
           let str = this.options.strings[i];
-          for (let m = 0; m < str.length; m += minChunk!) {
-            const chunk = str.slice(m, Math.min(m + minChunk!, str.length));
+          for (let i = 0; i < str.length; i += minChunk!) {
+            const chunk = str.slice(i, Math.min(i + minChunk!, str.length));
             subdivided.push(chunk);
           }
         } else {
@@ -52,32 +58,26 @@ export default class Typewriter {
             j += skipLength;
           }
         }
-      }
-
-      console.log("Subdivided: ", subdivided);
-
-      if (subdivided.length === 0) {
-        console.log("Not subdividing string");
+      } else {
         subdivided = [...this.options.strings[i].split("")];
       }
 
-      // Loop over the subdivided strings and display them
-      let index = 0;
-      let callback = this.onComplete;
-      let strArr = this.options.strings;
-      function runDisplay() {
+      index = 0;
+
+      const innerIntervalId = setInterval(() => {
         if (index < subdivided.length) {
-          console.log("Displaying: ", subdivided[index]);
+          console.log("Displaying");
           element!.innerHTML += subdivided[index];
           index++;
         } else {
-          clearInterval(id);
-          if (i === strArr.length - 1) callback();
+          clearInterval(innerIntervalId);
           i++;
+          subdivided = [];
+          displayNextString.call(this); // Call the next string
         }
-      }
-
-      const id = setInterval(runDisplay, this.options.typeSpeed || 100);
+      }, this.options.typeSpeed || 100);
     }
+
+    displayNextString.call(this);
   }
 }
