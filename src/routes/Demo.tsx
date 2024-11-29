@@ -40,10 +40,7 @@ const Demo: Component = () => {
     originalPassword: "",
     originalNotes: "",
   });
-  // const [encryptedData, encryptedDataSet] = createSignal<any>([
-  //   "Converting Data to JSON...",
-  //   `Plaintext: ${JSON.stringify(dataSignal(), null, 2)}`,
-  // ]);
+  const [encryptedData, encryptedDataSet] = createSignal<string[]>([]);
 
   onMount(() => {
     localStorageAndDisplay(); // On mount, check localstorage for saved data and display it
@@ -286,16 +283,16 @@ const Demo: Component = () => {
         //   Creating a Nonce...^500\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n
         //   Encrypting Data with Cipher Block and Nonce...^500\n ${jsonResult.ciphertext} \n ${jsonResult.ciphertext_unreliable} \n^1000\n Ciphertext Complete!`,
         // ];
-        localEncrypted = [
-          `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
-        ];
         // encryptedDataSet([
-        //   `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n
-        //   Creating a Key Hash from key ${keytext()}...^500\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n
-        //   Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...^500\n
-        //   Creating a Nonce...^500\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n
-        //   Encrypting Data with Cipher Block and Nonce...^500\n ${jsonResult.ciphertext} \n ${jsonResult.ciphertext_unreliable} \n^1000\n Ciphertext Complete!`,
+        //   `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
         // ]);
+        encryptedDataSet([
+          `Creating a Salt...\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n
+          Creating a Key Hash from key ${keytext()}...\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n
+          Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...\n
+          Creating a Nonce...\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n
+          Encrypting Data with Cipher Block and Nonce...\n ${jsonResult.ciphertext}\n ${jsonResult.ciphertext_unreliable}\n Ciphertext Complete!`,
+        ]);
         console.log("Encrypted Data: ", localEncrypted);
         // Set the encrypted data to localstorage
         localStorage.setItem("encData", JSON.stringify(jsonResult));
@@ -615,7 +612,7 @@ const Demo: Component = () => {
         </div>
         <DemoEncrypted
           encryptedRef={encryptedRef}
-          encryptedData={localEncrypted}
+          encryptedData={encryptedData}
           // encryptedDataSet={encryptedDataSet}
           triggerDecrypt={triggerDecrypt}
           encrypt={encrypt}
