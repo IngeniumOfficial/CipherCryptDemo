@@ -24,18 +24,19 @@ export default class Typewriter {
     console.log("Options: ", this.options);
     let minChunk = this.options.skipChunkMin;
     let maxChunk = this.options.skipChunkMax;
-
-    for (let i = 0; i < this.options.strings.length; i++) {
+    let i = 0;
+    while (i < this.options.strings.length) {
       console.log("String: ", this.options.strings[i]);
       let subdivided: string[] = [];
+      /* Subdivide Section */
       // Find out if string needs to be subdivided
       if (typeof this.options.skipChunkMin !== "undefined") {
         console.log("Subdividing string preset");
         if (typeof this.options.skipChunkMax === "undefined") {
           console.log("Setting skipChunkMax to skipChunkMin");
           let str = this.options.strings[i];
-          for (let i = 0; i < str.length; i += minChunk!) {
-            const chunk = str.slice(i, Math.min(i + minChunk!, str.length));
+          for (let m = 0; m < str.length; m += minChunk!) {
+            const chunk = str.slice(m, Math.min(m + minChunk!, str.length));
             subdivided.push(chunk);
           }
         } else {
@@ -63,6 +64,7 @@ export default class Typewriter {
       // Loop over the subdivided strings and display them
       let index = 0;
       let callback = this.onComplete;
+      let strArr = this.options.strings;
       function runDisplay() {
         if (index < subdivided.length) {
           console.log("Displaying: ", subdivided[index]);
@@ -70,7 +72,8 @@ export default class Typewriter {
           index++;
         } else {
           clearInterval(id);
-          callback();
+          if (i === strArr.length - 1) callback();
+          i++;
         }
       }
 

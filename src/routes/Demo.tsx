@@ -270,14 +270,14 @@ const Demo: Component = () => {
     });
 
     console.log("Result sent: ", body);
-    console.log(`Fetching from: ${URL}`)
+    console.log(`Fetching from: ${URL}`);
     let result = await fetch(`${URL}/encrypt`, {
       method: "POST",
       body: body,
     })
       .then((res) => res.json())
       .then((jsonResult) => {
-        console.log("JSON Result is: ", jsonResult)
+        console.log("JSON Result is: ", jsonResult);
         // localEncrypted = [
         //   `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n
         //   Creating a Key Hash from key ${keytext()}...^500\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n
@@ -289,11 +289,11 @@ const Demo: Component = () => {
         //   `Creating a Salt...^500\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
         // ]);
         encryptedDataSet([
-          `Creating a Salt...\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n
-          Creating a Key Hash from key ${keytext()}...\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n
-          Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...\n
-          Creating a Nonce...\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n
-          Encrypting Data with Cipher Block and Nonce...\n ${jsonResult.ciphertext}\n ${jsonResult.ciphertext_unreliable}\n Ciphertext Complete!`,
+          `Creating a Salt...\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
+          `Creating a Key Hash from key ${keytext()}...\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n`,
+          `Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...\n`,
+          `Creating a Nonce...\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n`,
+          `Encrypting Data with Cipher Block and Nonce...\n ${jsonResult.ciphertext}\n ${jsonResult.ciphertext_unreliable}\n Ciphertext Complete!`,
         ]);
         console.log("Encrypted Data: ", localEncrypted);
         // Set the encrypted data to localstorage
