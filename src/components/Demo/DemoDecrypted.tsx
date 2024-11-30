@@ -1,12 +1,12 @@
 import { Ref } from "solid-js";
 import type { Component } from "solid-js";
 
-const DemoDecrypted: Component<{ ciphertext: string; DC: () => any }> = (
+const DemoDecrypted: Component<{ encryptedData: any; DC: () => any }> = (
   props
 ) => {
   return (
     <div id="decrypted">
-      <div id="ciphertext">{props.ciphertext}</div>
+      <div id="ciphertext">{props.encryptedData().ciphertext}</div>
       <div id="decryption-key">
         <input
           type="text"

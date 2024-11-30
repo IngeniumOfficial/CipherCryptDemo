@@ -17,7 +17,7 @@ const reloadLS = () => {
     const data = JSON.parse(tempData);
     localStorage.setItem("demoData", JSON.stringify(data));
     localStorage.removeItem("tempData");
-    return "good";
+    window.location.reload();
   } else {
     window.alert(
       "The data might have been corrupted or lost. Please enter new data."
@@ -36,4 +36,18 @@ const updateLS = (newData: any) => {
   localStorage.setItem("demoData", JSON.stringify(tempObject));
 };
 
-export { replaceLS, reloadLS, updateLS };
+const checkLS = () => {
+  if (localStorage.getItem("tempData")) {
+    return "progress";
+  }
+  // If there is data in localstorage, return it
+  const lsData = localStorage.getItem("demoData");
+  if (lsData) {
+    const data = JSON.parse(lsData);
+    return data;
+  } else {
+    return "empty";
+  }
+};
+
+export { replaceLS, reloadLS, updateLS, checkLS };
