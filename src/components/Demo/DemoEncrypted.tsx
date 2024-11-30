@@ -28,7 +28,7 @@ const DemoEncrypted: Component<{
       setTimeout(() => {
         let tw = new Typewriter("encrypted-data", {
           strings: props.encryptedData(),
-          typeSpeed: 100,
+          typeSpeed: 50,
           skipChunkMin: 3,
           skipChunkMax: 5,
           onComplete: () => {
