@@ -4,6 +4,7 @@ type Options = {
   skipChunkMin?: number; // When low typespeed is not enough (or just for the heck of it), you can choose to skip this many characters at a time [default: none]
   skipChunkMax?: number; // If this option is not set but skipChunkMin is, skipChunkMax will be set to skipChunkMin (skipping chunks will be consistent). Otherwise, it will randomly pick a number between skipChunkMin and skipChunkMax (skipping chunks will be randomized)
   onComplete?: () => any; // Optional callback to run when typing is complete
+  outputType?: string; // Output type [default: text], can be text, html, or value
 };
 
 export default class Typewriter {
@@ -27,6 +28,7 @@ export default class Typewriter {
     let i = 0;
     let index = 0;
     let subdivided: string[] = [];
+    let outputType = this.options.outputType || "text";
 
     function displayNextString(this: Typewriter) {
       if (i >= this.options.strings.length) {
@@ -67,7 +69,14 @@ export default class Typewriter {
       const innerIntervalId = setInterval(() => {
         if (index < subdivided.length) {
           console.log("Displaying");
-          element!.innerHTML += subdivided[index];
+
+          if (outputType === "value") {
+            (element as HTMLInputElement).value += subdivided[index];
+          } else if (outputType === "html") {
+            element!.innerHTML += subdivided[index];
+          } else {
+            element!.innerText += subdivided[index];
+          }
           index++;
         } else {
           clearInterval(innerIntervalId);

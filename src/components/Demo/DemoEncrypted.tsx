@@ -28,7 +28,7 @@ const DemoEncrypted: Component<{
       setTimeout(() => {
         let tw = new Typewriter("encrypted-data", {
           strings: props.encryptedData(),
-          typeSpeed: 50,
+          typeSpeed: 5,
           skipChunkMin: 3,
           skipChunkMax: 5,
           onComplete: () => {
@@ -73,7 +73,9 @@ const DemoEncrypted: Component<{
         <p id="encrypted-data" ref={encryptedDataRef}></p>
       </div>
       <div id="postencrypt-buttons">
-        <button id="return">Return</button>
+        <button id="return" onClick={() => window.location.reload()}>
+          Return
+        </button>
         <button
           class="success"
           id="decrypt-question"

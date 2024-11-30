@@ -46,7 +46,8 @@ const Demo: Component = () => {
   const [keytext, keytextSet] = createSignal("");
   const [encrypt, encryptSet] = createSignal<boolean>(false);
   const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]); // This is the main data store. Nested reactivity (createStore) was unnecessary. It bases its order on the array system, and stores the order in localstorage the same way
-  const [decryptKeyText, decryptKeySetText] = createSignal("");
+  const [decryptKeyText, decryptKeyTextSet] = createSignal("");
+  const [decryptedData, decryptedDataSet] = createSignal<PasswordData[]>([]);
   const [modalData, modalDataSet] = createSignal<any>({
     originalUsername: "",
     originalPassword: "",
@@ -228,6 +229,35 @@ const Demo: Component = () => {
 
   const triggerDecrypt = () => {
     fetchDecrypt();
+
+    let encrypted = document.getElementById("encrypted");
+    let decrypted = document.getElementById("decrypted");
+
+    anime({
+      targets: [
+        encrypted,
+        ".scroll-container",
+        "#encrypted-data",
+        "#postencrypt-buttons",
+        "#return",
+        "#decrypt-question",
+      ],
+      translateX: "-1000px",
+      opacity: 0,
+      duration: 1000,
+      easing: "cubicBezier(.5, .05, .1, .3)",
+    });
+    setTimeout(() => {
+      encrypted!.style.display = "none";
+      decrypted!.style.display = "flex";
+      anime({
+        targets: decrypted,
+        translateX: "-500px",
+        opacity: 1,
+        duration: 1000,
+        easing: "cubicBezier(.5, .05, .1, .3)",
+      });
+    }, 500);
   };
 
   const fetchDecrypt = async () => {
@@ -321,7 +351,12 @@ const Demo: Component = () => {
           triggerDecrypt={triggerDecrypt}
           encrypt={encrypt}
         />
-        {/* <DemoDecrypted encryptedData={encryptedData} DC={decrypted} /> */}
+        <DemoDecrypted
+          encryptedData={encryptedData}
+          DC={decryptedData}
+          key={decryptKeyText}
+          keySet={decryptKeyTextSet}
+        />
       </div>
       <Footer />
     </main>

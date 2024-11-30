@@ -50,4 +50,12 @@ const checkLS = () => {
   }
 };
 
-export { replaceLS, reloadLS, updateLS, checkLS };
+const checkLSForDecrypt = () => {
+  let lsData = localStorage.getItem("encData");
+  if (!lsData) {
+    return "empty";
+  }
+  return JSON.parse(lsData);
+};
+
+export { replaceLS, reloadLS, updateLS, checkLS, checkLSForDecrypt };

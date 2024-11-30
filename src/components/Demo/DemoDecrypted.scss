@@ -8,3 +8,52 @@ $quaternary: #ff92c2;
 $quinary: #ffadfe;
 $senary: #0a7ec2;
 $senary-paler: #11a8ff;
+
+#decrypted {
+  //   display: none;
+  display: flex;
+  margin-top: 100px;
+
+  //   opacity: 0;
+
+  flex-direction: column;
+  //   translate: 500px;
+  align-items: center;
+  justify-content: flex-start;
+
+  #banter-loader {
+    display: none;
+  }
+
+  #decryption-key-section {
+    outline: 1px solid $tertiary;
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    #decryption-key {
+      color: black;
+    }
+  }
+
+  #forgot-card {
+    background-color: $primary-paler;
+    border: 1px solid $secondary-dimmer;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 900px;
+
+    p {
+      margin: 0;
+      text-wrap: wrap;
+      text-align: center;
+    }
+  }
+}
