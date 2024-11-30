@@ -14,6 +14,7 @@ import NavBar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 import DemoToolBar from "~/components/Demo/DemoToolBar";
 import DemoEncrypted from "~/components/Demo/DemoEncrypted";
+import DemoDecrypted from "~/components/Demo/DemoDecrypted";
 // @ts-ignore
 import anime from "animejs";
 import "./Demo.scss";
@@ -51,7 +52,11 @@ const Demo: Component = () => {
     originalPassword: "",
     originalNotes: "",
   });
-  const [encryptedData, encryptedDataSet] = createSignal<string[]>([]);
+  const [encryptedData, encryptedDataSet] = createSignal<any>({
+    ciphertext: "",
+    ciphertext_unreliable: "",
+  });
+  const [encryptedReader, encryptedReaderSet] = createSignal<string[]>([]);
 
   onMount(() => {
     runDisplay(200); // On mount, check localstorage for saved data and display it
@@ -203,7 +208,7 @@ const Demo: Component = () => {
       .then((jsonResult) => {
         console.log("JSON Result is: ", jsonResult);
 
-        encryptedDataSet([
+        encryptedReaderSet([
           `Creating a Salt...\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
           `Creating a Key Hash from key ${keytext()}...\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n`,
           `Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...\n`,
@@ -309,11 +314,12 @@ const Demo: Component = () => {
         </div>
         <DemoEncrypted
           encryptedRef={encryptedRef}
-          encryptedData={encryptedData}
+          encryptedData={encryptedReader}
           // encryptedDataSet={encryptedDataSet}
           triggerDecrypt={triggerDecrypt}
           encrypt={encrypt}
         />
+        {/* <DemoDecrypted encryptedData={encryptedData} DC={decrypted} /> */}
       </div>
       <Footer />
     </main>
