@@ -96,6 +96,8 @@ const Demo: Component = () => {
     let reload = reloadLS();
     if (reload === "empty") {
       loadingSet("empty");
+    } else {
+      loadingSet("good");
     }
   };
 
