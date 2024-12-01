@@ -1,4 +1,4 @@
-import { Ref } from "solid-js";
+import { createEffect, onMount, Ref } from "solid-js";
 import type { Component, Setter } from "solid-js";
 import { checkLSForDecrypt } from "~/components/Demo/utils_ls";
 import Typewriter from "~/lib/typewriter.ts";
@@ -11,6 +11,10 @@ const DemoDecrypted: Component<{
   key: () => any;
   keySet: Setter<string>;
 }> = (props) => {
+  createEffect(() => {
+    console.log("Decrypted data changed: ", props.encryptedData());
+  });
+
   const retrieveKey = () => {
     let ls = checkLSForDecrypt();
     if (ls === "empty") {
@@ -59,6 +63,11 @@ const DemoDecrypted: Component<{
     console.log("Show forgot card");
   };
 
+  const decryptFetch = async () => {
+    let key = (document.getElementById("decryption-key") as HTMLInputElement)
+      .value;
+  };
+
   return (
     <div id="decrypted">
       <div class="banter-loader" id="banter-loader">
@@ -72,7 +81,9 @@ const DemoDecrypted: Component<{
         <div class="banter-loader__box"></div>
         <div class="banter-loader__box"></div>
       </div>
-      <div id="ciphertext">{props.encryptedData().ciphertext}</div>
+      <h3 id="ciphertext">
+        {JSON.stringify(props.encryptedData().ciphertext, null, 2)}
+      </h3>
       <h3>Please Enter the Decryption Key that you used to Encrypt the Data</h3>
       <div id="decryption-key-section">
         <input

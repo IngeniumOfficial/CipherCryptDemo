@@ -21,8 +21,6 @@ export default class Typewriter {
     const element = document.getElementById(this.elementId);
     if (!element) return console.error("Element not found");
 
-    console.log("Running typewriter");
-    console.log("Options: ", this.options);
     let minChunk = this.options.skipChunkMin;
     let maxChunk = this.options.skipChunkMax;
     let i = 0;
@@ -36,12 +34,9 @@ export default class Typewriter {
         return;
       }
 
-      console.log("String: ", this.options.strings[i]);
       // Find out if string needs to be subdivided
       if (typeof this.options.skipChunkMin !== "undefined") {
-        console.log("Subdividing string preset");
         if (typeof this.options.skipChunkMax === "undefined") {
-          console.log("Setting skipChunkMax to skipChunkMin");
           let str = this.options.strings[i];
           for (let i = 0; i < str.length; i += minChunk!) {
             const chunk = str.slice(i, Math.min(i + minChunk!, str.length));
@@ -68,8 +63,6 @@ export default class Typewriter {
 
       const innerIntervalId = setInterval(() => {
         if (index < subdivided.length) {
-          console.log("Displaying");
-
           if (outputType === "value") {
             (element as HTMLInputElement).value += subdivided[index];
           } else if (outputType === "html") {

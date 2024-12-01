@@ -9,6 +9,7 @@ const DemoToolBar: Component<{
 }> = (props) => {
   const generateRandom = (quantity: number = 1) => {
     console.log(quantity);
+    console.log("Original dataSignal: ", props.dataSignal());
     let randomAnimal1 = animals[Math.floor(Math.random() * 15)];
     let randomAnimal2 = animals2[Math.floor(Math.random() * 15)];
     let randomAnimal3 = exoticAnimals[Math.floor(Math.random() * 15)];
@@ -72,6 +73,7 @@ const DemoToolBar: Component<{
     }
 
     updateLS(props.dataSignal());
+    console.log("New dataSignal: ", props.dataSignal());
   };
 
   return (

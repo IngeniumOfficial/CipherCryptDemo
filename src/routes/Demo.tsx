@@ -60,6 +60,7 @@ const Demo: Component = () => {
   const [encryptedReader, encryptedReaderSet] = createSignal<string[]>([]);
 
   onMount(() => {
+    console.log("Mounted data signal: ", dataSignal());
     runDisplay(200); // On mount, check localstorage for saved data and display it
   });
 
@@ -76,20 +77,20 @@ const Demo: Component = () => {
       loadingSet("empty");
     } else {
       loadingSet("good");
-    }
 
-    // Otherwise, display the data incrementally
-    for (let key in lsRes) {
-      setTimeout(
-        () => {
-          if (dataSignal().length > 0) {
-            dataSignalSet((prev) => [...prev, lsRes[key]]);
-          } else {
-            dataSignalSet([lsRes[key]]);
-          }
-        },
-        parseInt(key) * time
-      );
+      // Otherwise, display the data incrementally
+      for (let key in lsRes) {
+        setTimeout(
+          () => {
+            if (dataSignal().length > 0) {
+              dataSignalSet((prev) => [...prev, lsRes[key]]);
+            } else {
+              dataSignalSet([lsRes[key]]);
+            }
+          },
+          parseInt(key) * time
+        );
+      }
     }
   };
 
@@ -210,6 +211,11 @@ const Demo: Component = () => {
       .then((res) => res.json())
       .then((jsonResult) => {
         console.log("JSON Result is: ", jsonResult);
+
+        encryptedDataSet({
+          ciphertext: jsonResult.ciphertext,
+          ciphertext_unreliable: jsonResult.ciphertext_unreliable,
+        });
 
         encryptedReaderSet([
           `Creating a Salt...\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
