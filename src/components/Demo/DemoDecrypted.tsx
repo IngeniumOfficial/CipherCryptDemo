@@ -2,6 +2,8 @@ import { Ref } from "solid-js";
 import type { Component, Setter } from "solid-js";
 import { checkLSForDecrypt } from "~/components/Demo/utils_ls";
 import Typewriter from "~/lib/typewriter.ts";
+// @ts-ignore
+import anime from "animejs";
 
 const DemoDecrypted: Component<{
   encryptedData: any;
@@ -32,6 +34,18 @@ const DemoDecrypted: Component<{
     //   ls.inputKey;
   };
 
+  const showForgotCard = () => {
+    let fc = document.getElementById("forgot-card");
+    anime({
+      targets: fc,
+      opacity: 1,
+      duration: 1000,
+      translateY: 500,
+      easing: "cubicBezier(.5, .05, .1, .3)",
+    });
+    console.log("Show forgot card");
+  };
+
   return (
     <div id="decrypted">
       <div class="banter-loader" id="banter-loader">
@@ -57,7 +71,9 @@ const DemoDecrypted: Component<{
           Decrypt
         </button>
       </div>
-      <button>I forgot my decryption key</button>
+      <button onClick={() => showForgotCard()}>
+        I forgot my decryption key
+      </button>
       <div id="forgot-card">
         <p>
           Normally, in a real application, forgetting your key would mean losing

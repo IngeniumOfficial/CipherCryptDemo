@@ -43,12 +43,14 @@ $senary-paler: #11a8ff;
     border: 1px solid $secondary-dimmer;
     padding: 10px;
     border-radius: 10px;
-    display: flex;
+    display: none;
+    opacity: 0;
     flex-direction: column;
     gap: 10px;
     align-items: center;
     justify-content: center;
     width: 900px;
+    transform: translateY(-500px);
 
     p {
       margin: 0;
