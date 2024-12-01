@@ -50,7 +50,9 @@ $senary-paler: #11a8ff;
     align-items: center;
     justify-content: center;
     width: 900px;
-    transform: translateY(-500px);
+    height: 10px;
+    overflow: hidden;
+    // translate: 0px -500px;
 
     p {
       margin: 0;

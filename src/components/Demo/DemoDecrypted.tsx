@@ -20,6 +20,16 @@ const DemoDecrypted: Component<{
       return;
     }
 
+    // Hide the forgot card and button
+    anime({
+      targets: ["#forgot-card", "#forgot-button"],
+      opacity: 0,
+      duration: 500,
+      // translateY: 500,
+      height: 0,
+      easing: "cubicBezier(.5, .05, .1, .3)",
+    });
+
     props.keySet(ls.inputKey);
     let tw1 = new Typewriter("decryption-key", {
       strings: [ls.inputKey],
@@ -36,11 +46,14 @@ const DemoDecrypted: Component<{
 
   const showForgotCard = () => {
     let fc = document.getElementById("forgot-card");
+    fc!.style.display = "flex";
+    // fc!.style.opacity = "1";
     anime({
       targets: fc,
       opacity: 1,
-      duration: 1000,
-      translateY: 500,
+      duration: 500,
+      // translateY: 500,
+      height: 280,
       easing: "cubicBezier(.5, .05, .1, .3)",
     });
     console.log("Show forgot card");
@@ -71,7 +84,7 @@ const DemoDecrypted: Component<{
           Decrypt
         </button>
       </div>
-      <button onClick={() => showForgotCard()}>
+      <button id="forgot-button" onClick={() => showForgotCard()}>
         I forgot my decryption key
       </button>
       <div id="forgot-card">
