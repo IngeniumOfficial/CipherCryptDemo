@@ -20,11 +20,13 @@ main {
   display: flex !important;
   flex-direction: column;
   align-items: center !important;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: $primary;
   color: $secondary;
   font-family: "Golos Text", serif;
   font-weight: 500;
+  min-height: 100vh;
+  position: relative;
 
   // #footer {
   //   align-self: center;
@@ -47,6 +49,7 @@ main {
     align-items: center;
     justify-content: center;
     gap: 100px;
+    margin: 0 0 100px 0;
 
     #unencrypted {
       display: flex;
@@ -156,6 +159,12 @@ main {
         }
       }
     }
+  }
+
+  #footer {
+    // position: absolute;
+    // bottom: 0;
+    margin-top: auto;
   }
 }
 

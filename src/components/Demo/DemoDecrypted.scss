@@ -27,9 +27,10 @@ $senary-paler: #11a8ff;
 
   #ciphertext {
     color: $secondary-dimmer;
-    height: 400px;
-    width: 400px;
+    min-height: 400px;
+    width: 900px;
     outline: 1px solid $tertiary;
+    word-break: break-all;
   }
 
   #decryption-key-section {

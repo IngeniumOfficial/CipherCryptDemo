@@ -47,7 +47,7 @@ const Demo: Component = () => {
   const [encrypt, encryptSet] = createSignal<boolean>(false);
   const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]); // This is the main data store. Nested reactivity (createStore) was unnecessary. It bases its order on the array system, and stores the order in localstorage the same way
   const [decryptKeyText, decryptKeyTextSet] = createSignal("");
-  const [decryptedData, decryptedDataSet] = createSignal<PasswordData[]>([]);
+  const [decryptedData, decryptedDataSet] = createSignal<any>({});
   const [modalData, modalDataSet] = createSignal<any>({
     originalUsername: "",
     originalPassword: "",
@@ -56,11 +56,11 @@ const Demo: Component = () => {
   const [encryptedData, encryptedDataSet] = createSignal<any>({
     ciphertext: "",
     ciphertext_unreliable: "",
+    salt: "",
   });
   const [encryptedReader, encryptedReaderSet] = createSignal<string[]>([]);
 
   onMount(() => {
-    console.log("Mounted data signal: ", dataSignal());
     runDisplay(200); // On mount, check localstorage for saved data and display it
   });
 
@@ -202,8 +202,6 @@ const Demo: Component = () => {
       data: dataSignal(),
     });
 
-    console.log("Result sent: ", body);
-    console.log(`Fetching from: ${URL}`);
     let result = await fetch(`${URL}/encrypt`, {
       method: "POST",
       body: body,
@@ -215,6 +213,7 @@ const Demo: Component = () => {
         encryptedDataSet({
           ciphertext: jsonResult.ciphertext,
           ciphertext_unreliable: jsonResult.ciphertext_unreliable,
+          salt: jsonResult.salt,
         });
 
         encryptedReaderSet([
@@ -224,75 +223,13 @@ const Demo: Component = () => {
           `Creating a Nonce...\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n`,
           `Encrypting Data with Cipher Block and Nonce...\n ${jsonResult.ciphertext}\n ${jsonResult.ciphertext_unreliable}\n Ciphertext Complete!`,
         ]);
-        console.log("Encrypted Data: ", localEncrypted);
+
         // Set the encrypted data to localstorage
         localStorage.setItem("encData", JSON.stringify(jsonResult));
 
         let banter = document.getElementById("banter-loader");
         banter!.scrollIntoView({ behavior: "smooth" });
       });
-  };
-
-  const triggerDecrypt = () => {
-    fetchDecrypt();
-
-    let encrypted = document.getElementById("encrypted");
-    let decrypted = document.getElementById("decrypted");
-
-    anime({
-      targets: [
-        encrypted,
-        ".scroll-container",
-        "#encrypted-data",
-        "#postencrypt-buttons",
-        "#return",
-        "#decrypt-question",
-      ],
-      translateX: "-1000px",
-      opacity: 0,
-      duration: 1000,
-      easing: "cubicBezier(.5, .05, .1, .3)",
-    });
-    setTimeout(() => {
-      encrypted!.style.display = "none";
-      decrypted!.style.display = "flex";
-      anime({
-        targets: decrypted,
-        translateX: "-500px",
-        opacity: 1,
-        duration: 1000,
-        easing: "cubicBezier(.5, .05, .1, .3)",
-      });
-    }, 500);
-  };
-
-  const fetchDecrypt = async () => {
-    // Fetch using salt, previous key, and ciphertext
-    let ENCData = localStorage.getItem("encData");
-    let ed = JSON.parse(ENCData!);
-    if (!ENCData) {
-      alert(
-        "Not data to decrypt. Data might have been corrupted. Please enter new data."
-      );
-    }
-
-    console.log("Key: ", ed.inputKey);
-
-    let body = JSON.stringify({
-      salt: ed.salt,
-      key: ed.inputKey,
-      ciphertext: ed.ciphertext,
-    });
-
-    console.log("Sending the following: ", body);
-
-    let result = await fetch(`${URL}/decrypt`, {
-      method: "POST",
-      body: body,
-    });
-
-    let jsonResult = await result.json();
-    console.log("JSON Decrypt Result: ", jsonResult);
   };
 
   let innerMain: any;
@@ -354,12 +291,12 @@ const Demo: Component = () => {
           encryptedRef={encryptedRef}
           encryptedData={encryptedReader}
           // encryptedDataSet={encryptedDataSet}
-          triggerDecrypt={triggerDecrypt}
           encrypt={encrypt}
         />
         <DemoDecrypted
           encryptedData={encryptedData}
           DC={decryptedData}
+          DCSet={decryptedDataSet}
           key={decryptKeyText}
           keySet={decryptKeyTextSet}
         />

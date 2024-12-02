@@ -8,13 +8,11 @@ import anime from "animejs";
 const DemoDecrypted: Component<{
   encryptedData: any;
   DC: () => any;
+  DCSet: Setter<any>;
   key: () => any;
   keySet: Setter<string>;
 }> = (props) => {
-  createEffect(() => {
-    console.log("Decrypted data changed: ", props.encryptedData());
-  });
-
+  const URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
   const retrieveKey = () => {
     let ls = checkLSForDecrypt();
     if (ls === "empty") {
@@ -63,9 +61,34 @@ const DemoDecrypted: Component<{
     console.log("Show forgot card");
   };
 
-  const decryptFetch = async () => {
-    let key = (document.getElementById("decryption-key") as HTMLInputElement)
-      .value;
+  const fetchDecrypt = async () => {
+    // Fetch using salt, previous key, and ciphertext
+    let ENCData = props.encryptedData();
+
+    if (ENCData.ciphertext === "") {
+      alert(
+        "Not data to decrypt. Data might have been corrupted. Please enter new data."
+      );
+    }
+
+    let key1 = props.key();
+    console.log("Key to send: ", key1);
+
+    let body = JSON.stringify({
+      salt: ENCData.salt,
+      key: key1,
+      ciphertext: ENCData.ciphertext,
+    });
+
+    console.log("Sending the following to Decrypt: ", body);
+
+    let result = await fetch(`${URL}/decrypt`, {
+      method: "POST",
+      body: body,
+    });
+
+    let jsonResult = await result.json();
+    console.log("JSON Decrypt Result: ", jsonResult);
   };
 
   return (
@@ -90,8 +113,13 @@ const DemoDecrypted: Component<{
           type="text"
           id="decryption-key"
           placeholder="Decryption Key goes here"
+          onChange={(e) => props.keySet(e.target.value)}
         />
-        <button class="success" id="decrypt-button">
+        <button
+          class="success"
+          id="decrypt-button"
+          onClick={() => fetchDecrypt()}
+        >
           Decrypt
         </button>
       </div>
