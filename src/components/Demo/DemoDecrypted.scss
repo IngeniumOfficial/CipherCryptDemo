@@ -10,14 +10,15 @@ $senary: #0a7ec2;
 $senary-paler: #11a8ff;
 
 #decrypted {
-  display: none;
-  // display: flex;
+  // display: none;
+  display: flex;
   margin-top: 100px;
 
-  opacity: 0;
+  // opacity: 0;
+  opacity: 1;
 
   flex-direction: column;
-  translate: 500px;
+  // translate: 500px;
   align-items: center;
   justify-content: flex-start;
 
@@ -27,7 +28,7 @@ $senary-paler: #11a8ff;
 
   #ciphertext {
     color: $secondary-dimmer;
-    min-height: 400px;
+    height: auto;
     width: 900px;
     outline: 1px solid $tertiary;
     word-break: break-all;

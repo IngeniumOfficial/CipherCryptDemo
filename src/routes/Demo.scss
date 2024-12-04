@@ -4,6 +4,7 @@
 @import url("../components/Footer.scss");
 @import url("../components/Demo/DemoEncrypted.scss");
 @import url("../components/Demo/DemoDecrypted.scss");
+@import url("../components/Demo/DecriptionAnimation.scss");
 
 $primary: #091a20;
 $primary-paler: #2c363f;
@@ -52,8 +53,8 @@ main {
     margin: 0 0 100px 0;
 
     #unencrypted {
-      display: flex;
-      // display: none;
+      // display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;

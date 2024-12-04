@@ -66,9 +66,13 @@ const DemoDecrypted: Component<{
     let ENCData = props.encryptedData();
 
     if (ENCData.ciphertext === "") {
-      alert(
-        "Not data to decrypt. Data might have been corrupted. Please enter new data."
-      );
+      // alert(
+      //   "Not data to decrypt. Data might have been corrupted. Please enter new data."
+      // );
+      // return;
+
+      // TODO: This is temporary. Defer to above when done testing
+      ENCData = JSON.parse(localStorage.getItem("encData")!);
     }
 
     let key1 = props.key();
@@ -88,8 +92,20 @@ const DemoDecrypted: Component<{
     });
 
     let jsonResult = await result.json();
+    // set to local storage
+    localStorage.setItem("decData", JSON.stringify(jsonResult));
+    props.DCSet(jsonResult);
     console.log("JSON Decrypt Result: ", jsonResult);
   };
+
+  let encryptedDisplay = props.encryptedData();
+
+  if (encryptedDisplay.ciphertext === "") {
+    let enc = localStorage.getItem("encData");
+    let parsedEnc = JSON.parse(enc!);
+    console.log("parsedEnc: ", parsedEnc);
+    encryptedDisplay = parsedEnc.ciphertext;
+  }
 
   return (
     <div id="decrypted">
@@ -104,9 +120,8 @@ const DemoDecrypted: Component<{
         <div class="banter-loader__box"></div>
         <div class="banter-loader__box"></div>
       </div>
-      <h3 id="ciphertext">
-        {JSON.stringify(props.encryptedData().ciphertext, null, 2)}
-      </h3>
+      <h3>This is the Ciphertext of YOUR data: </h3>
+      <p id="ciphertext">{JSON.stringify(encryptedDisplay, null, 2)}</p>
       <h3>Please Enter the Decryption Key that you used to Encrypt the Data</h3>
       <div id="decryption-key-section">
         <input
