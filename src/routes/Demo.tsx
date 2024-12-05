@@ -15,6 +15,7 @@ import Footer from "~/components/Footer";
 import DemoToolBar from "~/components/Demo/DemoToolBar";
 import DemoEncrypted from "~/components/Demo/DemoEncrypted";
 import DemoDecrypted from "~/components/Demo/DemoDecrypted";
+import DecryptionAnimation from "~/components/Demo/DecryptionAnimation";
 // @ts-ignore
 import anime from "animejs";
 import "./Demo.scss";
@@ -59,6 +60,7 @@ const Demo: Component = () => {
     salt: "",
   });
   const [encryptedReader, encryptedReaderSet] = createSignal<string[]>([]);
+  const [loadingDecAnimation, loadingDecAnimationSet] = createSignal(false);
 
   onMount(() => {
     runDisplay(200); // On mount, check localstorage for saved data and display it
@@ -299,6 +301,13 @@ const Demo: Component = () => {
           DCSet={decryptedDataSet}
           key={decryptKeyText}
           keySet={decryptKeyTextSet}
+          DecAnimation={loadingDecAnimation}
+          DecAnimationSet={loadingDecAnimationSet}
+        />
+        <DecryptionAnimation
+          encryptedData={encryptedData}
+          decryptedData={decryptedData}
+          DecAnimation={loadingDecAnimation}
         />
       </div>
       <Footer />

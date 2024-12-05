@@ -11,9 +11,13 @@ const DemoDecrypted: Component<{
   DCSet: Setter<any>;
   key: () => any;
   keySet: Setter<string>;
+  DecAnimation: () => boolean;
+  DecAnimationSet: Setter<boolean>;
 }> = (props) => {
   const URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
   const retrieveKey = () => {
+    document.getElementById("decrypted")!.style.paddingBottom = "0px";
+
     let ls = checkLSForDecrypt();
     if (ls === "empty") {
       alert(
@@ -47,6 +51,11 @@ const DemoDecrypted: Component<{
   };
 
   const showForgotCard = () => {
+    // Scroll to forgot button
+    document.getElementById("decrypted")!.style.paddingBottom = "300px";
+    document
+      .getElementById("decryption-key-title")!
+      .scrollIntoView({ behavior: "smooth" });
     let fc = document.getElementById("forgot-card");
     fc!.style.display = "flex";
     // fc!.style.opacity = "1";
@@ -107,22 +116,35 @@ const DemoDecrypted: Component<{
     encryptedDisplay = parsedEnc.ciphertext;
   }
 
+  const toggleDecryptionAnimation = () => {
+    anime({
+      targets: "#decrypted",
+      opacity: 0,
+      duration: 500,
+      translateX: "-500px",
+      easing: "cubicBezier(.5, .05, .1, .3)",
+    }).finished.then(() => {
+      document.getElementById("decrypted")!.style.display = "none";
+      document.getElementById("decryption-animation")!.style.display = "flex";
+      anime({
+        targets: "#decryption-animation",
+        opacity: 1,
+        duration: 500,
+        translateX: "-500px",
+        easing: "cubicBezier(.5, .05, .1, .3)",
+      }).finished.then(() => {
+        props.DecAnimationSet(true);
+      });
+    });
+  };
+
   return (
     <div id="decrypted">
-      <div class="banter-loader" id="banter-loader">
-        <div class="banter-loader__box"></div>
-        <div class="banter-loader__box"></div>
-        <div class="banter-loader__box"></div>
-        <div class="banter-loader__box"></div>
-        <div class="banter-loader__box"></div>
-        <div class="banter-loader__box"></div>
-        <div class="banter-loader__box"></div>
-        <div class="banter-loader__box"></div>
-        <div class="banter-loader__box"></div>
-      </div>
       <h3>This is the Ciphertext of YOUR data: </h3>
       <p id="ciphertext">{JSON.stringify(encryptedDisplay, null, 2)}</p>
-      <h3>Please Enter the Decryption Key that you used to Encrypt the Data</h3>
+      <h3 id="decryption-key-title">
+        Please Enter the Decryption Key that you used to Encrypt the Data
+      </h3>
       <div id="decryption-key-section">
         <input
           type="text"
@@ -133,7 +155,11 @@ const DemoDecrypted: Component<{
         <button
           class="success"
           id="decrypt-button"
-          onClick={() => fetchDecrypt()}
+          onClick={() => {
+            // TODO: check for valid key
+            fetchDecrypt();
+            toggleDecryptionAnimation();
+          }}
         >
           Decrypt
         </button>
