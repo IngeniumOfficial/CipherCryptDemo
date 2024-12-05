@@ -16,11 +16,32 @@ const DecryptionAnimation: Component<{
   });
 
   const toggleAnimations = () => {
+    console.log("Toggle animations Started");
+    Array.from(document.getElementsByClassName("decryption-toAnimate")).forEach(
+      function (element: any) {
+        element.style.display = "block";
+      }
+    );
+
     anime({
       targets: ".decryption-toAnimate",
       opacity: 1,
       duration: 500,
       translateY: "-500px",
+      easing: "cubicBezier(.5, .05, .1, .3)",
+      delay: anime.stagger(1200, { start: 500 }),
+    }).finished.then(() => {
+      console.log("Animation complete for Decryption Animation");
+      anime({
+        targets: ".loader",
+        opacity: 0,
+        translateY: "-100px",
+        duration: 300,
+        easing: "cubicBezier(.5, .05, .1, .3)",
+      }).finished.then(() => {
+        (document.querySelector(".loader") as HTMLElement)!.style.display =
+          "none";
+      });
     });
   };
 
