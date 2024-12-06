@@ -12,6 +12,7 @@
     "@solidjs/router": "^0.14.10",
     "@solidjs/start": "^1.0.10",
     "animejs": "^3.2.2",
+    "d3": "^7.9.0",
     "express": "^4.21.1",
     "picnic": "^7.1.0",
     "scss": "^0.2.4",

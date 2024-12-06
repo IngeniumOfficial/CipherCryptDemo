@@ -15,6 +15,7 @@ import Footer from "~/components/Footer";
 import DemoToolBar from "~/components/Demo/DemoToolBar";
 import DemoEncrypted from "~/components/Demo/DemoEncrypted";
 import DemoDecrypted from "~/components/Demo/DemoDecrypted";
+import DecryptionAnimation from "~/components/Demo/DecryptionAnimation";
 // @ts-ignore
 import anime from "animejs";
 import "./Demo.scss";
@@ -45,8 +46,12 @@ const Demo: Component = () => {
   const [loading, loadingSet] = createSignal("loading");
   const [keytext, keytextSet] = createSignal("");
   const [encrypt, encryptSet] = createSignal<boolean>(false);
-  const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]); // This is the main data store. Nested reactivity (createStore) was unnecessary. It bases its order on the array system, and stores the order in localstorage the same way
-  const [decryptKeyText, decryptKeySetText] = createSignal("");
+
+  // This is the main data store. Nested reactivity (createStore) was unnecessary.
+  // It bases its order on the array system, and stores the order in localstorage the same way
+  const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]);
+  const [decryptKeyText, decryptKeyTextSet] = createSignal("");
+  const [decryptedData, decryptedDataSet] = createSignal<any>({});
   const [modalData, modalDataSet] = createSignal<any>({
     originalUsername: "",
     originalPassword: "",
@@ -55,8 +60,10 @@ const Demo: Component = () => {
   const [encryptedData, encryptedDataSet] = createSignal<any>({
     ciphertext: "",
     ciphertext_unreliable: "",
+    salt: "",
   });
   const [encryptedReader, encryptedReaderSet] = createSignal<string[]>([]);
+  const [loadingDecAnimation, loadingDecAnimationSet] = createSignal(false);
 
   onMount(() => {
     runDisplay(200); // On mount, check localstorage for saved data and display it
@@ -75,25 +82,25 @@ const Demo: Component = () => {
       loadingSet("empty");
     } else {
       loadingSet("good");
-    }
 
-    // Otherwise, display the data incrementally
-    for (let key in lsRes) {
-      setTimeout(
-        () => {
-          if (dataSignal().length > 0) {
-            dataSignalSet((prev) => [...prev, lsRes[key]]);
-          } else {
-            dataSignalSet([lsRes[key]]);
-          }
-        },
-        parseInt(key) * time
-      );
+      // Otherwise, display the data incrementally
+      for (let key in lsRes) {
+        setTimeout(
+          () => {
+            if (dataSignal().length > 0) {
+              dataSignalSet((prev) => [...prev, lsRes[key]]);
+            } else {
+              dataSignalSet([lsRes[key]]);
+            }
+          },
+          parseInt(key) * time
+        );
+      }
     }
   };
 
   const updateWhenRecovering = () => {
-    let reload = reloadLS();
+    let reload = reloadLS(true);
     if (reload === "empty") {
       loadingSet("empty");
     } else {
@@ -200,8 +207,6 @@ const Demo: Component = () => {
       data: dataSignal(),
     });
 
-    console.log("Result sent: ", body);
-    console.log(`Fetching from: ${URL}`);
     let result = await fetch(`${URL}/encrypt`, {
       method: "POST",
       body: body,
@@ -210,6 +215,12 @@ const Demo: Component = () => {
       .then((jsonResult) => {
         console.log("JSON Result is: ", jsonResult);
 
+        encryptedDataSet({
+          ciphertext: jsonResult.ciphertext,
+          ciphertext_unreliable: jsonResult.ciphertext_unreliable,
+          salt: jsonResult.salt,
+        });
+
         encryptedReaderSet([
           `Creating a Salt...\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
           `Creating a Key Hash from key ${keytext()}...\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n`,
@@ -217,46 +228,13 @@ const Demo: Component = () => {
           `Creating a Nonce...\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n`,
           `Encrypting Data with Cipher Block and Nonce...\n ${jsonResult.ciphertext}\n ${jsonResult.ciphertext_unreliable}\n Ciphertext Complete!`,
         ]);
-        console.log("Encrypted Data: ", localEncrypted);
+
         // Set the encrypted data to localstorage
         localStorage.setItem("encData", JSON.stringify(jsonResult));
 
         let banter = document.getElementById("banter-loader");
         banter!.scrollIntoView({ behavior: "smooth" });
       });
-  };
-
-  const triggerDecrypt = () => {
-    fetchDecrypt();
-  };
-
-  const fetchDecrypt = async () => {
-    // Fetch using salt, previous key, and ciphertext
-    let ENCData = localStorage.getItem("encData");
-    let ed = JSON.parse(ENCData!);
-    if (!ENCData) {
-      alert(
-        "Not data to decrypt. Data might have been corrupted. Please enter new data."
-      );
-    }
-
-    console.log("Key: ", ed.inputKey);
-
-    let body = JSON.stringify({
-      salt: ed.salt,
-      key: ed.inputKey,
-      ciphertext: ed.ciphertext,
-    });
-
-    console.log("Sending the following: ", body);
-
-    let result = await fetch(`${URL}/decrypt`, {
-      method: "POST",
-      body: body,
-    });
-
-    let jsonResult = await result.json();
-    console.log("JSON Decrypt Result: ", jsonResult);
   };
 
   let innerMain: any;
@@ -318,10 +296,23 @@ const Demo: Component = () => {
           encryptedRef={encryptedRef}
           encryptedData={encryptedReader}
           // encryptedDataSet={encryptedDataSet}
-          triggerDecrypt={triggerDecrypt}
           encrypt={encrypt}
         />
-        {/* <DemoDecrypted encryptedData={encryptedData} DC={decrypted} /> */}
+        <DemoDecrypted
+          encryptedData={encryptedData}
+          DC={decryptedData}
+          DCSet={decryptedDataSet}
+          key={decryptKeyText}
+          keySet={decryptKeyTextSet}
+          DecAnimation={loadingDecAnimation}
+          DecAnimationSet={loadingDecAnimationSet}
+        />
+        <DecryptionAnimation
+          encryptedData={encryptedData}
+          decryptedData={decryptedData}
+          DecAnimation={loadingDecAnimation}
+          dataSignal={dataSignal}
+        />
       </div>
       <Footer />
     </main>

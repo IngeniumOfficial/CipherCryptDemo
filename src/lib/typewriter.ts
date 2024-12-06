@@ -4,6 +4,7 @@ type Options = {
   skipChunkMin?: number; // When low typespeed is not enough (or just for the heck of it), you can choose to skip this many characters at a time [default: none]
   skipChunkMax?: number; // If this option is not set but skipChunkMin is, skipChunkMax will be set to skipChunkMin (skipping chunks will be consistent). Otherwise, it will randomly pick a number between skipChunkMin and skipChunkMax (skipping chunks will be randomized)
   onComplete?: () => any; // Optional callback to run when typing is complete
+  outputType?: string; // Output type [default: text], can be text, html, or value
 };
 
 export default class Typewriter {
@@ -20,13 +21,12 @@ export default class Typewriter {
     const element = document.getElementById(this.elementId);
     if (!element) return console.error("Element not found");
 
-    console.log("Running typewriter");
-    console.log("Options: ", this.options);
     let minChunk = this.options.skipChunkMin;
     let maxChunk = this.options.skipChunkMax;
     let i = 0;
     let index = 0;
     let subdivided: string[] = [];
+    let outputType = this.options.outputType || "text";
 
     function displayNextString(this: Typewriter) {
       if (i >= this.options.strings.length) {
@@ -34,12 +34,9 @@ export default class Typewriter {
         return;
       }
 
-      console.log("String: ", this.options.strings[i]);
       // Find out if string needs to be subdivided
       if (typeof this.options.skipChunkMin !== "undefined") {
-        console.log("Subdividing string preset");
         if (typeof this.options.skipChunkMax === "undefined") {
-          console.log("Setting skipChunkMax to skipChunkMin");
           let str = this.options.strings[i];
           for (let i = 0; i < str.length; i += minChunk!) {
             const chunk = str.slice(i, Math.min(i + minChunk!, str.length));
@@ -66,8 +63,13 @@ export default class Typewriter {
 
       const innerIntervalId = setInterval(() => {
         if (index < subdivided.length) {
-          console.log("Displaying");
-          element!.innerHTML += subdivided[index];
+          if (outputType === "value") {
+            (element as HTMLInputElement).value += subdivided[index];
+          } else if (outputType === "html") {
+            element!.innerHTML += subdivided[index];
+          } else {
+            element!.innerText += subdivided[index];
+          }
           index++;
         } else {
           clearInterval(innerIntervalId);

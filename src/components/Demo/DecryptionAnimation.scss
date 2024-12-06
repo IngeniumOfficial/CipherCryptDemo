@@ -1,0 +1,226 @@
+$primary: #091a20;
+$primary-paler: #2c363f;
+$secondary: #fbfef9;
+$secondary-dimmer: #bdc0bc;
+$tertiary: #9bc0af;
+$tertiary-paler: #b2dcc9;
+$quaternary: #ff92c2;
+$quinary: #ffadfe;
+$senary: #0a7ec2;
+$senary-paler: #11a8ff;
+
+$loader-size: 80px;
+$loader-square-size: 20px;
+$loader-margin: 2px;
+$loader-animation-duration: 10s;
+
+#decryption-animation {
+  padding-top: 60px;
+  display: none;
+  opacity: 0;
+  translate: 500px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  #button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  #display-plaintext {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .decryption-toAnimate {
+    align-self: center;
+    display: none;
+    opacity: 0;
+    translate: 0 -50px;
+
+    .card1 {
+      word-break: break-all;
+      color: $primary-paler;
+      background-color: $secondary-dimmer;
+      max-height: 200px;
+      width: 400px;
+      overflow: hidden;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    #plaintext-json {
+      word-break: normal;
+    }
+
+    #plaintext-container {
+      width: 80%;
+      // border: 1px solid $senary;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      .card2 {
+        background-color: $tertiary-paler;
+        color: $primary-paler;
+        padding: 5px;
+        border-radius: 10px;
+        height: 200px;
+        max-width: 300px;
+        word-break: break-all;
+      }
+    }
+  }
+}
+
+.loader {
+  position: relative;
+  width: $loader-size;
+  height: $loader-size;
+  transform: rotate(45deg);
+  border: 1px solid #fff;
+  margin-bottom: 20px;
+}
+
+.loader-square {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: $loader-square-size;
+  height: $loader-square-size;
+  margin: $loader-margin;
+  border-radius: 0px;
+  background: white;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  animation: square-animation $loader-animation-duration ease-in-out infinite
+    both;
+}
+
+// Update keyframe animation to use SCSS variables
+@keyframes square-animation {
+  0% {
+    left: 0;
+    top: 0;
+  }
+
+  10.5% {
+    left: 0;
+    top: 0;
+  }
+
+  12.5% {
+    left: $loader-square-size + $loader-margin;
+    top: 0;
+  }
+
+  23% {
+    left: $loader-square-size + $loader-margin;
+    top: 0;
+  }
+
+  25% {
+    left: ($loader-square-size + $loader-margin) * 2;
+    top: 0;
+  }
+
+  35.5% {
+    left: ($loader-square-size + $loader-margin) * 2;
+    top: 0;
+  }
+
+  37.5% {
+    left: ($loader-square-size + $loader-margin) * 2;
+    top: $loader-square-size + $loader-margin;
+  }
+
+  48% {
+    left: ($loader-square-size + $loader-margin) * 2;
+    top: $loader-square-size + $loader-margin;
+  }
+
+  50% {
+    left: $loader-square-size + $loader-margin;
+    top: $loader-square-size + $loader-margin;
+  }
+
+  60.5% {
+    left: $loader-square-size + $loader-margin;
+    top: $loader-square-size + $loader-margin;
+  }
+
+  62.5% {
+    left: $loader-square-size + $loader-margin;
+    top: ($loader-square-size + $loader-margin) * 2;
+  }
+
+  73% {
+    left: $loader-square-size + $loader-margin;
+    top: ($loader-square-size + $loader-margin) * 2;
+  }
+
+  75% {
+    left: 0;
+    top: ($loader-square-size + $loader-margin) * 2;
+  }
+
+  85.5% {
+    left: 0;
+    top: ($loader-square-size + $loader-margin) * 2;
+  }
+
+  87.5% {
+    left: 0;
+    top: $loader-square-size + $loader-margin;
+  }
+
+  98% {
+    left: 0;
+    top: $loader-square-size + $loader-margin;
+  }
+
+  100% {
+    left: 0;
+    top: 0;
+  }
+}
+
+// Update animation delays to use SCSS variables
+.loader-square:nth-of-type(1) {
+  animation-delay: 0s;
+}
+
+.loader-square:nth-of-type(2) {
+  animation-delay: calc(-#{$loader-animation-duration} / 7);
+}
+
+.loader-square:nth-of-type(3) {
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 2);
+}
+
+.loader-square:nth-of-type(4) {
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 3);
+}
+
+.loader-square:nth-of-type(5) {
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 4);
+}
+
+.loader-square:nth-of-type(6) {
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 5);
+}
+
+.loader-square:nth-of-type(7) {
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 6);
+}

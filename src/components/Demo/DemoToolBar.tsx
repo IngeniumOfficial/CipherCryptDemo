@@ -8,47 +8,31 @@ const DemoToolBar: Component<{
   loadingSet: Setter<any>;
 }> = (props) => {
   const generateRandom = (quantity: number = 1) => {
-    console.log(quantity);
     let randomAnimal1 = animals[Math.floor(Math.random() * 15)];
     let randomAnimal2 = animals2[Math.floor(Math.random() * 15)];
     let randomAnimal3 = exoticAnimals[Math.floor(Math.random() * 15)];
+
+    // Check if there are already 10 entries in dataSignal
+    if (props.dataSignal().length >= 10) {
+      alert("Maximum number of entries reached");
+      return;
+    }
 
     // Check if the dataSignal contains an object with the same username
     if (props.dataSignal().length > 0) {
       let arr = props.dataSignal();
 
-      for (let i = 0; i < arr.length; i++) {
-        // Check the entire array for a match
-        if (arr[i].username === randomAnimal1) {
-          // If a match is found, regenerate until no match
+      // Check if the dataSignal contains an object with the same username
+      while (arr.includes(randomAnimal1)) {
+        randomAnimal1 = animals[Math.floor(Math.random() * 15)];
+      }
 
-          let newRandom1 = animals[Math.floor(Math.random() * 15)];
-          while (arr[i].username === newRandom1) {
-            // If the match is found, generate a new one
-            newRandom1 = animals[Math.floor(Math.random() * 15)];
-          }
-          randomAnimal1 = newRandom1;
-        }
+      while (arr.includes(randomAnimal2)) {
+        randomAnimal2 = animals2[Math.floor(Math.random() * 15)];
+      }
 
-        if (arr[i].username === randomAnimal2) {
-          // Same thing here
-
-          let newRandom2 = animals2[Math.floor(Math.random() * 15)];
-          while (arr[i].username === newRandom2) {
-            newRandom2 = animals2[Math.floor(Math.random() * 15)];
-          }
-          randomAnimal2 = newRandom2;
-        }
-
-        if (arr[i].username === randomAnimal3) {
-          // Same thing here
-
-          let newRandom3 = exoticAnimals[Math.floor(Math.random() * 15)];
-          while (arr[i].username === newRandom3) {
-            newRandom3 = exoticAnimals[Math.floor(Math.random() * 15)];
-          }
-          randomAnimal3 = newRandom3;
-        }
+      while (arr.includes(randomAnimal3)) {
+        randomAnimal3 = exoticAnimals[Math.floor(Math.random() * 15)];
       }
 
       props.dataSignalSet((prev) => [...prev, randomAnimal1]);

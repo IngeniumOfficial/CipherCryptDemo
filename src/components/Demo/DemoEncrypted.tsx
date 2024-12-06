@@ -15,7 +15,7 @@ const DemoEncrypted: Component<{
   encryptedRef: any;
   encryptedData: Accessor<string[]>;
   // encryptedDataSet: (data: any) => void;
-  triggerDecrypt: () => void;
+  // triggerDecrypt: () => void;
   encrypt: Accessor<boolean>;
 }> = (props) => {
   let encryptedDataRef: any;
@@ -28,11 +28,10 @@ const DemoEncrypted: Component<{
       setTimeout(() => {
         let tw = new Typewriter("encrypted-data", {
           strings: props.encryptedData(),
-          typeSpeed: 50,
+          typeSpeed: 5,
           skipChunkMin: 3,
           skipChunkMax: 5,
           onComplete: () => {
-            console.log("Animation complete");
             let banter = document.getElementById("banter-loader");
             anime({
               targets: banter,
@@ -54,6 +53,37 @@ const DemoEncrypted: Component<{
     }
   });
 
+  const toggleDecrypt = () => {
+    let encrypted = document.getElementById("encrypted");
+    let decrypted = document.getElementById("decrypted");
+
+    anime({
+      targets: [
+        encrypted,
+        ".scroll-container",
+        "#encrypted-data",
+        "#postencrypt-buttons",
+        "#return",
+        "#decrypt-question",
+      ],
+      translateX: "-1000px",
+      opacity: 0,
+      duration: 1000,
+      easing: "cubicBezier(.5, .05, .1, .3)",
+    });
+    setTimeout(() => {
+      encrypted!.style.display = "none";
+      decrypted!.style.display = "flex";
+      anime({
+        targets: decrypted,
+        translateX: "-500px",
+        opacity: 1,
+        duration: 1000,
+        easing: "cubicBezier(.5, .05, .1, .3)",
+      });
+    }, 500);
+  };
+
   return (
     <div id="encrypted" ref={props.encryptedRef}>
       <div class="banter-loader" id="banter-loader">
@@ -73,11 +103,13 @@ const DemoEncrypted: Component<{
         <p id="encrypted-data" ref={encryptedDataRef}></p>
       </div>
       <div id="postencrypt-buttons">
-        <button id="return">Return</button>
+        <button id="return" onClick={() => window.location.reload()}>
+          Return
+        </button>
         <button
           class="success"
           id="decrypt-question"
-          onClick={() => props.triggerDecrypt()}
+          onClick={() => toggleDecrypt()}
         >
           Decrypt?
         </button>
