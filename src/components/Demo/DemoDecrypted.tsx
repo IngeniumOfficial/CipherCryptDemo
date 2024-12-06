@@ -106,13 +106,14 @@ const DemoDecrypted: Component<{
     reloadLS(false);
   };
 
-  let encryptedDisplay = props.encryptedData();
-
+  // ! IS THIS TEMPORARY?
+  let encryptedDisplay = { ...props.encryptedData() };
   if (encryptedDisplay.ciphertext === "") {
     let enc = localStorage.getItem("encData");
-    let parsedEnc = JSON.parse(enc!);
-    console.log("parsedEnc: ", parsedEnc);
-    encryptedDisplay = parsedEnc.ciphertext;
+    if (enc) {
+      let parsedEnc = JSON.parse(enc!);
+      encryptedDisplay = parsedEnc.ciphertext;
+    }
   }
 
   const toggleDecryptionAnimation = () => {
