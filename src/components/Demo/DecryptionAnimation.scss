@@ -9,6 +9,11 @@ $quinary: #ffadfe;
 $senary: #0a7ec2;
 $senary-paler: #11a8ff;
 
+$loader-size: 80px;
+$loader-square-size: 20px;
+$loader-margin: 2px;
+$loader-animation-duration: 10s;
+
 #decryption-animation {
   padding-top: 60px;
   display: none;
@@ -26,6 +31,32 @@ $senary-paler: #11a8ff;
   }
 }
 
+.loader {
+  position: relative;
+  width: $loader-size;
+  height: $loader-size;
+  transform: rotate(45deg);
+  border: 1px solid #fff;
+  margin-bottom: 20px;
+}
+
+.loader-square {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: $loader-square-size;
+  height: $loader-square-size;
+  margin: $loader-margin;
+  border-radius: 0px;
+  background: white;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  animation: square-animation $loader-animation-duration ease-in-out infinite
+    both;
+}
+
+// Update keyframe animation to use SCSS variables
 @keyframes square-animation {
   0% {
     left: 0;
@@ -38,73 +69,73 @@ $senary-paler: #11a8ff;
   }
 
   12.5% {
-    left: 32px;
+    left: $loader-square-size + $loader-margin;
     top: 0;
   }
 
   23% {
-    left: 32px;
+    left: $loader-square-size + $loader-margin;
     top: 0;
   }
 
   25% {
-    left: 64px;
+    left: ($loader-square-size + $loader-margin) * 2;
     top: 0;
   }
 
   35.5% {
-    left: 64px;
+    left: ($loader-square-size + $loader-margin) * 2;
     top: 0;
   }
 
   37.5% {
-    left: 64px;
-    top: 32px;
+    left: ($loader-square-size + $loader-margin) * 2;
+    top: $loader-square-size + $loader-margin;
   }
 
   48% {
-    left: 64px;
-    top: 32px;
+    left: ($loader-square-size + $loader-margin) * 2;
+    top: $loader-square-size + $loader-margin;
   }
 
   50% {
-    left: 32px;
-    top: 32px;
+    left: $loader-square-size + $loader-margin;
+    top: $loader-square-size + $loader-margin;
   }
 
   60.5% {
-    left: 32px;
-    top: 32px;
+    left: $loader-square-size + $loader-margin;
+    top: $loader-square-size + $loader-margin;
   }
 
   62.5% {
-    left: 32px;
-    top: 64px;
+    left: $loader-square-size + $loader-margin;
+    top: ($loader-square-size + $loader-margin) * 2;
   }
 
   73% {
-    left: 32px;
-    top: 64px;
+    left: $loader-square-size + $loader-margin;
+    top: ($loader-square-size + $loader-margin) * 2;
   }
 
   75% {
     left: 0;
-    top: 64px;
+    top: ($loader-square-size + $loader-margin) * 2;
   }
 
   85.5% {
     left: 0;
-    top: 64px;
+    top: ($loader-square-size + $loader-margin) * 2;
   }
 
   87.5% {
     left: 0;
-    top: 32px;
+    top: $loader-square-size + $loader-margin;
   }
 
   98% {
     left: 0;
-    top: 32px;
+    top: $loader-square-size + $loader-margin;
   }
 
   100% {
@@ -113,56 +144,31 @@ $senary-paler: #11a8ff;
   }
 }
 
-.loader {
-  position: relative;
-  width: 96px;
-  height: 96px;
-  transform: rotate(45deg);
-}
-
-.loader-square {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 28px;
-  height: 28px;
-  margin: 2px;
-  border-radius: 0px;
-  background: white;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  animation: square-animation 10s ease-in-out infinite both;
-}
-
-.loader-square:nth-of-type(0) {
+// Update animation delays to use SCSS variables
+.loader-square:nth-of-type(1) {
   animation-delay: 0s;
 }
 
-.loader-square:nth-of-type(1) {
-  animation-delay: -1.4285714286s;
-}
-
 .loader-square:nth-of-type(2) {
-  animation-delay: -2.8571428571s;
+  animation-delay: calc(-#{$loader-animation-duration} / 7);
 }
 
 .loader-square:nth-of-type(3) {
-  animation-delay: -4.2857142857s;
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 2);
 }
 
 .loader-square:nth-of-type(4) {
-  animation-delay: -5.7142857143s;
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 3);
 }
 
 .loader-square:nth-of-type(5) {
-  animation-delay: -7.1428571429s;
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 4);
 }
 
 .loader-square:nth-of-type(6) {
-  animation-delay: -8.5714285714s;
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 5);
 }
 
 .loader-square:nth-of-type(7) {
-  animation-delay: -10s;
+  animation-delay: calc(-#{$loader-animation-duration} / 7 * 6);
 }
