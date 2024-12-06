@@ -46,7 +46,10 @@ const Demo: Component = () => {
   const [loading, loadingSet] = createSignal("loading");
   const [keytext, keytextSet] = createSignal("");
   const [encrypt, encryptSet] = createSignal<boolean>(false);
-  const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]); // This is the main data store. Nested reactivity (createStore) was unnecessary. It bases its order on the array system, and stores the order in localstorage the same way
+
+  // This is the main data store. Nested reactivity (createStore) was unnecessary.
+  // It bases its order on the array system, and stores the order in localstorage the same way
+  const [dataSignal, dataSignalSet] = createSignal<PasswordData[]>([]);
   const [decryptKeyText, decryptKeyTextSet] = createSignal("");
   const [decryptedData, decryptedDataSet] = createSignal<any>({});
   const [modalData, modalDataSet] = createSignal<any>({
@@ -97,7 +100,7 @@ const Demo: Component = () => {
   };
 
   const updateWhenRecovering = () => {
-    let reload = reloadLS();
+    let reload = reloadLS(true);
     if (reload === "empty") {
       loadingSet("empty");
     } else {
@@ -308,6 +311,7 @@ const Demo: Component = () => {
           encryptedData={encryptedData}
           decryptedData={decryptedData}
           DecAnimation={loadingDecAnimation}
+          dataSignal={dataSignal}
         />
       </div>
       <Footer />

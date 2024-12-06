@@ -2,6 +2,7 @@ import { createEffect, onMount, Ref } from "solid-js";
 import type { Component, Setter } from "solid-js";
 import { checkLSForDecrypt } from "~/components/Demo/utils_ls";
 import Typewriter from "~/lib/typewriter.ts";
+import { reloadLS } from "./utils_ls";
 // @ts-ignore
 import anime from "animejs";
 
@@ -31,7 +32,6 @@ const DemoDecrypted: Component<{
       targets: ["#forgot-card", "#forgot-button"],
       opacity: 0,
       duration: 500,
-      // translateY: 500,
       height: 0,
       easing: "cubicBezier(.5, .05, .1, .3)",
     });
@@ -76,7 +76,7 @@ const DemoDecrypted: Component<{
 
     if (ENCData.ciphertext === "") {
       // alert(
-      //   "Not data to decrypt. Data might have been corrupted. Please enter new data."
+      //   "No data to decrypt. Data might have been corrupted. Please enter new data."
       // );
       // return;
 
@@ -85,15 +85,12 @@ const DemoDecrypted: Component<{
     }
 
     let key1 = props.key();
-    console.log("Key to send: ", key1);
 
     let body = JSON.stringify({
       salt: ENCData.salt,
       key: key1,
       ciphertext: ENCData.ciphertext,
     });
-
-    console.log("Sending the following to Decrypt: ", body);
 
     let result = await fetch(`${URL}/decrypt`, {
       method: "POST",
@@ -103,8 +100,10 @@ const DemoDecrypted: Component<{
     let jsonResult = await result.json();
     // set to local storage
     localStorage.setItem("decData", JSON.stringify(jsonResult));
-    props.DCSet(jsonResult);
-    console.log("JSON Decrypt Result: ", jsonResult);
+    props.DCSet({ ...jsonResult, unjsoned: JSON.parse(jsonResult.plaintext) });
+
+    // Reload Local storage in case user reloads page
+    reloadLS(false);
   };
 
   let encryptedDisplay = props.encryptedData();

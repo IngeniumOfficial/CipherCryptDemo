@@ -1,4 +1,4 @@
-import { Ref, createEffect, createSignal, onMount } from "solid-js";
+import { Ref, createEffect, createSignal, onMount, For } from "solid-js";
 import type { Component } from "solid-js";
 // @ts-ignore
 import anime from "animejs";
@@ -9,10 +9,16 @@ const DecryptionAnimation: Component<{
   encryptedData: any;
   decryptedData: any;
   DecAnimation: () => any;
+  dataSignal: () => any;
 }> = (props) => {
   createEffect(() => {
     console.log("Start Animation?: ", props.DecAnimation());
     if (props.DecAnimation()) toggleAnimations();
+  });
+
+  let decUnJSON: any;
+  createEffect(() => {
+    console.log("data received: ", props.decryptedData());
   });
 
   const toggleAnimations = () => {
@@ -26,14 +32,19 @@ const DecryptionAnimation: Component<{
     anime({
       targets: ".decryption-toAnimate",
       opacity: 1,
-      duration: 500,
-      translateY: "-500px",
+      duration: 300,
+      translateY: "50px",
       easing: "cubicBezier(.5, .05, .1, .3)",
       delay: anime.stagger(1200, { start: 500 }),
     }).finished.then(() => {
       console.log("Animation complete for Decryption Animation");
       anime({
-        targets: ".loader",
+        targets: [
+          ".loader",
+          "#display-nonce",
+          "#display-salt",
+          "#display-json",
+        ],
         opacity: 0,
         translateY: "-100px",
         duration: 300,
@@ -41,17 +52,18 @@ const DecryptionAnimation: Component<{
       }).finished.then(() => {
         (document.querySelector(".loader") as HTMLElement)!.style.display =
           "none";
+        (document.querySelector(
+          "#display-nonce"
+        ) as HTMLElement)!.style.display = "none";
+        (document.querySelector(
+          "#display-salt"
+        ) as HTMLElement)!.style.display = "none";
+        (document.querySelector(
+          "#display-json"
+        ) as HTMLElement)!.style.display = "none";
       });
     });
   };
-
-  let enc = props.encryptedData;
-  let dec = props.decryptedData;
-
-  if (props.encryptedData.ciphertext === "")
-    enc = JSON.parse(localStorage.getItem("encData")!);
-  if (props.decryptedData.plaintext === "")
-    dec = JSON.parse(localStorage.getItem("decData")!);
 
   return (
     <div id="decryption-animation">
@@ -65,19 +77,46 @@ const DecryptionAnimation: Component<{
         <div class="loader-square"></div>
       </div>
       <div class="decryption-toAnimate" id="display-ciphertext">
-        This is the ciphertext
+        <h3>Ciphertext Sent</h3>
+        <p class="card1">{props.decryptedData().inputCiphertext}</p>
       </div>
       <div class="decryption-toAnimate" id="display-nonce">
-        This is the nonce
+        <h3>Nonce Derived from Ciphertext</h3>
+        <p class="card1">{props.decryptedData().nonce}</p>
       </div>
       <div class="decryption-toAnimate" id="display-salt">
-        This is the salt
+        <h3>Salt Used to Recreate Key Block</h3>
+        <p class="card1">{props.decryptedData().inputSalt}</p>
       </div>
       <div class="decryption-toAnimate" id="display-json">
-        This is the json
+        <h3>Plaintext Obtained as JSON</h3>
+        <p class="card1" id="plaintext-json">
+          {JSON.stringify(props.decryptedData().unjsoned, null, 2)}
+        </p>
       </div>
       <div class="decryption-toAnimate" id="display-plaintext">
-        This is the plaintext
+        <div id="button-container">
+          <button class="success" onClick={() => window.location.reload()}>
+            Return to Demo Main
+          </button>
+          <button class="warning">Confused about the Demo?</button>
+          <button class="success">Show me the Code</button>
+        </div>
+        This is the plaintext:
+        <div id="plaintext-container">
+          <For each={props.decryptedData().unjsoned}>
+            {(item: any) => (
+              <p class="card2">
+                Username: <ins>{item.username}</ins>
+                <br />
+                Password: <ins>{item.password}</ins>
+                <br />
+                Notes: <ins>{item.notes}</ins>
+                <br />
+              </p>
+            )}
+          </For>
+        </div>
       </div>
     </div>
   );

@@ -11,13 +11,13 @@ const replaceLS = (newData: any) => {
 };
 
 /* Move data from tempData to demoData, delete tempData. If tempData doesn't exist, alert */
-const reloadLS = () => {
+const reloadLS = (reload: boolean) => {
   const tempData = localStorage.getItem("tempData");
   if (tempData) {
     const data = JSON.parse(tempData);
     localStorage.setItem("demoData", JSON.stringify(data));
     localStorage.removeItem("tempData");
-    window.location.reload();
+    if (reload) window.location.reload();
   } else {
     window.alert(
       "The data might have been corrupted or lost. Please enter new data."

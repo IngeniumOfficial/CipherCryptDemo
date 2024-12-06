@@ -22,12 +22,64 @@ $loader-animation-duration: 10s;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+
+  #button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  #display-plaintext {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
   .decryption-toAnimate {
     align-self: center;
     display: none;
     opacity: 0;
-    translate: 0 500px;
+    translate: 0 -50px;
+
+    .card1 {
+      word-break: break-all;
+      color: $primary-paler;
+      background-color: $secondary-dimmer;
+      max-height: 200px;
+      width: 400px;
+      overflow: hidden;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    #plaintext-json {
+      word-break: normal;
+    }
+
+    #plaintext-container {
+      width: 80%;
+      // border: 1px solid $senary;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      .card2 {
+        background-color: $tertiary-paler;
+        color: $primary-paler;
+        padding: 5px;
+        border-radius: 10px;
+        height: 200px;
+        max-width: 300px;
+        word-break: break-all;
+      }
+    }
   }
 }
 
