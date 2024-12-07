@@ -22,6 +22,7 @@ main {
   justify-content: center;
   font-family: "Golos Text", serif;
   font-weight: 500;
+  min-height: 100vh;
 
   #inner-main {
     margin: 100px 0 100px 0;
@@ -82,5 +83,9 @@ main {
     #main-descriptor {
       margin-left: 50px;
     }
+  }
+
+  #footer {
+    margin-top: auto;
   }
 }
