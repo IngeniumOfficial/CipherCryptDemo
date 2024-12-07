@@ -87,6 +87,7 @@ const DecryptionAnimation: Component<{
       <div class="decryption-toAnimate" id="display-salt">
         <h3>Salt Used to Recreate Key Block</h3>
         <p class="card1">{props.decryptedData().inputSalt}</p>
+        <p class="card1">{props.decryptedData().keyhash}</p>
       </div>
       <div class="decryption-toAnimate" id="display-json">
         <h3>Plaintext Obtained as JSON</h3>
