@@ -9,11 +9,13 @@ export default createHandler(() => (
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/padlock2_1.png" />
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/picnic@1.0.0/dist/picnic.min.css"
+          />
           {assets}
         </head>
-        <body
-          style={`margin: 0; background-color: #2c363f; color: #F3F6F6; height: 100%;`}
-        >
+        <body style={`margin: 0; background-color: #2c363f; color: #F3F6F6;`}>
           <div id="app">{children}</div>
           {scripts}
         </body>

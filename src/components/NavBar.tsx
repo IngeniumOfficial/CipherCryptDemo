@@ -29,21 +29,33 @@ const NavBar: Component = () => {
   // let menuModalRef: any;
 
   return (
-    <div id="nav">
+    <nav id="nav">
       <A href="/" id="nav-left" class="nav-section">
         <img src="/lock.svg" id="lock-icon" />
         <h2>CipherCrypt</h2>
       </A>
 
+      <input id="bmenub" type="checkbox" class="show" />
+      <label for="bmenub" class="burger toggle pseudo button">
+        <img src={"/menu.svg"} />
+      </label>
+
       <div class="menu">
-        <A href="/about/about-general" id="about-button" class="pseudo button">
+        <A
+          href="/about/about-general"
+          id="about-button"
+          class="pseudo button active"
+        >
           About
         </A>
         <A href="/demo" id="demo-button" class="pseudo button">
           Demo
         </A>
+        <A href="/" id="github-button" class="pseudo button">
+          Github
+        </A>
       </div>
-    </div>
+    </nav>
   );
 };
 
