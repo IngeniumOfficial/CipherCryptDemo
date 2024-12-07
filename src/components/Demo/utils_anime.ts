@@ -10,7 +10,6 @@ const moveLeftAddRight = (
   componentLeft: string,
   componentRight: string
 ): Promise<mLARResult> => {
-  console.log("Move left and add right");
   return new Promise((resolve, reject) => {
     let leftEl = document.getElementById(componentLeft);
     let rightEl = document.getElementById(componentRight);
