@@ -2,8 +2,16 @@
 @import url("../../node_modules/picnic/picnic.min.css");
 
 $primary: #091a20;
+$primary-paler: #2c363f;
 $secondary: #fbfef9;
+$secondary-dimmer: #bdc0bc;
+$secondary-intermediate: #dcdfdb;
 $tertiary: #9bc0af;
+$tertiary-paler: #b2dcc9;
+$quaternary: #ff92c2;
+$quinary: #ffadfe;
+$senary: #0a7ec2;
+$senary-paler: #11a8ff;
 
 #nav {
   background-color: $primary !important;
@@ -38,10 +46,41 @@ $tertiary: #9bc0af;
   .menu {
     margin: 0 100px 0 0;
     color: $secondary !important;
+    background-color: $primary !important;
 
     #demo-button {
       background-color: $tertiary;
       color: black;
+    }
+
+    #github-button {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #nav {
+    #nav-left {
+      margin: 0;
+    }
+
+    .menu {
+      margin: 0;
+      background-color: $primary-paler !important;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      font-size: 21px;
+
+      #about-button {
+        background-color: transparent;
+      }
+
+      #github-button {
+        display: block;
+      }
     }
   }
 }
