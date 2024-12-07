@@ -179,6 +179,9 @@ const Demo: Component = () => {
     modalRef.show();
   };
 
+  let unencryptedRef: any;
+  let encryptedRef: any;
+
   const activateEncryption = () => {
     // Check if keytext or dataStore is empty
     if (dataSignal().length === 0) {
@@ -186,55 +189,59 @@ const Demo: Component = () => {
     } else if (keytext().length === 0 || keytext() === "") {
       alert("Cannot encrypt without a key");
     } else {
-      loadingSet("progress");
-      replaceLS(dataSignal());
-      encryptSet(true);
+      runEncryptFetch().then((jR: any) => {
+        console.log("Encryption Completed if number: ", jR.cipherBlockSize);
+        loadingSet("progress");
+        replaceLS(dataSignal());
+        encryptSet(true);
 
-      moveLeftAddRight("unencrypted", "encrypted").then((res: mLARResult) => {
-        if (res.complete) runEncryptFetch();
+        moveLeftAddRight("unencrypted", "encrypted").then((res: mLARResult) => {
+          if (res.complete) console.log("Encryption Animation Completed.");
+        });
       });
     }
   };
 
-  let unencryptedRef: any;
-  let encryptedRef: any;
-
   const runEncryptFetch = async () => {
     console.log("Run encryption fetch");
-
-    let body = JSON.stringify({
-      key: keytext(),
-      data: dataSignal(),
-    });
-
-    let result = await fetch(`${URL}/encrypt`, {
-      method: "POST",
-      body: body,
-    })
-      .then((res) => res.json())
-      .then((jsonResult) => {
-        console.log("JSON Result is: ", jsonResult);
-
-        encryptedDataSet({
-          ciphertext: jsonResult.ciphertext,
-          ciphertext_unreliable: jsonResult.ciphertext_unreliable,
-          salt: jsonResult.salt,
-        });
-
-        encryptedReaderSet([
-          `Creating a Salt...\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
-          `Creating a Key Hash from key ${keytext()}...\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n`,
-          `Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...\n`,
-          `Creating a Nonce...\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n`,
-          `Encrypting Data with Cipher Block and Nonce...\n ${jsonResult.ciphertext}\n ${jsonResult.ciphertext_unreliable}\n Ciphertext Complete!`,
-        ]);
-
-        // Set the encrypted data to localstorage
-        localStorage.setItem("encData", JSON.stringify(jsonResult));
-
-        let banter = document.getElementById("banter-loader");
-        banter!.scrollIntoView({ behavior: "smooth" });
+    try {
+      let body = JSON.stringify({
+        key: keytext(),
+        data: dataSignal(),
       });
+
+      let response = await fetch(`${URL}/encrypt`, {
+        method: "POST",
+        body: body,
+      });
+
+      let jsonResult = await response.json();
+
+      // Now that the JSON result is available, call encryptedDataSet and encryptedReaderSet
+      encryptedDataSet({
+        ciphertext: jsonResult.ciphertext,
+        ciphertext_unreliable: jsonResult.ciphertext_unreliable,
+        salt: jsonResult.salt,
+      });
+
+      encryptedReaderSet([
+        `Creating a Salt...\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
+        `Creating a Key Hash from key ${keytext()}...\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n`,
+        `Creating a Cipher Block of size ${jsonResult.cipherBlockSize} with the Key Hash...\n`,
+        `Creating a Nonce...\n ${jsonResult.nonce} \n ${jsonResult.nonce_unreliable} \n`,
+        `Encrypting Data with Cipher Block and Nonce...\n ${jsonResult.ciphertext}\n ${jsonResult.ciphertext_unreliable}\n Ciphertext Complete!`,
+      ]);
+
+      // Set the encrypted data to localstorage
+      localStorage.setItem("encData", JSON.stringify(jsonResult));
+
+      let banter = document.getElementById("banter-loader");
+      banter!.scrollIntoView({ behavior: "smooth" });
+
+      return jsonResult;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   let innerMain: any;
