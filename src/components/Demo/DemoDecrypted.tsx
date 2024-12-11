@@ -64,7 +64,7 @@ const DemoDecrypted: Component<{
       opacity: 1,
       duration: 500,
       // translateY: 500,
-      height: 280,
+      height: 400,
       easing: "cubicBezier(.5, .05, .1, .3)",
     });
     console.log("Show forgot card");
@@ -173,17 +173,13 @@ const DemoDecrypted: Component<{
           access to your data.
         </p>
         <p>
-          This is the case for nearly all transparent applications in the
-          encryption industry.
-        </p>
-        <p>
           Fortunately for you, this is a demo, and not the real deal. As
-          mentioned in the "how this works" section of the demo, the data is
-          stored in your browser's local storage.
+          mentioned in the Demo description section of the About page, the data
+          is stored in your browser's local storage.
         </p>
         <p>
           So, while we do not store your data, we can still access it from your
-          browser, where we stored it earlier.
+          browser, for your convenience.
         </p>
         <p>Click on the button below to retrieve your key</p>
         <button class="error" id="get-key-button" onClick={() => retrieveKey()}>

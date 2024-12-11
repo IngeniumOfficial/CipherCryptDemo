@@ -34,8 +34,11 @@ $senary-paler: #11a8ff;
     word-break: break-all;
   }
 
+  #decryption-key-title {
+    text-align: center;
+  }
+
   #decryption-key-section {
-    outline: 1px solid $tertiary;
     width: 400px;
     display: flex;
     flex-direction: row;
@@ -67,6 +70,20 @@ $senary-paler: #11a8ff;
       margin: 0;
       text-wrap: wrap;
       text-align: center;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #decrypted {
+    padding-bottom: 300px;
+
+    #ciphertext {
+      width: 90%;
+    }
+
+    #forgot-card {
+      width: 90% !important;
     }
   }
 }

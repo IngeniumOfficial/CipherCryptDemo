@@ -50,3 +50,15 @@ $senary-paler: #11a8ff;
     gap: 10px;
   }
 }
+
+@media screen and (max-width: 500px) {
+  #encrypted {
+    .scroll-container {
+      width: 400px;
+
+      #encrypted-data {
+        width: 100% !important;
+      }
+    }
+  }
+}

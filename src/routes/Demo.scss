@@ -29,10 +29,6 @@ main {
   min-height: 100vh;
   position: relative;
 
-  // #footer {
-  //   align-self: center;
-  // }
-
   #demo-toolbar {
     margin: 100px 0 0 0;
     width: 100%;
@@ -166,6 +162,45 @@ main {
     // position: absolute;
     // bottom: 0;
     margin-top: auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  main {
+    #demo-toolbar {
+      gap: 2px;
+      display: flex;
+      flex-direction: column;
+
+      button {
+        padding: 0px 0px 0px 0px;
+        text-wrap: wrap;
+        width: 80%;
+      }
+    }
+
+    #unencrypted {
+      .demo-display-block {
+        width: 90%;
+        gap: 0 !important;
+
+        p {
+          margin: 0;
+        }
+      }
+
+      #encryption-settings {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center !important;
+        align-content: center;
+        gap: 0 !important;
+        input {
+          width: 80%;
+          margin: 10px;
+        }
+      }
+    }
   }
 }
 
