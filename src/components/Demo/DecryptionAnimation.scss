@@ -43,6 +43,9 @@ $loader-animation-duration: 10s;
   .decryption-toAnimate {
     align-self: center;
     display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
     translate: 0 -50px;
 
@@ -106,6 +109,14 @@ $loader-animation-duration: 10s;
   background-attachment: fixed;
   animation: square-animation $loader-animation-duration ease-in-out infinite
     both;
+}
+
+@media screen and (max-width: 500px) {
+  #decryption-animation {
+    .card1 {
+      width: 90% !important;
+    }
+  }
 }
 
 // Update keyframe animation to use SCSS variables

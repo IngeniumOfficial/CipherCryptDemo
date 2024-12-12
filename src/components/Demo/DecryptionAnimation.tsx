@@ -25,9 +25,11 @@ const DecryptionAnimation: Component<{
     console.log("Toggle animations Started");
     Array.from(document.getElementsByClassName("decryption-toAnimate")).forEach(
       function (element: any) {
-        element.style.display = "block";
+        element.style.display = "flex";
       }
     );
+
+    let currentPosition = 0;
 
     anime({
       targets: ".decryption-toAnimate",
@@ -35,6 +37,10 @@ const DecryptionAnimation: Component<{
       duration: 300,
       translateY: "50px",
       easing: "cubicBezier(.5, .05, .1, .3)",
+      change: () => {
+        currentPosition += 0.015;
+        window.scrollBy(0, currentPosition);
+      },
       delay: anime.stagger(1200, { start: 500 }),
     }).finished.then(() => {
       console.log("Animation complete for Decryption Animation");
@@ -61,6 +67,11 @@ const DecryptionAnimation: Component<{
         (document.querySelector(
           "#display-json"
         ) as HTMLElement)!.style.display = "none";
+        setTimeout(() => {
+          document.getElementById("display-ciphertext")!.scrollIntoView({
+            behavior: "smooth",
+          });
+        }, 200);
       });
     });
   };
@@ -100,8 +111,21 @@ const DecryptionAnimation: Component<{
           <button class="success" onClick={() => window.location.reload()}>
             Return to Demo Main
           </button>
-          <button class="warning">Confused about the Demo?</button>
-          <button class="success">Show me the Code</button>
+          <button
+            class="warning"
+            onClick={() => (location.href = "/about/about-demo")}
+          >
+            Confused about the Demo?
+          </button>
+          <button
+            class="success"
+            onClick={() =>
+              (window.location.href =
+                "https://github.com/IngeniumOfficial/CipherCryptDemo")
+            }
+          >
+            Show me the Code
+          </button>
         </div>
         This is the plaintext:
         <div id="plaintext-container">

@@ -197,6 +197,11 @@ const Demo: Component = () => {
 
         moveLeftAddRight("unencrypted", "encrypted").then((res: mLARResult) => {
           if (res.complete) console.log("Encryption Animation Completed.");
+          setTimeout(() => {
+            console.log("Scrolled");
+            let banter = document.getElementById("banter-loader");
+            banter!.scrollIntoView({ behavior: "smooth" });
+          }, 800);
         });
       });
     }
@@ -234,9 +239,6 @@ const Demo: Component = () => {
 
       // Set the encrypted data to localstorage
       localStorage.setItem("encData", JSON.stringify(jsonResult));
-
-      let banter = document.getElementById("banter-loader");
-      banter!.scrollIntoView({ behavior: "smooth" });
 
       return jsonResult;
     } catch (error) {

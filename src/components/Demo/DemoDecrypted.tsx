@@ -53,9 +53,11 @@ const DemoDecrypted: Component<{
   const showForgotCard = () => {
     // Scroll to forgot button
     document.getElementById("decrypted")!.style.paddingBottom = "300px";
-    document
-      .getElementById("decryption-key-title")!
-      .scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      document
+        .getElementById("decryption-key-section")!
+        .scrollIntoView({ behavior: "smooth" });
+    }, 200);
     let fc = document.getElementById("forgot-card");
     fc!.style.display = "flex";
     // fc!.style.opacity = "1";
@@ -64,7 +66,7 @@ const DemoDecrypted: Component<{
       opacity: 1,
       duration: 500,
       // translateY: 500,
-      height: 400,
+      height: 500,
       easing: "cubicBezier(.5, .05, .1, .3)",
     });
     console.log("Show forgot card");

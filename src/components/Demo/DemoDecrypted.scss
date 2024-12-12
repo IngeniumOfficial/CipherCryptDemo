@@ -82,6 +82,19 @@ $senary-paler: #11a8ff;
       width: 90%;
     }
 
+    #decryption-key-section {
+      width: 95%;
+      font-size: 17px;
+
+      #decryption-key {
+        width: 70%;
+      }
+
+      button {
+        width: 30%;
+      }
+    }
+
     #forgot-card {
       width: 90% !important;
     }
