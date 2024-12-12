@@ -51,7 +51,11 @@ const NavBar: Component = () => {
         <A href="/demo" id="demo-button" class="pseudo button">
           Demo
         </A>
-        <A href="/" id="github-button" class="pseudo button">
+        <A
+          href="https://github.com/IngeniumOfficial/CipherCryptDemo"
+          id="github-button"
+          class="pseudo button"
+        >
           Github
         </A>
       </div>

@@ -8,7 +8,10 @@ const Footer: Component = () => {
         <h4 class="footer-el">CopyLeft</h4>
       </section>
       <section id="footer-right">
-        <A href="https://github.com/NotCoder/CipherCrypt" class="pseudo button">
+        <A
+          href="https://github.com/IngeniumOfficial/CipherCryptDemo"
+          class="pseudo button"
+        >
           Github
         </A>
         <A class="pseudo button" href="/Demo">
