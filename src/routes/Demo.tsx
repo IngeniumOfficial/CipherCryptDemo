@@ -229,6 +229,8 @@ const Demo: Component = () => {
         salt: jsonResult.salt,
       });
 
+      console.log("Encrypted Data now: ", encryptedData());
+
       encryptedReaderSet([
         `Creating a Salt...\n ${jsonResult.salt} \n ${jsonResult.salt_unreliable} \n`,
         `Creating a Key Hash from key ${keytext()}...\n ${jsonResult.keyhash} \n ${jsonResult.keyhash_unreliable} \n`,

@@ -29,6 +29,8 @@ $senary-paler: #11a8ff;
   #ciphertext {
     color: $secondary-dimmer;
     height: auto;
+    max-height: 400px;
+    overflow: hidden;
     width: 900px;
     outline: 1px solid $tertiary;
     word-break: break-all;
