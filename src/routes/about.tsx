@@ -18,13 +18,17 @@ export default function AboutLayout(props: RouteSectionProps) {
     <main>
       <Title>About - CipherCrypt</Title>
       <NavBar />
+      <div id="sidebar-open-phone">
+        <img src={"/menu.svg"} />
+      </div>
       <div id="inner-main">
         <div id="sidebar-section">
           <A href="/about/about-general" class="pseudo button">
             <h2>About CipherCrypt</h2>
           </A>
           <hr />
-          <div id="sidebar-tabs">
+
+          <div id="sidebar-tabs" class="menu">
             <A
               href="/about/zero-knowledge"
               id="zk"

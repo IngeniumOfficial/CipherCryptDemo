@@ -1,4 +1,4 @@
-import { createEffect, onMount, Ref } from "solid-js";
+import { createEffect, onMount, Ref, createSignal } from "solid-js";
 import type { Component, Setter } from "solid-js";
 import { checkLSForDecrypt } from "~/components/Demo/utils_ls";
 import Typewriter from "~/lib/typewriter.ts";
@@ -15,7 +15,23 @@ const DemoDecrypted: Component<{
   DecAnimation: () => boolean;
   DecAnimationSet: Setter<boolean>;
 }> = (props) => {
+  let [encryptedDisplay, encryptedDisplaySet] = createSignal(
+    props.encryptedData().ciphertext
+  );
+
+  createEffect(() => {
+    encryptedDisplaySet(props.encryptedData().ciphertext);
+  });
+
   const URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+  let forgotCardHeight = 300;
+
+  onMount(() => {
+    if (window.innerWidth <= 500) {
+      forgotCardHeight = 500;
+    }
+  });
+
   const retrieveKey = () => {
     document.getElementById("decrypted")!.style.paddingBottom = "0px";
 
@@ -66,7 +82,7 @@ const DemoDecrypted: Component<{
       opacity: 1,
       duration: 500,
       // translateY: 500,
-      height: 500,
+      height: forgotCardHeight,
       easing: "cubicBezier(.5, .05, .1, .3)",
     });
     console.log("Show forgot card");
@@ -75,16 +91,6 @@ const DemoDecrypted: Component<{
   const fetchDecrypt = async () => {
     // Fetch using salt, previous key, and ciphertext
     let ENCData = props.encryptedData();
-
-    if (ENCData.ciphertext === "") {
-      // alert(
-      //   "No data to decrypt. Data might have been corrupted. Please enter new data."
-      // );
-      // return;
-
-      // TODO: This is temporary. Defer to above when done testing
-      ENCData = JSON.parse(localStorage.getItem("encData")!);
-    }
 
     let key1 = props.key();
 
@@ -107,16 +113,6 @@ const DemoDecrypted: Component<{
     // Reload Local storage in case user reloads page
     reloadLS(false);
   };
-
-  // ! IS THIS TEMPORARY?
-  let encryptedDisplay = { ...props.encryptedData() };
-  if (encryptedDisplay.ciphertext === "") {
-    let enc = localStorage.getItem("encData");
-    if (enc) {
-      let parsedEnc = JSON.parse(enc!);
-      encryptedDisplay = parsedEnc.ciphertext;
-    }
-  }
 
   const toggleDecryptionAnimation = () => {
     anime({
@@ -143,7 +139,7 @@ const DemoDecrypted: Component<{
   return (
     <div id="decrypted">
       <h3>This is the Ciphertext of YOUR data: </h3>
-      <p id="ciphertext">{JSON.stringify(encryptedDisplay, null, 2)}</p>
+      <p id="ciphertext">{JSON.stringify(encryptedDisplay(), null, 2)}</p>
       <h3 id="decryption-key-title">
         Please Enter the Decryption Key that you used to Encrypt the Data
       </h3>
