@@ -57,24 +57,20 @@ const MongoDB: Component = () => {
         <div class="article">
           <h2>MongoDB Support</h2>
           <p>
-            At the moment only MongoDB is supported for this project. While
-            there are potential plans to expand to other databases (such as
-            PostgreSQL), MongoDB is much better fitted for this project for the
-            following reasons:
+            Although PostgreSQL is in development, the first target is MongoDB.
           </p>
           <p>
-            When compared to SQL (PostgreSQL), it becomes clear that MongDB is
-            more efficient and simpler than SQL in everything relevant. And in
-            the areas where SQL is more efficient, it becomes unnecessary
-            overkill for a project like CipherCrypt. MongoDB is faster, is just
-            as ACID compliant as PostgreSQL, more data oriented, and performs
-            many relational operations more efficiently. Sure, it might not do
-            certain joins as efficiently or intuitively, but even the planned
-            social side of CipherCrypt is not demanding enough to need an
-            immediate change to SQL. That being said, MongoDB is treated
-            separately from CipherCrypt and any connection to it is allowed,
-            whether local or remote. So, for now, it's the only option, but
-            adding an alternative database is still very much on the table.
+            The feud in benchmarking between PostgreSQL and MongoDB is
+            inconclusive (although a majority of benchmarks tend to go in the
+            favor os PostgreSQL). But in our case, it was a matter of
+            simplicity. MongoDB is still fast, is just as ACID compliant as
+            PostgreSQL, and has a bigger focus on document storage. Sure, it
+            might not do certain joins as efficiently or intuitively, but even
+            the planned social side of CipherCrypt is not demanding enough to
+            need an immediate start with SQL. That being said, MongoDB is
+            treated separately from CipherCrypt and any connection to it is
+            allowed, whether local or remote. So, for now, it's the primary
+            option, but adding an option like PostgreSQL is absolutely planned.
           </p>
           <p>
             Another alternative that was considered is Redis. I am aware that
@@ -86,8 +82,8 @@ const MongoDB: Component = () => {
             in-memory database is something that might throw some people off,
             the innovations in the sphere of in-memory databases, such as Redis,
             have made it possible to do this without big risk. A system like
-            Redis will use an advance technique to make copies of data and
-            restore it if anything goes wrong.
+            Redis is able to make copies of data and restore it if an issue with
+            memory comes up.
           </p>
           <p>
             <b>The pros?</b> It's fast. And when compared to a traditional
@@ -95,10 +91,10 @@ const MongoDB: Component = () => {
             robust.
           </p>
           <p>
-            <b>The cons?</b> It's lacks the data-heavy capabilities of MongoDB
-            (or even SQL). Nested data can be stored in a single value as a JSON
-            string, but as the complexity of developing the project grows, so
-            does the complexity of storing data in something like Redis.
+            <b>The cons?</b> It's lacks the data-heavy capabilities of Document
+            and SQL databases. Nested data can be stored in a single value as a
+            JSON string, but as the complexity of developing the project grows,
+            so does the complexity of storing data in something like Redis.
           </p>
           <p>
             So, instead, CipherCrypt just uses MongoDB as the database, and
@@ -119,10 +115,9 @@ const MongoDB: Component = () => {
           </p>
           <p>
             The reason for choosing MongoDB over its alternatives is because of
-            its support for nested and large data. A popular alternative is an
-            SQL (relational) database, but the strengths of SQL aren't
-            applicable to CipherCrypt. Additionally, MongoDB is much faster and
-            more efficient than SQL databases.
+            its simplicity in using it as a document storage. A popular
+            alternative is an SQL (relational) database, but the strengths of
+            SQL aren't as big of a necessity for CipherCrypt at the moment.
           </p>
           <p>
             However, MongoDB needs to be installed and "attached" to CipherCrypt
