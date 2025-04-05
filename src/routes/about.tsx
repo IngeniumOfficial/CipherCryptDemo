@@ -9,6 +9,7 @@ import "./about.scss";
 
 export default function AboutLayout(props: RouteSectionProps) {
   // TODO: Control selection of readability from here
+  const toggleMenuPhone = () => {};
 
   // TODO: Make the following style change to active links:
   // cache.style.color = "#b2dcc9";
